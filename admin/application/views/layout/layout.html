@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>管理系统</title>
+
+        <link rel="shortcut icon" href="<?=__PUBLIC__?>image/favicon.ico">
+        <link href="<?=__PUBLIC__?>css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?=__PUBLIC__?>css/common.css" rel="stylesheet">
+
+		<script src="<?=__PUBLIC__?>js/jquery.min.js"></script>
+		<script src="<?=__PUBLIC__?>js/bootstrap.min.js"></script>
+		<script src="<?=__PUBLIC__?>js/jquery.validate.min.js"></script>
+
+        <!--[if lt IE 9]>
+          <script src="<?=__PUBLIC__?>js/html5shiv.min.js"></script>
+          <script src="<?=__PUBLIC__?>js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="body container-fluid">
+			<div class="header row">
+				<?=$this->view->fetch('common/header.html');?>
+			</div>
+			<div class="main row">
+				<?=$__content__?>
+			</div>
+        </div>
+        <?=$this->view->fetch('common/message.html');?>
+    </body>
+</html>

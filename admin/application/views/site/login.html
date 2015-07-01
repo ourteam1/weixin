@@ -1,0 +1,43 @@
+<h3>云管理后台</h3>
+
+<form class="login-form form-validate" action="<?=site_url('site/login')?>" method="post">
+	<?php if(isset($error)):?>
+	<div class="alert alert-danger alert-dismissible fade in" role="alert">
+		<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+		<p><?=$error?></p>
+	</div>
+	<?php endif;?>
+
+	<div class="form-group">
+		<label class="control-label">帐 号</label>
+		<div class="input-group">
+			<div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
+			<input class="form-control required" id="LoginAccount" type="text" placeholder="请填写帐号" name="Login[account]" value="<?=set_val('account')?>" autofocus>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label">密 码</label>
+		<div class="input-group">
+			<div class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></div>
+			<input class="form-control required" id="LoginPwd" type="password" placeholder="请填写密码" name="Login[password]">
+		</div>
+	</div>
+	<div class="text-right">
+		<button type="submit" class="btn btn-success">
+			登 录 &nbsp; <i class="glyphicon glyphicon-circle-arrow-right"></i>
+		</button>
+	</div>
+</form>
+
+<hr/>
+
+<div class="forget-password">
+	<h4>寄语：</h4>
+	<p>
+		坚持理想，坚持正能量，坚持脚踏实地！
+	</p>
+</div>
+
+<div class="copyright">
+    <p>2014 © xiaoqu.</p>
+</div>

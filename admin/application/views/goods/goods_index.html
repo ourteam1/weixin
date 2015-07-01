@@ -1,0 +1,83 @@
+<form class="form-inline pull-right" role="form" action="<?=current_url()?>" method="POST">
+	<div class="form-group">
+		<select name="Query[category_id]" class="form-control">
+			<option value="">全部</option>
+			<?php foreach($categorys as $i): ?>
+			<option value="<?=$i->category_id?>" <?=isset($query['category_id']) && $query['category_id']==$i->category_id ? 'selected' : ''?>><?=$i->category_name?></option>
+			<?php endforeach;?>
+		</select>
+	</div>
+	<div class="form-group">
+		<select name="Query[status]" class="form-control">
+			<option value="">全部</option>
+			<option value="1" <?=isset($query['status']) && $query['status']=='1' ? 'selected' : ''?>>上架</option>
+			<option value="2" <?=isset($query['status']) && $query['status']=='2' ? 'selected' : ''?>>下架</option>
+		</select>
+	</div>
+	<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 查询</button>
+</form>
+
+<table class="table table-hover goods_list">
+    <thead>
+        <tr>
+            <th width='100'>编号</th>
+            <th>菜品</th>
+            <th width='120'>状态</th>
+            <th width='260'>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($list_data as $k=>$i):?>
+        <tr>
+            <td><?=$i->goods_id?></td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        <a href="<?=IMAGED . $i->image?>" target="_blank" class="thumbnail">
+                            <img src="<?=IMAGED . $i->thumb?>"/>
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-md-9">
+                        <p>
+                            <strong><?=$i->goods_name?></strong>&nbsp;
+                            <span class="badge">下单<?=$i->order_number?>次</span>
+                        </p>
+                        <?php if(trim($i->discount) != 0):?>
+                        <p>价格：￥<?=$i->discount?>元 &nbsp; <s>￥<?=$i->price?>元</s>&nbsp;</p>
+                        <?php else:?>
+                        <p>价格：￥<?=$i->price?>元&nbsp;</p>
+                        <?php endif;?>
+                        <p>更新时间：<?=date('Y-m-d', strtotime($i->modify_time))?></p>
+                    </div>
+                </div>
+            </td>
+            <th width='120'>
+				<?php if($i->status == 1): ?>
+				已上架
+				<?php elseif($i->status == 2): ?>
+				已下架
+				<?php endif; ?>
+			</th>
+            <td>
+                <p>
+					<?php if(chk_access('goods/update')):?>
+                    <a href='<?=site_url("goods/update/$i->goods_id")?>' class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> 修改</a>&nbsp;
+					<?php endif; ?>
+
+					<?php if(chk_access('goods/undercarriage') && $i->status == 1): ?>
+                    <a href='<?=site_url("goods/undercarriage/$i->goods_id")?>' onclick="javascript:return confirm('确定执行吗？')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove-circle"></span> 下架</a>&nbsp;
+					<?php elseif(chk_access('goods/grounding') && $i->status == 2): ?>
+                    <a href='<?=site_url("goods/grounding/$i->goods_id")?>' onclick="javascript:return confirm('确定执行吗？')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok-circle"></span> 上架</a>&nbsp;
+					<?php endif; ?>
+
+					<?php if(chk_access('goods/delete')):?>
+                    <a href='<?=site_url("goods/delete/$i->goods_id")?>' onclick="javascript:return confirm('确定执行吗？')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp;
+					<?php endif; ?>
+                </p>
+            </td>
+        </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>
+
+<?=$pagination?>

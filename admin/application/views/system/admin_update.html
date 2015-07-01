@@ -1,0 +1,50 @@
+<div class="page-header">
+    <h4>编辑管理员</h4>
+</div>
+
+<form class="form-horizontal form-validate" action='<?=current_url()?>' method="POST">
+    <div class="form-group">
+        <label class="col-md-2 control-label"><em>*</em> 管理员帐号</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control required" name="Admin[account]" maxlength="12" value="<?=set_val('account')?>"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">管理员密码</label>
+        <div class="col-md-4">
+            <input type="password" class="form-control" name="Admin[password]" maxlength="12" value=""/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">选择权限</label>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <?php foreach($group_actions as $k=>$i):?>
+                <div class="panel-heading">
+                    <strong><?=$k?></strong>
+                    <span class="pull-right checkbox-inline"><input type="checkbox" class="chkall"/>全选&nbsp;&nbsp;</span>
+                </div>
+                <div class="panel-body">
+                    <?php foreach($i as $j):?>
+                    <?php if(isset($access_actions[$j])):?>
+                    <span class="checkbox-inline">
+                        <?php if(isset($permissions) && in_array($j, $permissions)):?>
+                        <input type="checkbox" name="Admin[permissions][]" value="<?=$j?>" checked/>
+                        <?php else:?>
+                        <input type="checkbox" name="Admin[permissions][]" value="<?=$j?>"/>
+                        <?php endif;?>
+                        <?=$access_actions[$j]['label']?>
+                    </span>
+                    <?php endif;?>
+                    <?php endforeach;?>
+                </div>
+                <?php endforeach;?>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-md-4">
+            <button type="submit" class="btn btn-success"> 保 存 </button>
+        </div>
+    </div>
+</form>

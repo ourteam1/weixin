@@ -1,0 +1,22 @@
+<div class="page-header">
+    <h4>修改分类</h4>
+</div>
+<form class="form-horizontal form-validate" action="<?=current_url()?>" method="POST">
+    <div class="form-group">
+        <label class="col-md-2 control-label"><em>*</em> 分类名称</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control required" name="Category[category_name]" placeholder="请输入商品分类名称" maxlength="32" value="<?=set_val('category_name')?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">分类排序</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" name="Category[location]" placeholder="请输入商品分类排序" value="<?=set_val('location')?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-md-10">
+            <button type="submit" class="btn btn-success">保存</button>
+        </div>
+    </div>
+</form>

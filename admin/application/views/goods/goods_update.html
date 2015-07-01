@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="<?=__PUBLIC__?>js/kindeditor//themes/default/default.css" />
+<script src="<?=__PUBLIC__?>js/kindeditor/kindeditor-min.js"></script>
+
+<div class="page-header"><h4>编辑商品</h4></div>
+<form class="form-horizontal form-validate" action="<?=current_url()?>" method="POST" enctype="multipart/form-data">
+	<div class="form-group">
+		<label class="col-md-2 control-label"><em>*</em> 商品分类</label>
+		<div class="col-md-3">
+			<select class="form-control required" name="Goods[category_id]">
+				<option value="">请选择商品分类</option>
+				<?php foreach($categorys as $category): ?>
+				<?php if(isset($category_id) && $category_id == $category->category_id): ?>
+				<option value="<?=$category->category_id?>" selected><?=$category->category_name?></option>
+				<?php else: ?>
+				<option value="<?=$category->category_id?>"><?=$category->category_name?></option>
+				<?php endif; ?>
+				<?php endforeach; ?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label"><em>*</em> 商品名称</label>
+		<div class="col-md-5">
+			<input type="text" class="form-control required" name="Goods[goods_name]" placeholder="请输入商品名称" maxlength="32" value="<?=set_val('goods_name')?>">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label"><em>*</em> 商品图片</label>
+		<div class="col-md-5">
+			<input type="file" upload_url="<?=site_url('goodsImage/upload')?>" class="form-control" id="iptGoodsImage" name="goods_image" placeholder="请选中商品图片">
+			<input type="hidden" class="form-control" id="image" name="Goods[image]" value="<?=set_val('image')?>">
+			<input type="hidden" class="form-control required" id="thumb" name="Goods[thumb]" value="<?=set_val('thumb')?>">
+			<p class="help-block">支持jpg/png格式，最佳像素：300x300.</p>
+			<?php if(isset($thumb) && trim($thumb)): ?>
+			<img src="<?=IMAGED . set_val('thumb')?>" class="preview-image" style="width: 80px; height: 80px; border:1px solid #eee;"/>
+			<?php else: ?>
+			<img src="<?=__PUBLIC__?>image/default.jpg" class="preview-image" style="width: 80px; height: 80px; border:1px solid #eee;"/>
+			<?php endif; ?>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label"><em>*</em> 价格</label>
+		<div class="col-md-3">
+			<input type="number" class="form-control number required" name="Goods[price]" placeholder="请输入价格" value="<?=set_val('price')?>">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label"> 优惠价</label>
+		<div class="col-md-3">
+			<input type="number" class="form-control number" name="Goods[discount]" placeholder="请输入优惠价" value="<?=set_val('discount')?>">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label">描述</label>
+		<div class="col-md-8">
+			<textarea class="form-control editor" rows="16" name="Goods[desc]"><?=set_val('desc')?></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-md-5">
+			<button type="submit" class="btn btn-success">保存</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,5 @@
+<ul class="nav nav-pills">
+    <?php foreach($this->config->item('set_active_nav') as $label => $i):?>
+    <?=set_active_nav($label, $i)?>
+    <?php endforeach;?>
+</ul>

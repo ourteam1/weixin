@@ -1,0 +1,22 @@
+<div class="col-md-2">
+	<h3 class="logo"><a href="<?=site_url()?>" title="管理后台">管理后台</a></h3>
+</div>
+<div class="col-md-8">
+	<?=$this->view->fetch('common/navigation.html');?>
+</div>
+<div class="col-md-2 text-right">
+	<ul class="nav navbar-right account">
+		<?php if($this->session->userdata('MSADMIN_ACCOUNT')):?>
+		<li class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<?=$this->session->userdata('MSADMIN_ACCOUNT')?> <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="<?=site_url('admin/password')?>">修改密码</a></li>
+				<li class="divider"></li>
+				<li><a href="<?=site_url('site/logout')?>">退出</a></li>
+			</ul>
+		</li>
+		<?php endif;?>
+	</ul>
+</div>

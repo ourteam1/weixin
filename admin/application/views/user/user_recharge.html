@@ -1,0 +1,24 @@
+<div class="page-header">
+    <h4>会员充值</h4>
+</div>
+
+<form class="form-horizontal form-validate" action="<?=current_url()?>" method="POST">
+	<div class="form-group">
+		<label class="col-md-2 control-label">昵称</label>
+		<div class="col-md-5">
+			<p class="form-control-static"><?=set_val('user.nickname', '-')?></p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label"><em>*</em> 充值金额</label>
+		<div class="col-md-3">
+			<input type="text" class="form-control required digits" min="1" name="money" placeholder="请输入充值金额" maxlength="32" value="<?=set_val('recharge', '0')?>">
+			<p class="help-block">单位：元</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-md-5">
+			<button type="submit" class="btn btn-success">确认</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,139 @@
+<style>
+	.paddind-15{
+		padding: 15px;
+	}
+	.message_item{
+		border-top:1px solid #DDDDDD;
+	}
+	.line-height-80{
+		line-height: 80px;
+	}
+	.small-image{
+		max-height: 70px;
+		margin: 10px;
+	}
+	.message_item .show_edit{
+		text-align: center;
+		position: absolute;
+		margin: 5px;
+		background-color: #ECECEC;
+		opacity: .8;
+		height: 83px;
+		line-height: 80px;
+		width: 90%;
+	}
+	div.message:first-child .show_edit{
+		text-align: center;
+		position: absolute;
+		top: 6px;
+		margin-left: 5px;
+		background-color: #ECECEC;
+		opacity: .8;
+		height: 345px;
+		line-height: 300px;
+		width: 90%;
+	}
+	div.message:first-child .message_title{
+		line-height: 50px;
+	}
+	.none{
+		display: none;
+	}
+	div.massage-add{
+		text-align: center;
+		margin: 5px;
+		border: 2px dotted #d9dadc;
+		height: 70px;
+		line-height: 70px;
+		width: 90%;
+	}
+	div.massage-add:hover{
+		border-color: #b3b3b3;
+	}
+</style>
+<div class="row">
+	<form role="form" class="push_message_form" action="<?=site_url('message/add')?>" method="post">
+		<div class="col-sm-6 col-md-5">
+			<div class="thumbnail paddind-15">
+				<div class="row message" id="push_message_item_edit">
+					<div class="col-sm-12 col-md-12 text-center">
+						<img data-src="holder.js/300x300" class="col-sm-12 col-md-12 message_picurl" alt="..." src="<?=__PUBLIC__?>image/default_gray.jpg" style="max-height: 300px;">
+					</div>
+					<div class="col-sm-12 col-md-12 text-center message_title">
+						标题
+					</div>
+					<div class="col-sm-12 col-md-12 show_edit none">
+						<div class="glyphicon glyphicon-pencil edit_message_item"></div>
+					</div>
+					<input type="hidden"  name="message[title][]" for="message_title" class="message_title" value=""/>    
+					<input type="hidden"  name="message[author][]" for="message_author" class="message_author" value=""/>    
+					<input type="hidden"  name="message[main_text][]" for="message_main_text" class="message_main_text" value=""/>    
+					<input type="hidden"  name="message[picurl][]" for="message_picurl" value="" class="message_picurl"/>    
+					<input type="hidden"  name="message[url][]" for="message_url" value="" class="message_url"/> 
+				</div>
+				<div class="row massage-add" id="message_item_add" >
+					<div class="glyphicon glyphicon-plus"></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-sm-6 col-md-7">
+			<div class="row">
+				<div id="input_message" class="col-sm-12 col-md-12 text-center popover right" style="display: block;max-width: 450px;">
+					<div class="arrow"></div>
+					<div class="popover-content">
+						<div class="form-group">
+							<label for="exampleInputtitle">标题</label>
+							<input type="text" name="message_title" class="form-control required input_message" id="exampleInputtitle" placeholder="请输入标题" data-msg-required="请输入标题" maxlength="64">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputauthor">作者</label>
+							<input type="text" name="message_author" class="form-control required input_message" id="exampleInputauthor" placeholder="请输入作者" data-msg-required="请输入作者" maxlength="32">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputFile">封面</label>
+							<input type="file" id="message_icon_file" file_types='png,jpg' name="message_icon" value="" for="push_message_item_edit" upload_href="<?=site_url('image/upload')?>">
+							<div>图片建议尺寸：<span id="px_show_tip">200X200</span></div>
+							<div>
+								<img id='message_icon_show' alt="" src="<?=__PUBLIC__?>image/default_gray.jpg" old_href='<?=__PUBLIC__?>image/default_gray.jpg' url_path="<?=site_url('image/upload')?>?src=" style="max-height: 70px;">
+							</div>
+							<input type="hidden" id="message_icon" name="message_picurl" value="" class='required' data-msg-required="请上传图片"/> 
+						</div>
+						<div class="form-group">
+							<label for="inputgoods_desc">正文</label>
+							<textarea id="inputgoods_desc" name="message_main_text" class="form-control required input_message" maxlength="250" data-msg-required="请输入正文"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="exampleInputurl">原文链接</label>
+							<input type="text" name="message_url" class="form-control required url input_message" id="exampleInputurl" placeholder="http://www.example.com" data-msg-required="请输原文链接">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row text-center col-sm-12 col-md-12" style="margin-top: 50px;"> 
+			<input type="hidden" name="message[message_type]" value="1" /> 
+			<button type="submit" class="btn btn-success">保存</button>
+		</div>
+	</form>
+</div>
+<script id="push_message_item" type="text/x-jquery-tmpl">
+	<div class="row message message_item">
+		<div class="col-sm-8 col-md-8 line-height-80 message_title">
+			标题
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<img data-src="holder.js/300x300" alt="..." src="<?=__PUBLIC__?>image/default_gray.jpg" class="small-image message_picurl" >
+		</div>
+		<div class="col-sm-12 col-md-12 show_edit none">
+			<div class="glyphicon glyphicon-pencil edit_message_item"></div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="glyphicon glyphicon-trash delete_message_item"></div>
+		</div>
+		<input type="hidden"  name="message[title][]" for="message_title" class="message_title" value=""/>    
+		<input type="hidden"  name="message[author][]" for="message_author" class="message_author" value=""/>    
+		<input type="hidden"  name="message[main_text][]" for="message_main_text" class="message_main_text" value=""/>    
+		<input type="hidden"  name="message[picurl][]" for="message_picurl" value="" class="message_picurl"/>    
+		<input type="hidden"  name="message[url][]" for="message_url" value="" class="message_url"/> 
+	</div>
+</script>

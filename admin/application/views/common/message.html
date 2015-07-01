@@ -1,0 +1,40 @@
+<?php if($this->session->flashdata('warning_message') != ''):?>
+<div class="message alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong>警告!</strong> &nbsp; <?=$this->session->flashdata('warning_message')?>
+</div>
+<script>
+    $(function() {
+        setTimeout(function() {
+            $(".alert.alert-warning").fadeOut();
+        }, 2000)
+    })
+</script>
+
+<?php elseif($this->session->flashdata('success_message') != ''):?>
+<div class="message alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong>操作成功!</strong> &nbsp; <?=$this->session->flashdata('success_message')?>
+</div>
+<script>
+    $(function() {
+        setTimeout(function() {
+            $(".alert.alert-success").fadeOut();
+        }, 1000)
+    })
+</script>
+
+<?php elseif($this->session->flashdata('error_message') != ''):?>
+<div class="message alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong>错误!</strong> &nbsp; <?=$this->session->flashdata('error_message')?>
+</div>
+<script>
+    $(function() {
+        setTimeout(function() {
+            $(".alert.alert-danger").fadeOut();
+        }, 3000)
+    })
+</script>
+
+<?php endif;?>

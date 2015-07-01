@@ -1,0 +1,28 @@
+<table class="table table-hover goods_list">
+	<thead>
+		<tr>
+			<th width='100'>编号</th>
+			<th>商品分类</th>
+			<th>排序</th>
+			<th width='220'>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach($list_data as $k=>$i):?>
+		<tr>
+			<td><?=$i->category_id?></td>
+			<td><?=$i->category_name?></td>
+			<td><?=$i->location?></td>
+			<td>
+				<?php if(chk_access('category/update')):?>
+				<a href='<?=site_url("category/update/$i->category_id")?>' class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> 修改</a>&nbsp;
+				<?php endif;?>
+
+				<?php if(chk_access('category/delete')):?>
+				<a href='<?=site_url("category/delete/$i->category_id")?>' class="btn btn-default btn-sm" onclick="javascript:return confirm('系统会同步删除相关分类的菜单，确定要删除吗？')"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp;
+				<?php endif;?>
+			</td>
+		</tr>
+		<?php endforeach;?>
+	</tbody>
+</table>

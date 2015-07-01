@@ -1,0 +1,59 @@
+<div class="panel">
+	<div class="panel-body">
+		<form class="form-inline pull-right" role="form" action="<?=current_url()?>" method="POST">
+			<div class="form-group">
+				<label class="sr-only" for="exampleInputSex">性别:</label>
+				<select name="User[sex]" class="form-control">
+					<option value="">请选择性别</option>
+					<option value="1" <?=set_val('User.sex')==1? "selected" : ''?>>男</option>
+					<option value="2" <?=set_val('User.sex')==2? "selected" : ''?>>女</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="exampleInputNickname">昵称:</label>
+				<input name="User[nickname]" type="text" class="form-cowx_nicknamentrol" id="exampleInputNickname" placeholder="请输入昵称" value="<?=set_val('User.nickname')?>">
+			</div>
+			<button type="submit" class="btn btn-info">查询</button>
+		</form>
+	</div>
+	<table class="table table-hover goods_list">
+		<thead>
+			<tr>
+				<th width='100'>编号</th>
+				<th>账户金额</th>
+				<th>昵称</th>
+				<th>性别</th>
+				<th>创建时间</th>
+				<th width='220'>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($list_data as $k=>$i):?>
+			<tr>
+				<td><?=$i->user_id?></td>
+				<td><?=$i->amount?></td>
+				<td><?=$i->nickname?></td>
+				<td><?=$i->sex?'男':'女'?></td>
+				<td><?=$i->create_time?></td>
+				<td>
+					<p>
+						<?php if(chk_access('user/view')):?>
+						<a href='<?=site_url("user/view/$i->user_id")?>' class="btn btn-default btn-sm">查看</a>&nbsp;
+						<?php endif;?>
+
+						<?php if(chk_access('user/recharge')):?>
+						<a href='<?=site_url("user/recharge/$i->user_id")?>' class="btn btn-default btn-sm">充值</a>&nbsp;
+						<?php endif;?>
+
+						<?php if(chk_access('user/account_details')):?>
+						<a href='<?=site_url("user/account_details/$i->user_id")?>' class="btn btn-default btn-sm">账户明细</a>&nbsp;
+						<?php endif;?>
+					</p>
+				</td>
+			</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+
+	<?=$pagination?>
+</div>

@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="today-message">
+		<div class="thumbnail paddind-15">
+			<?php
+			if(!isset($today_message) || empty($today_message)){ ?>
+			<div class="row message message_item">
+				<div class="col-sm-8 col-md-8 line-height-80 message_title">
+					今日无推送消息！
+				</div>
+				<div class="col-sm-4 col-md-4">
+				</div>
+			</div>
+			<?php } else { foreach($today_message as $k=>$i): if($k==0){?>
+			<div class="row message" id="push_message_item_edit" title="<?php if(isset($i['seller']) && trim($i['seller'])){ echo '推送商家：'.$i['seller'];} ?>">
+				<div class="col-sm-12 col-md-12 text-center">
+					<img data-src="holder.js/300x300" class="col-sm-12 col-md-12 message_picurl" alt="..." src="<?php if(isset($i['image_all_path'])){echo $i['image_all_path']; }else{ ?> <?=__PUBLIC__?>image/default_gray.jpg <?php }?>" style="max-height: 300px;">
+				</div>
+				<div class="col-sm-12 col-md-12 text-center message_title">
+					<?=$i['title']?>
+				</div>
+			</div>
+			<?php }else{ ?>
+			<div class="row message message_item" title="<?php if(isset($i['seller']) && trim($i['seller'])){ echo '推送商家：'.$i['seller'];} ?>">
+				<div class="col-sm-8 col-md-8 line-height-80 message_title">
+					<?=$i['title']?>
+				</div>
+				<div class="col-sm-4 col-md-4">
+					<img data-src="holder.js/300x300" alt="..." src="<?php if(isset($i['image_all_path'])){echo $i['image_all_path']; }else{ ?> <?=__PUBLIC__?>image/default_gray.jpg <?php }?>" class="small-image message_picurl" >
+				</div>
+			</div>
+			<?php } endforeach; } ?>
+		</div>
+	</div>
+</div>
+

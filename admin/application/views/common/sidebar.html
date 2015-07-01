@@ -1,0 +1,5 @@
+<?php if(isset($this->menu) && $this->menu): ?>
+<?php foreach($this->menu as $i): ?>
+<?=set_menu($i['label'], $i['class'], $i['children'])?>
+<?php endforeach; ?>
+<?php endif; ?>
