@@ -1,2 +1,2 @@
 # weixin
-weixin develop
+weixin project
