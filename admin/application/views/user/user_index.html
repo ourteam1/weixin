@@ -11,7 +11,7 @@
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="exampleInputNickname">昵称:</label>
-				<input name="User[nickname]" type="text" class="form-cowx_nicknamentrol" id="exampleInputNickname" placeholder="请输入昵称" value="<?=set_val('User.nickname')?>">
+				<input name="User[nickname]" type="text" class="form-control form-cowx_nicknamentrol" id="exampleInputNickname" placeholder="请输入昵称" value="<?=set_val('User.nickname')?>">
 			</div>
 			<button type="submit" class="btn btn-info">查询</button>
 		</form>
@@ -42,11 +42,11 @@
 						<?php endif;?>
 
 						<?php if(chk_access('user/recharge')):?>
-						<a href='<?=site_url("user/recharge/$i->user_id")?>' class="btn btn-default btn-sm">充值</a>&nbsp;
+						<!--<a href='<?=site_url("user/recharge/$i->user_id")?>' class="btn btn-default btn-sm">充值</a>&nbsp;-->
 						<?php endif;?>
 
 						<?php if(chk_access('user/account_details')):?>
-						<a href='<?=site_url("user/account_details/$i->user_id")?>' class="btn btn-default btn-sm">账户明细</a>&nbsp;
+						<!--<a href='<?=site_url("user/account_details/$i->user_id")?>' class="btn btn-default btn-sm">账户明细</a>&nbsp;-->
 						<?php endif;?>
 					</p>
 				</td>

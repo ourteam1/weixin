@@ -9,8 +9,8 @@
     <tr>
         <td class="col-md-2 text-right">订单金额：</td>
         <td><?=set_val('amount')?></td>
-        <td class="col-md-2 text-right">收货人联系方式：</td>
-        <td><?=set_val('mobile')?></td>
+        <td class="col-md-2 text-right">积分：</td>
+        <td><?=set_val('score')?></td>
     </tr>
     <tr>
         <td class="col-md-2 text-right">下单时间：</td>
@@ -21,36 +21,36 @@
     <tr>
         <td class="col-md-2 text-right">是否支付：</td>
         <td><?=set_val('is_pay') ? '<span class="label label-success">已支付</span>' : '<span class="label label-warning">未支付</span>' ?></td>
-        <td class="col-md-2 text-right">配送时间：</td>
-        <td><?=set_val('delivery_times')?></td>
+        <td class="col-md-2 text-right">收货人联系方式：</td>
+        <td><?=set_val('mobile')?></td>
     </tr>
     <tr>
         <td class="col-md-2 text-right">订单状态：</td>
         <td><span class="label label-default"><?=set_val('status_text')?></span></td>
-		<td class="col-md-2 text-right">备注信息：</td>
+        <td class="col-md-2 text-right">备注信息：</td>
         <td><?=set_val('remark')?></td>
     </tr>
-	<?php if($status != 4):?>
-	<tr>
-		<td colspan="20" align="right">
-			<?php if(chk_access('order/confirm') && ($status == 1 || $status == 5)):?>
-			<a href='<?=site_url("order/confirm/$order_id")?>' class="btn btn-primary btn-sm">确认订单</a>&nbsp;
-			<?php endif;?>
+    <?php if($status != 4):?>
+    <tr>
+        <td colspan="20" align="right">
+            <?php if(chk_access('order/confirm') && ($status == 1 || $status == 5)):?>
+            <a href='<?=site_url("order/confirm/$order_id")?>' class="btn btn-primary btn-sm">确认订单</a>&nbsp;
+            <?php endif;?>
 
-			<?php if(chk_access('order/shipment') && $status == 2):?>
-			<a href='<?=site_url("order/shipment/$order_id")?>' class="btn btn-primary btn-sm">出库发货</a>&nbsp;
-			<?php endif;?>
+            <?php if(chk_access('order/shipment') && $status == 2):?>
+            <a href='<?=site_url("order/shipment/$order_id")?>' class="btn btn-primary btn-sm">出库发货</a>&nbsp;
+            <?php endif;?>
 
-			<?php if(chk_access('order/receipt') && $status == 3):?>
-			<a href='<?=site_url("order/receipt/$order_id")?>' class="btn btn-primary btn-sm">用户已收货</a>&nbsp;
-			<?php endif;?>
+            <?php if(chk_access('order/receipt') && $status == 3):?>
+            <a href='<?=site_url("order/receipt/$order_id")?>' class="btn btn-primary btn-sm">用户已收货</a>&nbsp;
+            <?php endif;?>
 
-			<?php if(chk_access('order/reconfirm') && $status == 3):?>
-			<a href='<?=site_url("order/reconfirm/$order_id")?>' class="btn btn-primary btn-sm">用户未收货</a>&nbsp;
-			<?php endif;?>
-		</td>
-	</tr>
-	<?php endif;?>
+            <?php if(chk_access('order/reconfirm') && $status == 3):?>
+            <a href='<?=site_url("order/reconfirm/$order_id")?>' class="btn btn-primary btn-sm">用户未收货</a>&nbsp;
+            <?php endif;?>
+        </td>
+    </tr>
+    <?php endif;?>
 </table>
 
 <h3>商品信息</h3>
@@ -59,6 +59,7 @@
         <tr>
             <th>商品名称</th>
             <th>价格</th>
+            <th>积分</th>
             <th>数量</th>
         </tr>
     </thead>
@@ -67,14 +68,15 @@
         <tr>
             <td><?=element('goods_name', $i)?></td>
             <td><?=element('goods_price', $i)?></td>
+            <td><?=element('goods_score', $i)?></td>
             <td><?=element('cart_num', $i)?></td>
         </tr>
         <?php endforeach;?>
-		<tr>
-			<td colspan="20" align="right">
-				共 <strong><?=$total_cart_num?></strong> 件，￥ <strong><?=$total_goods_price?></strong> 元
-			</td>
-		</tr>
+        <tr>
+            <td colspan="20" align="right">
+                共 <strong><?=$total_cart_num?></strong> 件，￥ <strong><?=$total_goods_price?></strong> 元，<strong><?=$total_goods_score?></strong>分
+            </td>
+        </tr>
     </tbody>
 </table>
 
@@ -84,9 +86,9 @@
         <?php foreach($order_action as $k=>$i):?>
         <tr>
             <td>
-				<?=element('create_time', $i)?> &nbsp;&nbsp;
-				<?=element('action_name', $i)?>
-			</td>
+                <?=element('create_time', $i)?> &nbsp;&nbsp;
+                <?=element('action_name', $i)?>
+            </td>
         </tr>
         <?php endforeach;?>
     </tbody>

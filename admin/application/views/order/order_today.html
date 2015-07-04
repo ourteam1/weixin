@@ -1,69 +1,71 @@
 <div class="panel">
-	<div class="panel-body">
-		<form class="form-inline pull-right" role="form" action="<?=current_url()?>" method="POST">
-			<div class="form-group">
-				<label class="sr-only" for="exampleInputIspay">是否支付:</label>
-				<select name="Order[is_pay]" class="form-control">
-					<option value="">请选择是否支付</option>
-					<option value="0" <?=set_val('Order.is_pay')==0? "selected" : ''?>>未支付</option>
-					<option value="1" <?=set_val('Order.is_pay')==1? "selected" : ''?>>已支付</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label class="sr-only" for="exampleInputOrder">订单号:</label>
-				<input name="Order[order_code]" type="text" class="form-control" id="exampleInputOrder" placeholder="请输入订单号" value="<?=set_val('Order.order_code')?>">
-			</div>
-			<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 查询</button>
-		</form>
-	</div>
-	<table class="table table-hover goods_list">
-		<thead>
-			<tr>
-				<th width='100'>编号</th>
-				<th>订单号</th>
-				<th>收货人</th>
-				<th>是否支付</th>
-				<th>总金额</th>
-				<th>下单时间</th>
-				<th>当前状态</th>
-				<th width='260'>操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach($list_data as $k=>$i):?>
-			<tr>
-				<td><?=$i->order_id?></td>
-				<td><?=$i->order_sn?></td>
-				<td><?=$i->username?></td>
-				<td><?=$i->is_pay?'<span class="label label-success">已支付</span>':'<span class="label label-warning">未支付</span>'?></td>
-				<td>￥<?=$i->amount?>元</td>
-				<td><?=$i->create_time?></td>
-				<td><span class="label label-default"><?=$i->status_text?></span></td>
-				<td>
-					<?php if(chk_access('order/view')):?>
-					<a href='<?=site_url("order/view/$i->order_id")?>' class="btn btn-default btn-sm"><span class="glyphicon glyphicon-zoom-in"></span> 查看</a>&nbsp;
-					<?php endif;?>
+    <div class="panel-body">
+        <form class="form-inline pull-right" role="form" action="<?=current_url()?>" method="POST">
+            <div class="form-group">
+                <label class="sr-only" for="exampleInputIspay">是否支付:</label>
+                <select name="Order[is_pay]" class="form-control">
+                    <option value="">请选择是否支付</option>
+                    <option value="0" <?=set_val('Order.is_pay')==0? "selected" : ''?>>未支付</option>
+                    <option value="1" <?=set_val('Order.is_pay')==1? "selected" : ''?>>已支付</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="exampleInputOrder">订单号:</label>
+                <input name="Order[order_code]" type="text" class="form-control" id="exampleInputOrder" placeholder="请输入订单号" value="<?=set_val('Order.order_code')?>">
+            </div>
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 查询</button>
+        </form>
+    </div>
+    <table class="table table-hover goods_list">
+        <thead>
+            <tr>
+                <th width='100'>编号</th>
+                <th>订单号</th>
+                <th>收货人</th>
+                <th>是否支付</th>
+                <th>总金额</th>
+                <th>积分</th>
+                <th>下单时间</th>
+                <th>当前状态</th>
+                <th width='260'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($list_data as $k=>$i):?>
+            <tr>
+                <td><?=$i->order_id?></td>
+                <td><?=$i->order_sn?></td>
+                <td><?=$i->username?></td>
+                <td><?=$i->is_pay?'<span class="label label-success">已支付</span>':'<span class="label label-warning">未支付</span>'?></td>
+                <td>￥<?=$i->amount?>元</td>
+                <td><?=$i->score?></td>
+                <td><?=$i->create_time?></td>
+                <td><span class="label label-default"><?=$i->status_text?></span></td>
+                <td>
+                    <?php if(chk_access('order/view')):?>
+                    <a href='<?=site_url("order/view/$i->order_id")?>' class="btn btn-default btn-sm"><span class="glyphicon glyphicon-zoom-in"></span> 查看</a>&nbsp;
+                    <?php endif;?>
 
-					<?php if(chk_access('order/confirm') && ($i->status == 1 || $i->status == 5)):?>
-					<a href='<?=site_url("order/confirm/$i->order_id")?>' class="btn btn-default btn-sm">确认订单</a>&nbsp;
-					<?php endif;?>
+                    <?php if(chk_access('order/confirm') && ($i->status == 1 || $i->status == 5)):?>
+                    <a href='<?=site_url("order/confirm/$i->order_id")?>' class="btn btn-default btn-sm">确认订单</a>&nbsp;
+                    <?php endif;?>
 
-					<?php if(chk_access('order/shipment') && $i->status == 2):?>
-					<a href='<?=site_url("order/shipment/$i->order_id")?>' class="btn btn-default btn-sm">出库发货</a>&nbsp;
-					<?php endif;?>
+                    <?php if(chk_access('order/shipment') && $i->status == 2):?>
+                    <a href='<?=site_url("order/shipment/$i->order_id")?>' class="btn btn-default btn-sm">出库发货</a>&nbsp;
+                    <?php endif;?>
 
-					<?php if(chk_access('order/receipt') && $i->status == 3):?>
-					<a href='<?=site_url("order/receipt/$i->order_id")?>' class="btn btn-default btn-sm">用户已收货</a>&nbsp;
-					<?php endif;?>
+                    <?php if(chk_access('order/receipt') && $i->status == 3):?>
+                    <a href='<?=site_url("order/receipt/$i->order_id")?>' class="btn btn-default btn-sm">用户已收货</a>&nbsp;
+                    <?php endif;?>
 
-					<?php if(chk_access('order/reconfirm') && $i->status == 3):?>
-					<a href='<?=site_url("order/reconfirm/$i->order_id")?>' class="btn btn-default btn-sm">用户未收货</a>&nbsp;
-					<?php endif;?>
-				</td>
-			</tr>
-			<?php endforeach;?>
-		</tbody>
-	</table>
+                    <?php if(chk_access('order/reconfirm') && $i->status == 3):?>
+                    <a href='<?=site_url("order/reconfirm/$i->order_id")?>' class="btn btn-default btn-sm">用户未收货</a>&nbsp;
+                    <?php endif;?>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
 
-	<?=$pagination?>
+    <?=$pagination?>
 </div>

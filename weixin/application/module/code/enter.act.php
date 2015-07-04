@@ -61,7 +61,7 @@ class CodeEnter extends Action {
             $data = array(
                 'user_id' => $user['user_id'],
                 'action' => 'user.score.add',
-                'action_name' => '增加积分' . $score . '元',
+                'action_name' => '增加积分' . $score,
                 'amount' => $score,
                 'create_time' => date('Y-m-d H:i:s'),
             );

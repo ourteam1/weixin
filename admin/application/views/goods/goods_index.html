@@ -42,11 +42,7 @@
                             <strong><?=$i->goods_name?></strong>&nbsp;
                             <span class="badge">下单<?=$i->order_number?>次</span>
                         </p>
-                        <?php if(trim($i->discount) != 0):?>
-                        <p>价格：￥<?=$i->discount?>元 &nbsp; <s>￥<?=$i->price?>元</s>&nbsp;</p>
-                        <?php else:?>
-                        <p>价格：￥<?=$i->price?>元&nbsp;</p>
-                        <?php endif;?>
+                        <p>价格：￥<?=$i->price?>元 &nbsp; 积分: <?=$i->score?>&nbsp;</p>
                         <p>更新时间：<?=date('Y-m-d', strtotime($i->modify_time))?></p>
                     </div>
                 </div>
