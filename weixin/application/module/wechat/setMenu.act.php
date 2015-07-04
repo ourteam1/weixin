@@ -7,37 +7,37 @@ if (!defined('IN_MSAPP')) exit('Access Deny!');
  */
 class WechatSetMenu extends Action {
 
-	function on_setMenu() {
-		$u = isset($_REQUEST['u']) ? $_REQUEST['u'] : '';
-		if ($u != 'hnatao') {
-			die('no access!');
-		}
+    function on_setMenu() {
+        $u = isset($_REQUEST['u']) ? $_REQUEST['u'] : '';
+        if ($u != 'wutong') {
+            die('no access!');
+        }
 
-		// 获取菜单
-		$res = $this->weixin->menu_get();
+        // 获取菜单
+        $res = $this->weixin->menu_get();
 
-		if (isset($res['menu']) && count($res['menu']['button']) > 0) {
-			die("菜单已经设置：" . var_export($res, true));
-		}
+        if (isset($res['menu']) && count($res['menu']['button']) > 0) {
+            die("菜单已经设置：" . var_export($res, true));
+        }
 
-		// 设置菜单
-		$newmenu = array(
-			"button" => array(
-				array('type' => 'view', 'name' => '开始下单', 'url' => 'http://wx.udian2.com/index.php/goods/'),
-				array('name'		 => '我是会员', "sub_button" => array(
-						array("type" => "view", "name" => "我的订单", "url" => "http://wx.udian2.com/index.php/order/"),
-						array("type" => "click", "name" => "我要充值", "key" => "I_WILL_RECHARGE"),
-						array("type" => "click", "name" => "账户余额", "key" => "MY_ACCOUNT"),
-					)),
-				array('name'		 => '关于我们', "sub_button" => array(
-						array("type" => "view", "name" => "关于我们", "url" => "http://wx.udian2.com/index.php/goods/"),
-						array("type" => "view", "name" => "反馈意见", "url" => "http://wx.udian2.com/index.php/feedback/"),
-					)),
-			)
-		);
+        // 设置菜单
+        $newmenu = array(
+            "button" => array(               
+                array('name' => '赚', "sub_button" => array(                        
+                        array("type" => "scancode_waitmsg", "name" => "扫描码", "key" => "scancode"),
+                        array("type" => "view", "name" => "输入码", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/enter"),
+                        array("type" => "view", "name" => "免费得金币", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/list"),
+                    )),
+                array('name' => '花', "sub_button" => array(
+                        array("type" => "view", "name" => "礼品专区", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/goods/index/1"),
+                        array("type" => "view", "name" => "爆款专区", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/goods/index/2"),
+                    )),
+                 array('type' => 'view', 'name' => '会员中心', 'url' => 'http://115.28.80.161/wutong/wzh/weixin/index.php/user/'),
+            )
+        );
 
-		$res = $this->weixin->menu_create($newmenu);
-		die("设置菜单：" . ($res ? '成功！' : '失败！'));
-	}
+        $res = $this->weixin->menu_create($newmenu);
+        die("设置菜单：" . ($res ? '成功！' : '失败！'));
+    }
 
 }

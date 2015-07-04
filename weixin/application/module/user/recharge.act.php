@@ -8,14 +8,14 @@ if (!defined('IN_MSAPP')) exit('Access Deny!');
  */
 class UserRecharge extends Action {
 
-	function __construct() {
-		parent::__construct();
+    function __construct() {
+        parent::__construct();
 
-		$this->wxauth();
-	}
+        $this->wxauth();
+    }
 
-	function on_recharge() {
-		$this->view->display('user/user_recharge.html');
-	}
+    function on_recharge() {
+        $this->view->display('user/user_recharge.html');
+    }
 
 }
