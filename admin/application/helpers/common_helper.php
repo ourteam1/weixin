@@ -10,15 +10,15 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  */
 if (!function_exists('die_json')) {
 
-	function die_json($arr = '') {
-		$json_str = json_encode($arr, JSON_UNESCAPED_UNICODE);
-		if (isset($_REQUEST['callback'])) {
-			$cb = $_REQUEST['callback'];
-			die($cb . "(" . $json_str . ")");
-		}
+    function die_json($arr = '') {
+        $json_str = json_encode($arr, JSON_UNESCAPED_UNICODE);
+        if (isset($_REQUEST['callback'])) {
+            $cb = $_REQUEST['callback'];
+            die($cb . "(" . $json_str . ")");
+        }
 
-		die($json_str);
-	}
+        die($json_str);
+    }
 
 }
 
@@ -27,21 +27,22 @@ if (!function_exists('die_json')) {
  */
 if (!function_exists('upload_image')) {
 
-	function upload_image($url, $image) {
-		$fields['file']	 = '@' . $image;
-		$ch				 = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$res			 = curl_exec($ch);
-		if ($error			 = curl_error($ch)) {
-			$res = null;
-			log_message('error', var_export($error, true));
-		}
-		curl_close($ch);
-		return $res;
-	}
+    function upload_image($url, $image) {
+        $fields['upfile'] = '@' . $image;
+        log_message('error', var_export($fields, true));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($ch);
+        if ($error = curl_error($ch)) {
+            $res = null;
+            log_message('error', var_export($error, true));
+        }
+        curl_close($ch);
+        return $res;
+    }
 
 }
 
@@ -50,15 +51,15 @@ if (!function_exists('upload_image')) {
  */
 if (!function_exists('debug_message')) {
 
-	function debug_message($message, $filename = null, $linenum = null) {
-		static $_log;
+    function debug_message($message, $filename = null, $linenum = null) {
+        static $_log;
 
-		if (config_item('log_threshold') == 0) {
-			return;
-		}
+        if (config_item('log_threshold') == 0) {
+            return;
+        }
 
-		$_log = & load_class('Log');
-		$_log->debug($message, $filename, $linenum);
-	}
+        $_log = & load_class('Log');
+        $_log->debug($message, $filename, $linenum);
+    }
 
 }

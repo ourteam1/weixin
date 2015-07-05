@@ -48,10 +48,10 @@ define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
 define('PAGE_LIMIT', 10);
 
 // 图片上传地址
-define('UPLOAD_IMAGE', 'http://image.udian2.com/upload');
+define('UPLOAD_IMAGE', 'http://115.28.80.161/wutong/wzh/upload/index.php');
 
 // 图片显示地址
-define('IMAGED', 'http://image.udian2.com/');
+define('IMAGED', 'http://115.28.80.161/wutong/wzh/upload/data/');
 
 // 定义微信配置
 define('WX_TOKEN', 'wx_udian');

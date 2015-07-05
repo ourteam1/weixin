@@ -15,4 +15,4 @@ define('MEMCACHE_HOST', '127.0.0.1');
 define('MEMCACHE_PORT', '11211');
 
 // 图片显示地址
-define('IMAGED', 'http://image.udian2.com/');
+define('IMAGED', 'http://115.28.80.161/wutong/wzh/upload/data/');
