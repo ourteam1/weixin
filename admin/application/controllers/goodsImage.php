@@ -136,6 +136,8 @@ class GoodsImage extends MS_Controller {
             'message' => '上传成功！',
             'filename' => $image_file,
             'url' => IMAGED . $image_file,
+            'image' => $image_file,
+            'image_url' => IMAGED . $image_file
         );
         die_json($data);
     }

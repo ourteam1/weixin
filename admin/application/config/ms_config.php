@@ -42,6 +42,10 @@ $config['access_actions'] = array(
 	'user.recharge'			 => array('label' => '充值', 'actions' => array('user/index', 'user/recharge')),
 	'message.index'			 => array('label' => '微信消息列表', 'actions' => array('message.index')),
 	'message.send'			 => array('label' => '发送微信消息', 'actions' => array('message.send')),
+    'focus.index'			 => array('label' => '关注列表', 'actions' => array('focus.index')),
+    'focus.add'			     => array('label' => '添加关注', 'actions' => array('focus.index', 'focus.add')),
+    'focus.update'			 => array('label' => '修改关注', 'actions' => array('focus.index', 'focus.update')),
+    'focus.delete'			 => array('label' => '删除关注', 'actions' => array('focus.index', 'focus.delete')),
 );
 
 // 管理员权限分组
@@ -62,8 +66,8 @@ $config['set_active_nav'] = array(
 		'active_actions' => array('site/index'),
 	),
 	'商品管理'	 => array(
-		'uri'			 => 'goods/add,goods/index,category/add,category/index',
-		'active_actions' => array('category/*', 'goods/*'),
+		'uri'			 => 'goods/add,goods/index,category/add,category/index,focus.add,focus.index',
+		'active_actions' => array('category/*', 'goods/*', 'focus/*'),
 		'active_menu'	 => array(
 			array(
 				'label'		 => '分类',
@@ -79,6 +83,14 @@ $config['set_active_nav'] = array(
 				'children'	 => array(
 					array('label' => '添加商品', 'url' => 'goods/add', 'active_actions' => array('goods/add')),
 					array('label' => '商品列表', 'url' => 'goods/index', 'active_actions' => array('goods/index', 'goods/update', 'goods/delete', 'goods.grounding', 'goods.undercarriage')),
+				)
+			),
+            array(
+				'label'		 => '关注',
+				'class'		 => 'glyphicon-th-large',
+				'children'	 => array(
+					array('label' => '添加关注', 'url' => 'focus/add', 'active_actions' => array('focus/add')),
+					array('label' => '关注列表', 'url' => 'focus/index', 'active_actions' => array('focus/index', 'focus/update', 'focus/delete')),
 				)
 			),
 		),

@@ -1,0 +1,41 @@
+<div class="page-header">
+    <h4>修改关注</h4>
+</div>
+<form class="form-horizontal form-validate" action="<?=current_url()?>" method="POST">
+    <div class="form-group">
+        <label class="col-md-2 control-label"><em>*</em> 关注名称</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control required" name="Focus[name]" placeholder="请输入关注名称" maxlength="32" value="<?=set_val('name')?>">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-md-2 control-label">关注图标</label>
+        <div class="col-md-5">
+            <input type="file" upload_url="<?=site_url('goodsImage/remote_upload')?>" class="form-control" id="iptFocusImage" name="imgFile">
+            <input type="hidden" class="form-control" id="image" name="Focus[icon]" value="<?=set_val('icon')?>">
+            <p class="help-block">支持jpg/png格式.</p>
+            <?php if(isset($icon) && trim($icon)): ?>            
+            <img src="<?=IMAGED . set_val('icon')?>" class="preview-image" style="width: 40px; height: 40px; border:1px solid #eee;"/>
+            <?php else: ?>
+            <img src="<?=__PUBLIC__?>image/default.jpg" class="preview-image" style="width: 40px; height: 40px; border:1px solid #eee;"/>
+            <?php endif; ?>            
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-md-2 control-label">排序</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" name="Focus[sort]" placeholder="请输入排序" value="<?=set_val('sort')?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">URL</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" name="Focus[url]" placeholder="请输入外部URL" value="<?=set_val('url')?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-md-5">
+            <button type="submit" class="btn btn-success">保存</button>
+        </div>
+    </div>
+</form>

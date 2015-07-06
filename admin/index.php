@@ -21,7 +21,7 @@ date_default_timezone_set('Asia/Hong_Kong');
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-define('ENVIRONMENT', 'production');
+define('ENVIRONMENT', 'development');
 
 /*
  * ---------------------------------------------------------------

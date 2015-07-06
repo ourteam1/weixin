@@ -44,7 +44,7 @@ var FileUpload = (function() {
 			alert(data.error);
 			return false;
 		}
-
+    
 		$('.preview-image').attr('src', data.image_url);
 		$inp_image.val(data.image);
 		$inp_thumb.val(data.thumb);
@@ -109,6 +109,18 @@ $(function() {
 				eid: 'iptGoodsImage',
 				inp_img: '#image',
 				inp_thumb: '#thumb',
+			});
+		}
+		return false;
+	});
+        
+        $('body').on('change', '#iptFocusImage', function() {
+		var self = $(this);
+		if (self.val() != '') {
+			FileUpload.init({
+				upload_url: self.attr('upload_url'),
+				eid: 'iptFocusImage',
+				inp_img: '#image',
 			});
 		}
 		return false;

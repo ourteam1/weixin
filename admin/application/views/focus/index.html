@@ -1,0 +1,30 @@
+<table class="table table-hover goods_list">
+    <thead>
+        <tr>
+            <th width='100'>编号</th>
+            <th>名称</th>
+            <th>排序</th>
+            <th>创建时间</th>
+            <th width='220'>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($list_data as $k=>$i):?>
+        <tr>
+            <td><?=$i->focus_id?></td>
+            <td><?=$i->name?></td>
+            <td><?=$i->sort?></td>
+            <td><?=$i->create_time?></td>
+            <td>
+                <?php if(chk_access('focus/update')):?>
+                <a href='<?=site_url("focus/update/$i->focus_id")?>' class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> 修改</a>&nbsp;
+                <?php endif;?>
+
+                <?php if(chk_access('focus/delete')):?>
+                <a href='<?=site_url("focus/delete/$i->focus_id")?>' class="btn btn-default btn-sm" onclick="javascript:return confirm('确定要删除吗？')"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp;
+                <?php endif;?>
+            </td>
+        </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>
