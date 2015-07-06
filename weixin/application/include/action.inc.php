@@ -24,6 +24,12 @@ class Action extends App
         return new View();
     }
 
+    public function load_http()
+    {
+        include_once LIBS_DIR . 'http.class.php';
+        return new Http();
+    }
+
     /**
      * 加载数据库
      */

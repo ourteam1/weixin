@@ -25,9 +25,10 @@ class UserFree_score extends Action
         if ($rows) {
             foreach ($rows as $row) {
                 $codes[] = $row['code'];
+                //hdbh?
+                $url     = 'http://42.62.73.239:8080/CloudServer/wi.do?method=GetDiscountCode_DX&hdbh=' . $hdbh;
+                $yhq_row = $this->http->get($url);
             }
-            //TODO oracle数据库配置
-            // $oracle_dbh = $this->dbh = new PDO($host, $user, $password, $options);
         }
 
         $this->view->assign('rows', $rows);
