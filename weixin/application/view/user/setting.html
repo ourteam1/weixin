@@ -1,0 +1,46 @@
+<style>
+    ul>li{
+        clear:both;
+    }
+</style>
+<div class="app-page">
+    <div class="app-topbar">
+        <a href="<?=site_url('user/index')?>">&lt;</a>
+        <h4>个人设置</h4>
+    </div>
+    <div class="app-content container-fluid">
+    	<ul class="list-unstyled">
+            <li>
+                <a href="<?=site_url('user/edit')?>">
+                    <div class="pull-left"><i class="glyphicon glyphicon-user"></i>会员资料</div>
+                    <div class="pull-right">修改&gt;</div>
+                </a>
+            </li>
+           <!--  <li>
+                <a href="<?=site_url('user/jifen')?>">
+                    <div class="pull-left"><i class="glyphicon glyphicon-user"></i>积分查询</div>
+                    <div class="pull-right">查询&gt;</div>
+                </a>
+            </li>
+            <li>
+                <a href="<?=site_url('user/password')?>">
+                    <div class="pull-left"><i class="glyphicon glyphicon-user"></i>密码设置</div>
+                    <div class="pull-right">设置/修改&gt;</div>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="<?=site_url('user/jifen')?>">  -->
+                    <!-- <div class="pull-left"><i class="glyphicon glyphicon-user"></i>合并账户</div>
+                    <div class="pull-right">进入&gt;</div> -->
+                <!-- </a> -->
+            <!-- </li> --> 
+        </ul>
+    </div>
+</div>
+<script>
+	$(function(){
+		$('#setting').click(function(){
+			location.href=$(this).data('href');
+		});
+	});
+</script>

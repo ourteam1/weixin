@@ -1,20 +1,25 @@
 <?php
 
-if (!defined('IN_MSAPP')) exit('Access Deny!');
+if (!defined('IN_MSAPP')) {
+    exit('Access Deny!');
+}
 
-class Action extends App {
+class Action extends App
+{
 
-    var $user_id = null;
-    var $wx_openid = null;
+    public $user_id   = null;
+    public $wx_openid = null;
 
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /**
      * 加载模版文件
      */
-    function load_view() {
+    public function load_view()
+    {
         include_once LIBS_DIR . 'view.class.php';
         return new View();
     }
@@ -22,7 +27,8 @@ class Action extends App {
     /**
      * 加载数据库
      */
-    function load_db() {
+    public function load_db()
+    {
         include_once LIBS_DIR . 'pdo.class.php';
         $dbh = new DB_PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $dbh->set_table_prefix(DB_TABLE_PREFIX);
@@ -33,16 +39,17 @@ class Action extends App {
     /**
      * 加载微信公共接口sdk库
      */
-    function load_weixin() {
+    public function load_weixin()
+    {
         if (!class_exists('WeiXin')) {
             include_once LIBS_DIR . 'weixin.class.php';
         }
         $options = array(
-            'token' => WX_TOKEN,
-            'appid' => WX_APPID,
-            'appsecret' => WX_APPSECRET,
+            'token'        => WX_TOKEN,
+            'appid'        => WX_APPID,
+            'appsecret'    => WX_APPSECRET,
             'log_callback' => 'logger',
-            'debug' => true,
+            'debug'        => true,
         );
         return new WeiXin($options);
     }
@@ -50,15 +57,16 @@ class Action extends App {
     /**
      * 加载微信推送消息公共接口sdk库
      */
-    function load_wxoauth() {
+    public function load_wxoauth()
+    {
         if (!class_exists('WXOAuth')) {
             include_once LIBS_DIR . 'weixin.class.php';
         }
         $options = array(
-            'appid' => WX_APPID,
-            'appsecret' => WX_APPSECRET,
+            'appid'        => WX_APPID,
+            'appsecret'    => WX_APPSECRET,
             'log_callback' => 'logger',
-            'debug' => true,
+            'debug'        => true,
         );
         return new WXOAuth($options);
     }
@@ -66,7 +74,8 @@ class Action extends App {
     /**
      * 微信认证
      */
-    function wxauth() {
+    public function wxauth()
+    {
         // 如果是调试模式，直接返回
         if (defined('MSDEBUG') && MSDEBUG) {
             logger('DEBUG 模式！', __FILE__, __LINE__);
@@ -78,7 +87,7 @@ class Action extends App {
         if (isset($_SESSION['user_id']) && trim($_SESSION['user_id']) != '' && isset($_SESSION['wx_openid']) && trim($_SESSION['wx_openid']) != '') {
             logger('session uid：' . $_SESSION['user_id'], __FILE__, __LINE__);
             logger('session wx_openid：' . $_SESSION['wx_openid'], __FILE__, __LINE__);
-            $this->user_id = $_SESSION['user_id'];
+            $this->user_id   = $_SESSION['user_id'];
             $this->wx_openid = $_SESSION['wx_openid'];
             return true;
         }
@@ -93,20 +102,20 @@ class Action extends App {
         // 查找用户
         $user = $this->db->where('wx_openid', $userinfo['openid'])->row('user');
         if ($user) {
-            $this->user_id = $_SESSION['user_id'] = $user['user_id'];
+            $this->user_id   = $_SESSION['user_id']   = $user['user_id'];
             $this->wx_openid = $_SESSION['wx_openid'] = $userinfo['openid'];
             return true;
         }
 
         // 添加用户
         $data = array(
-            'wx_openid' => $userinfo['openid'],
-            'nickname' => $userinfo['nickname'],
-            'sex' => $userinfo['sex'],
-            'city' => $userinfo['city'],
-            'province' => $userinfo['province'],
-            'country' => $userinfo['country'],
-            'headimgurl' => $userinfo['headimgurl'],
+            'wx_openid'   => $userinfo['openid'],
+            'nickname'    => $userinfo['nickname'],
+            'sex'         => $userinfo['sex'],
+            'city'        => $userinfo['city'],
+            'province'    => $userinfo['province'],
+            'country'     => $userinfo['country'],
+            'headimgurl'  => $userinfo['headimgurl'],
             'create_time' => date('Y-m-d H:i:s'),
             'modify_time' => date('Y-m-d H:i:s'),
         );
@@ -118,9 +127,20 @@ class Action extends App {
         }
         $user_id = $this->db->last_insert_id();
         logger('添加用户信息成功，用户编号：' . $user_id, __FILE__, __LINE__);
-        $this->user_id = $_SESSION['user_id'] = $user_id;
+        $this->user_id   = $_SESSION['user_id']   = $user_id;
         $this->wx_openid = $_SESSION['wx_openid'] = $userinfo['openid'];
         return true;
     }
 
+    public function error_message($error_message)
+    {
+        echo "<script>alert('$error_message');history.go(-1)</script>";
+        die;
+    }
+
+    public function success_message($success_message)
+    {
+        echo "<script>alert('$success_message');history.go(-1)</script>";
+        die;
+    }
 }

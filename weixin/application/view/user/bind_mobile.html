@@ -1,0 +1,39 @@
+<style>
+    ul>li{
+        clear:both;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/public/plugin/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<div class="app-page">
+    <div class="app-topbar">
+        <a href="javascript:history.back()">&lt;</a>
+        <h4>绑定手机</h4>
+    </div>
+    <div class="app-content container-fluid">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <div class="col-xs-12">
+              <input type="text" class="form-control" id="card-number" name="card_number" placeholder="请输入手机号码" required data-required-msg="请填写该项">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-7">
+              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="请输入验证码" required data-required-msg="请填写该项">
+            </div>
+            <div class="col-xs-4">
+              <button class="btn btn-primary">获取验证码</button>
+            </div>
+          </div>   
+          <div class="form-group">
+            <div class="col-xs-12">
+              <button type="submit" class="btn btn-danger col-xs-12">绑定手机</button>
+            </div>
+          </div>
+        </form>
+    </div>
+</div>
+<script src="/public/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	$(function(){
+	});
+</script>

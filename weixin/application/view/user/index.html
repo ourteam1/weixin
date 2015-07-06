@@ -1,10 +1,58 @@
+<style>
+	.setting{
+	  position: absolute;
+	  right: 5px;
+	  top: 5px;
+	}
+    .user-info{
+    }
+    .panel{
+    }
+</style>
 <div class="app-page">
     <div class="app-topbar">
         <h4>会员中心</h4>
+        <button type="button" id="setting" class="setting btn btn-sm btn-danger" data-href="<?=site_url('user/setting')?>">设置</button>
     </div>
     <div class="app-content container-fluid">
-        <div class="alert alert-warning" role="alert">
-            <strong>敬请期待！</strong> 
+    	<div class="user-info">
+            <?php if (!$headimgurl): ?>
+                <img src="/public/image/icon/dai_fu_kuan.png" width="50" style="float:left">
+            <?php else: ?>
+                <img src="<?=$headimgurl?>" width="50" style="float:left">
+            <?php endif ?>
+        	<div class="panel panel-default" style="  margin-left: 60px;">
+        		<div class="panel-body">
+                    <div>昵称： <?=$nickname?></div>
+                    <div>积分： <?=$score?> </div>
+                    <div class="">
+                        <?php if ($mobile): ?>
+                            <a href="<?=site_url('user/bind_mobile')?>" class="btn btn-sm btn-danger">绑定手机</a>
+                        <?php else: ?>
+                            <div class="title">手机号：<?=$mobile?></div>
+                        <?php endif ?>
+                    </div>
+        		</div>
+        	</div>
         </div>
+    	<div class="panel panel-default">
+    		<div class="panel-body">
+    			<div class="row">
+    				<div class="col-xs-12">
+	    				<a href="<?=site_url('user/order')?>">我的订单</a>
+    				</div>
+                    <div class="col-xs-12">
+                        <a href="<?=site_url('user/free_score')?>">我的优惠券</a>
+                    </div>
+    			</div>
+    		</div>
+    	</div>
     </div>
 </div>
+<script>
+	$(function(){
+		$('#setting').click(function(){
+			location.href=$(this).data('href');
+		});
+	});
+</script>
