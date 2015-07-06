@@ -19,9 +19,9 @@ class CodeFocus extends Action {
         }
 
         // 是否关注
-        $focusInfo = $this->db->where('user_id', $this->user_id)->where('code', $code)->row('free_get_score');
+        $focusInfo = $this->db->where('user_id', $this->user_id)->where('code', $code)->row('focus_user');
         if ($focusInfo) {
-            die_json(array('error_code' => 2, 'error' => '已经关注'));
+            die_json(array('message' => '已经关注'));
         }
 
         // 启动事务
@@ -32,8 +32,7 @@ class CodeFocus extends Action {
             'user_id' => $this->user_id,
             'create_time' => date('Y-m-d H:i:s')
         );
-        logger('123=' . var_export($freeData , true));
-        $res = $this->db->insert("free_get_score", $freeData);
+        $res = $this->db->insert("focus_user", $freeData);
         if (FALSE === $res) {
              $this->db->trans_rollback(); // 回滚事务
             die_json(array('error_code' => 3, 'error' => '关注失败'));

@@ -10,19 +10,32 @@
             <th class="text-center">金币数</th>
             <th class="text-center">是否关注</th>
         </tr>
-        <?php foreach($dataList as $data){ ?>
+        <?php foreach($focusList as $data){ ?>
         <tr>
-            <td><?=$data['name']?></td>
+            <td>
+                <?php if(!empty($data['icon'])){?>
+                <img src="<?=$data['icon']?>" class="preview-image" style="width: 20px; height: 20px; border:1px solid #eee;"/>
+                <?php } else { ?>
+                <?=$data['name']?>
+                <?php } ?>
+            </td>
             <td><?=$data['score']?></td>
-            <td><?php if(!in_array($data['code'], $freeCodes)){?><a href="<?=site_url('code/focus')?>/<?=$data['code']?>" class="btn btn-link freeFocus">关注</a><?php } else {?>已关注<?php } ?></td>
+            <td>
+                <?php if(!in_array($data['code'], $freeCodes)){?>
+                <a url="<?=site_url('code/focus')?>/<?=$data['focus_id']?>" href="<?=$data['url']?>" class="btn btn-link freeFocus">关注</a>
+                <?php } else {?>
+                <a href="<?=$data['url']?>" class="btn btn-link freeFocus">已关注</a>
+                <?php } ?>
+            </td>
         </tr>
         <?php } ?>
     </table>
 </div>
 <script>
     $(".freeFocus").click(function(){
-        var obj = $(this);
-        var url = obj.attr('href');
+        var obj  = $(this);
+        var url  = obj.attr('url');
+        var href = obj.attr('href');
         $.ajax({
             type: 'POST',
             url: url ,
@@ -32,8 +45,12 @@
                     alert(res.error);
                     return false;
                 }
-                obj.parent().html("已关注");
-                alert("关注成功");
+//                alert(res.message);
+                if (!href) {
+                    obj.parent().html("已关注");
+                } else {
+                    window.location.href = href;
+                }                
                 
             } ,
             dataType: "json"
