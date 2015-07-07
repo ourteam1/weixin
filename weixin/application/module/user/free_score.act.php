@@ -19,19 +19,10 @@ class UserFree_score extends Action
 
     public function on_free_score()
     {
-        $rows = $this->db->where('user_id', $this->user_id)->result('free_get_score');
+        $date = date('Y-m-d H:i:s');
+        $favorables = $this->db->where('user_id', $this->user_id)->where('start_time', '<=', $date)->where('end_time', '>=', $date)->result('favorable');
 
-        //读取oracle中优惠券信息
-        if ($rows) {
-            foreach ($rows as $row) {
-                $codes[] = $row['code'];
-                //hdbh?
-                $url     = 'http://42.62.73.239:8080/CloudServer/wi.do?method=GetDiscountCode_DX&hdbh=' . $hdbh;
-                $yhq_row = $this->http->get($url);
-            }
-        }
-
-        $this->view->assign('rows', $rows);
+        $this->view->assign('favorables', $favorables);
         $this->view->display('user/free_score.html');
     }
 

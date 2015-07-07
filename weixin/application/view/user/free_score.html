@@ -1,36 +1,35 @@
-<style>
-   
-</style>
 <div class="app-page">
     <div class="app-topbar">
         <a href="javascript:history.back()">&lt;</a>
-        <h4>我的订单</h4>
+        <h4>我的优惠卷</h4>
     </div>
     <div class="app-content container-fluid">
-    	<?php if ($rows): ?>
-    	<table class="table table-condensed">
-    		<thead>
-    			<tr>
-    				<th>兑换码</th>
-    				<th>获取时间</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<?php foreach ($rows as $row): ?>
-    			<tr>
-    				<td><?=$row['code']?></td>
-    				<td><?=$row['create_time']?></td>
-    			</tr>
-    			<?php endforeach ?>
-    		</tbody>
-		</table>
+        <?php if ($favorables): ?>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>兑换码</th>
+                     <th>过期时间</th>
+                    <th>获取时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($favorables as $favorable): ?>
+                <tr>
+                    <td><?=$favorable['favorable_code']?></td>
+                     <td><?=$favorable['end_time']?></td>
+                    <td><?=$favorable['create_time']?></td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
         <?php else: ?>
-            <div class="alert alert-warning" role="alert">暂无您的优惠券信息</div>
+        <div class="alert alert-warning" role="alert">暂无您的优惠券信息</div>
         <?php endif ?>
     </div>
 </div>
 <script>
-	$(function(){
+    $(function() {
 
-	});
+    });
 </script>

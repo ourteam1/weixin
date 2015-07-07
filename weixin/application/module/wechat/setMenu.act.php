@@ -29,6 +29,7 @@ class WechatSetMenu extends Action {
                         array("type" => "view", "name" => "免费得金币", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/list"),
                     )),
                 array('name' => '花', "sub_button" => array(
+                        array("type" => "view", "name" => "优惠卷", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/favorable/index"),
                         array("type" => "view", "name" => "礼品专区", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/goods/index/1"),
                         array("type" => "view", "name" => "爆款专区", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/goods/index/2"),
                     )),

@@ -1,0 +1,62 @@
+<!-- 主窗体内容 -->
+<div class="body">
+    <!--    <ul class="nav nav-pills nav-justified nav-flat text-center">
+            <li  class="active pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
+            <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
+        </ul>-->
+    <div class="app-page">
+        <div class="app-topbar">             
+            <h4>优惠卷</h4>      
+        </div>
+        <div class="app-content container-fluid" style="padding-top: 38px">
+            <table class="table cart-list text-center">
+                <tr>
+                    <th class="text-center" >优惠卷</th>
+                    <th class="text-center" width="20%">金币数</th>
+                    <th class="text-center" width="20%">兑换</th>
+                </tr>
+                <?php foreach($favorables as $data){ ?>
+                <tr>
+                    <td>
+                        <?=$data['name']?>
+                    </td>
+                    <td><?=$data['score']?></td>
+                    <td>
+                        <?php if(!in_array($data['code'], $activiyNums)){?>
+                        <a url="<?=site_url('favorable/add')?>/<?=$data['code']?>" activity_name="<?=$data['name']?>" start_time='<?=$data[start_time]?>' end_time="<?=$data['end_time']?>" score="<?=$data['score']?>"  class="btn btn-link getFavorable">兑换</a>
+                        <?php } else {?>
+                        已兑换
+                        <?php } ?>
+                    </td>
+                </tr>
+                <?php } ?>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(".getFavorable").click(function() {
+        var obj  = $(this);
+        var url  = obj.attr('url');
+        var name = obj.attr("activity_name");
+        var start_time = obj.attr('start_time') || "1977-01-01";
+        var end_time = obj.attr('end_time') || "9999-12-31";
+        var score = obj.attr('score') || 0;
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {name:name,start_time:start_time,end_time:end_time, score:score},
+            success: function(res) {
+                if (res.error_code) {
+                    alert(res.error);
+                    return false;
+                }
+                obj.parent().html("已兑换");
+                alert(res.message);
+            },
+            dataType: "json"
+        });
+
+        return false;
+    });
+</script>
