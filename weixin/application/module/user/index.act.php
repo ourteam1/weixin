@@ -26,6 +26,11 @@ class UserIndex extends Action
         foreach ($user_row as $key => $value) {
             $this->view->assign($key, $value);
         }
+
+        $date = date('Y-m-d H:i:s');
+        $rows = $this->db->select('user_id')->where('user_id', $this->user_id)->where('start_time', '<=', $date)->where('end_time', '>=', $date)->result('favorable');
+        $this->view->assign('favorable_count', count($rows));
+
         $this->view->display('user/index.html');
     }
 

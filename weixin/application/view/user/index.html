@@ -1,52 +1,87 @@
 <style>
-	.setting{
+/*	.setting{
 	  position: absolute;
 	  right: 5px;
 	  top: 5px;
-	}
-    .user-info{
+	}*/
+    .app-content{
+        padding: 50px 10px;
     }
-    .panel{
+    .table{
+        margin:10px 0;
+    }
+    .user-right{
+        display:block;
+        height:64px;
+    }
+    img{
+        border-radius: 100%;
+    }
+    .red{
+        color:red;
+    }
+    .theme-color{
+        color:#428bca;
     }
 </style>
 <div class="app-page">
     <div class="app-topbar">
+        <a href="/index.php"><i class="glyphicon glyphicon-chevron-left"></i></a>
         <h4>会员中心</h4>
-        <button type="button" id="setting" class="setting btn btn-sm btn-danger" data-href="<?=site_url('user/setting')?>">设置</button>
+        <!-- <button type="button" id="setting" class="setting btn btn-sm btn-danger" data-href="<?=site_url('user/setting')?>">设置</button> -->
     </div>
     <div class="app-content container-fluid">
-    	<div class="user-info">
-            <?php if (!$headimgurl): ?>
-                <img src="/public/image/icon/dai_fu_kuan.png" width="50" style="float:left">
-            <?php else: ?>
-                <img src="<?=$headimgurl?>" width="50" style="float:left">
-            <?php endif ?>
-        	<div class="panel panel-default" style="  margin-left: 60px;">
-        		<div class="panel-body">
-                    <div>昵称： <?=$nickname?></div>
-                    <div>积分： <?=$score?> </div>
-                    <div class="">
+        
+                <div class="media">
+                  <div class="pull-left">
+                    <a href="javascript:;">
+                        <img src="<?=$headimgurl?>" class="media-object" width="64">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <a href="<?=site_url('user/bind_mobile')?>" class="user-right">
+                    <h4 class="media-heading theme-color"><?=$nickname?></h4>
                         <?php if ($mobile): ?>
-                            <a href="<?=site_url('user/bind_mobile')?>" class="btn btn-sm btn-danger">绑定手机</a>
+                            <span class="label label-primary"><i class="glyphicon glyphicon-phone"></i>手机号：<?=$mobile?></span>
                         <?php else: ?>
-                            <div class="title">手机号：<?=$mobile?></div>
-                        <?php endif ?>
+                            <span class="label label-danger">未注册</span>
+                        <?php endif ?>          
+                    </a>
                     </div>
-        		</div>
-        	</div>
+                </div>
+                <table class="table table-bordered text-center">
+                    <tr>
+                        <td width="50%">
+                        <div class="theme-color"><i class="glyphicon glyphicon-gift"></i>优惠券</div>
+                            <div class="red"><?=$favorable_count?></div>
+                        </td>
+                        <td>
+                        <div class="theme-color"><i class="glyphicon glyphicon-usd"></i>金币</div>
+                        <div class="red"><?=$amount?></div>
+                        </td>
+                    </tr>
+                </table>
+        <!-- <div class="pannel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-6 text-center">
+                        <div>10</div>
+                        <div><i class="glyphicon glyphicon-gift"></i>优惠券</div>
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        <div>10</div>
+                        <div><i class="glyphicon glyphicon-usd"></i>金币</div>                        
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        
+        <div class="list-group">
+          <a href="<?=site_url('user/order')?>" class="list-group-item">我的订单</a>
+          <a href="<?=site_url('user/free_score')?>" class="list-group-item">我的优惠券</a>
+          <a href="#" class="list-group-item">待收货</a>
+          <a href="#" class="list-group-item">待发货</a>
         </div>
-    	<div class="panel panel-default">
-    		<div class="panel-body">
-    			<div class="row">
-    				<div class="col-xs-12">
-	    				<a href="<?=site_url('user/order')?>">我的订单</a>
-    				</div>
-                    <div class="col-xs-12">
-                        <a href="<?=site_url('user/free_score')?>">我的优惠券</a>
-                    </div>
-    			</div>
-    		</div>
-    	</div>
     </div>
 </div>
 <script>
