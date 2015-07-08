@@ -13,7 +13,7 @@ class CodeGame extends Action {
         $this->wxauth();
     }
 
-    function on_game() {
+    function on_game($fold='') {
         $score = $_REQUEST['score'];
         if (!empty($score)) {
             $score = intval($score);
@@ -38,7 +38,7 @@ class CodeGame extends Action {
             die_json(array('message' => '恭喜您，成功赢取 ' . $score . "金币"));
         }
 
-        $this->view->display('code/game.html');
+        $this->view->display('code/' . $fold . '/index.html');
     }
 
     /**

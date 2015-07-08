@@ -1,0 +1,15 @@
+<!-- 主窗体内容 -->
+<div class="body" >
+    <ul class="nav nav-pills nav-justified nav-flat text-center">
+        <li  class="pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
+        <li class="active pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
+    </ul>
+    <table class="table">
+        <?php foreach($games as $game) {?>
+        <tr>
+            <th><?=$game[name]?></th>
+            <th><a href="<?=site_url('code/game')?>/<?=$game[fold]?>" class="btn btn-primary">开始游戏</a></th>
+        </tr>
+        <?php } ?>
+    </table>
+</div>
