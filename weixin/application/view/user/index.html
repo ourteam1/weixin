@@ -27,55 +27,41 @@
     </div>
     <div class="app-content container-fluid">
         
-                <div class="media">
-                  <div class="pull-left">
-                    <a href="javascript:;">
-                        <img src="<?=$headimgurl?>" class="media-object" width="64">
-                    </a>
-                  </div>
-                  <div class="media-body">
-                    <a href="<?=site_url('user/bind_mobile')?>" class="user-right">
-                    <h4 class="media-heading theme-color"><?=$nickname?></h4>
-                        <?php if ($mobile): ?>
-                            <span class="label label-primary"><i class="glyphicon glyphicon-phone"></i><?=$mobile?></span>
-                        <?php else: ?>
-                            <span class="label label-danger">未注册</span>
-                        <?php endif ?>          
-                    </a>
-                    </div>
-                </div>
-                <table class="table table-bordered text-center">
-                    <tr>
-                        <td width="50%">
-                        <div class="theme-color"><i class="glyphicon glyphicon-gift"></i>优惠券</div>
-                            <div class="red"><?=$favorable_count?></div>
-                        </td>
-                        <td>
-                        <div class="theme-color"><i class="glyphicon glyphicon-usd"></i>金币</div>
-                        <div class="red"><?=$amount?></div>
-                        </td>
-                    </tr>
-                </table>
-        <!-- <div class="pannel panel-default">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <div>10</div>
-                        <div><i class="glyphicon glyphicon-gift"></i>优惠券</div>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <div>10</div>
-                        <div><i class="glyphicon glyphicon-usd"></i>金币</div>                        
-                    </div>
-                </div>
+        <div class="media">
+          <div class="pull-left">
+            <a href="javascript:;">
+                <img src="<?=$headimgurl?>" class="media-object" width="64">
+            </a>
+          </div>
+          <div class="media-body">
+            <a href="<?=site_url('user/bind_mobile')?>" class="user-right">
+            <h4 class="media-heading theme-color"><?=$nickname?></h4>
+                <?php if ($mobile): ?>
+                    <span class="label label-primary"><i class="glyphicon glyphicon-phone"></i><?=$mobile?></span>
+                <?php else: ?>
+                    <span class="label label-danger">未注册</span>
+                <?php endif ?>          
+            </a>
             </div>
-        </div> -->
+        </div>
+        <table class="table table-bordered text-center">
+            <tr>
+                <td width="50%">
+                <div class="theme-color"><i class="glyphicon glyphicon-gift"></i>优惠券</div>
+                    <div class="red"><?=$favorable_count?></div>
+                </td>
+                <td>
+                <div class="theme-color"><i class="glyphicon glyphicon-usd"></i>金币</div>
+                <div class="red"><?=$amount?></div>
+                </td>
+            </tr>
+        </table>
         
         <div class="list-group">
           <a href="<?=site_url('user/order')?>" class="list-group-item">我的订单</a>
           <a href="<?=site_url('user/favorable')?>" class="list-group-item">我的优惠券</a>
-          <a href="#" class="list-group-item">待收货</a>
-          <a href="#" class="list-group-item">待发货</a>
+          <a href="<?=site_url('user/order')?>/4" class="list-group-item">待收货</a>
+          <a href="<?=site_url('user/order')?>/2" class="list-group-item">待发货</a>
         </div>
     </div>
 </div>

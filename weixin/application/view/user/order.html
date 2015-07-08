@@ -1,16 +1,52 @@
 <style>
+body{
+    background: #eee;
+}
 .app-content{
     padding: 50px 10px;
-}   
+    background: #eee;
+}
+.app-topbar{
+  background: #F6425E;
+  color:#fff;
+}
+/*page*/
+i{
+    color:#555;
+}
+i.glyphicon-chevron-left{
+    color:#fff;
+}
+li{
+    background:#fff;
+    padding:10px 10px;
+    margin-bottom:10px;
+}
+.media{
+    position:relative;
+}
+.order-number{
+    padding-bottom: 10px;
+    border-bottom:1px solid #eee;
+}
+.order-status{
+    position: absolute;
+    top:0;
+    right:0;
+}
+.order-datetime{
+    color:#888;
+    font-size:12px;
+}
 </style>
 <div class="app-page">
     <div class="app-topbar">
         <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        <h4>我的优惠券</h4>
+        <h4>我的订单</h4>
     </div>
     <div class="app-content container-fluid">
     	<?php if ($order_rows): ?>
-    	<table class="table table-condensed">
+<!--     	<table class="table table-condensed">
     		<thead>
     			<tr>
     				<th>订单编号</th>
@@ -28,7 +64,7 @@
     				<td><?php echo $row['is_pay']?'已支付':'未支付'?></td>
     				<?php switch($row['status']){
     					case '1': $status = '确认订单';break;
-    					case '2': $status = '出库发货';break;
+    					case '2': $status = '待发货';break;
     					case '3': $status = '已收货';break;
     					case '4': $status = '待收货';break;
     					default: $status = '信息有误';
@@ -38,7 +74,28 @@
     			</tr>
     			<?php endforeach ?>
     		</tbody>
-		</table>
+		</table> -->
+        <ul class="list-unstyled">
+            <?php foreach ($order_rows as $row): ?>
+            <li>
+                <a href="<?=site_url('user/order_detail')?>/<?=$row['order_sn']?>"><h4 class="order-number"><i class="glyphicon glyphicon-barcode"></i> 订单号：<?=$row['order_sn']?></h4></a>
+                <div class="media">
+                  <div class="pull-left">
+                    <a href="#">
+                      <img class="media-object" src="<?=$row['order_info'][0]['thumb_url']?>" data-holder-rendered="true" width="64">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading order-datetime">
+                    <i class="glyphicon glyphicon-time"></i>
+                    <?=$row['create_time']?></h4>
+                    <span class="">总价 ¥<?=$row['total_price']?></span>
+                  </div>
+                  <span class="order-status"><?=$row['status_text']?></span>
+                </div>                        
+            </li>
+            <?php endforeach ?>
+        </ul>
         <?php else: ?>
             <div class="alert alert-warning" role="alert">暂无您的订单信息</div>
         <?php endif ?>
