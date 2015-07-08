@@ -7,7 +7,11 @@ body{
     background: #eee;
 }
 .app-topbar{
-  background: #fff;
+  background: #F6425E;
+  color:#fff;
+}
+i.glyphicon-chevron-left{
+    color:#fff;
 }
 .ul-favorable li{
     position: relative;
@@ -15,6 +19,7 @@ body{
     background: #fff;
     border-radius: 5px;
     box-shadow: 1px 1px 1px #dadada;
+    margin-bottom:10px;
 } 
 .ul-favorable .favorable-detail{
     position: absolute;
@@ -37,9 +42,9 @@ body{
         <ul class="ul-favorable list-unstyled">
                 <?php foreach ($favorables as $favorable): ?>
             <li>
-                <h4>兑换码：<?=$favorable['favorable_code']?></h4>
+                <h4 class="text-overflow"><?=$favorable['activity_name']?></h4>
+                <div>兑换码：<?=$favorable['favorable_code']?></div>
                 <div>截止日期：<?=$favorable['end_time']?></div>
-                <div>如何使用：fafasd</div>
                 <a href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" class="btn btn-default favorable-detail"><i class="glyphicon glyphicon-info-sign"></i> 详情</a>
             </li>
                 <?php endforeach ?>
