@@ -70,13 +70,13 @@ class WechatIndex extends Action {
             'modify_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->where('user_id', $user['user_id'])->update('user', $data);          
-        $resStr = $res === false ? '扫描获取积分失败' : "扫码获取积分成功";
+        $resStr = $res === false ? '扫描获取金币失败' : "扫码获取金币成功";
         if ($res !== false ) {
             // 记录账户变动记录
             $data = array(
                 'user_id' => $user['user_id'],
                 'action' => 'user.score.add',
-                'action_name' => '增加积分' . $score . '元',
+                'action_name' => '增加金币' . $score . '元',
                 'amount' => $score,
                 'create_time' => date('Y-m-d H:i:s'),
             );

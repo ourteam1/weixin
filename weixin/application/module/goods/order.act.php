@@ -32,7 +32,7 @@ class GoodsOrder extends Action {
         // 计算总金额
         $order['amount'] = $this->_get_total_price($cart);
         
-        // 计算总积分
+        // 计算总金币
         $order['score'] = $this->_get_total_score($cart);
 
         // 检测支付方式
@@ -40,10 +40,10 @@ class GoodsOrder extends Action {
             $order['payment_model'] = $this->_chk_payment($userinfo, $order);
         }
         
-        // 积分兑换
+        // 金币兑换
         if ($order['score'] > 0 && !$order['amount']) {
             $this->is_pay = 1;
-            $order['payment_model'] = "积分支付";
+            $order['payment_model'] = "金币支付";
         }
         // 添加订单信息
         $order = $this->_add_order($order);
@@ -62,8 +62,8 @@ class GoodsOrder extends Action {
             $this->_balance_of_payments($userinfo, $order['amount']);
         }
         
-        // 积分支付
-        if ($order['payment_model'] = "积分支付") {
+        // 金币支付
+        if ($order['payment_model'] = "金币支付") {
             $this->_balance_of_score($userinfo, $order['score']);
         }
 
@@ -116,7 +116,7 @@ class GoodsOrder extends Action {
     }
     
      /**
-     * 获取总积分
+     * 获取总金币
      */
     function _get_total_score($cart) {
         $total_score = 0;
@@ -160,7 +160,7 @@ class GoodsOrder extends Action {
             'user_id' => $this->user_id,
             'order_sn' => $order_sn,
             'amount' => $order['amount'], // 总金额
-            'score' => $order['score'], // 积分
+            'score' => $order['score'], // 金币
 //			'invoice'		 => $order['invoice'], // 发票抬头
             'remark' => $order['remark'], // 订单备注
             'payment_model' => $order['payment_model'], // 支付方式
@@ -286,12 +286,12 @@ class GoodsOrder extends Action {
     }
     
      /**
-     * 积分支付
+     * 金币支付
      */
     function _balance_of_score($userinfo, $score) {
         if ($userinfo['score'] < $score) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10022, 'error' => '积分不足！'));
+            die_json(array('error_code' => 10022, 'error' => '金币不足！'));
         }
 
         // 扣除余额
@@ -302,21 +302,21 @@ class GoodsOrder extends Action {
         $res = $this->db->where('user_id', $this->user_id)->update('user', $data);
         if ($res === false) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10020, 'error' => '下单失败，积分支付失败！'));
+            die_json(array('error_code' => 10020, 'error' => '下单失败，金币支付失败！'));
         }
 
         // 如果是余额支付 - 记录账户变动记录
         $data = array(
             'user_id' => $this->user_id,
             'action' => 'user.score.lose',
-            'action_name' => '订单支付积分' . $score ,
+            'action_name' => '订单支付金币' . $score ,
             'amount' => $score,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->insert('user_account', $data);
         if ($res === false) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10021, 'error' => '下单失败，积分变动记录失败！'));
+            die_json(array('error_code' => 10021, 'error' => '下单失败，金币变动记录失败！'));
         }
 
         return true;

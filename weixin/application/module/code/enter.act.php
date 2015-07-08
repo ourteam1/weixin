@@ -21,10 +21,10 @@ class CodeEnter extends Action {
                 $userinfo = $this->db->where('user_id', $this->user_id)->row('user');
                 $resAddScore = $this->addScore($userinfo);
                 if (FALSE === $resAddScore) {
-                    $errmsg = "添加积分失败";
-                    logger("添加积分失败, userinfo=" . var_export($userinfo, true) . ", code=[" . $code . "]");
+                    $errmsg = "添加金币失败";
+                    logger("添加金币失败, userinfo=" . var_export($userinfo, true) . ", code=[" . $code . "]");
                 } else {
-                    $successmsg = "积分兑换成功";
+                    $successmsg = "金币兑换成功";
                 }
             }
         }
@@ -61,7 +61,7 @@ class CodeEnter extends Action {
             $data = array(
                 'user_id' => $user['user_id'],
                 'action' => 'user.score.add',
-                'action_name' => '增加积分' . $score,
+                'action_name' => '增加金币' . $score,
                 'amount' => $score,
                 'create_time' => date('Y-m-d H:i:s'),
             );

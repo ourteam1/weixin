@@ -29,7 +29,7 @@ class CodeGame extends Action {
 
             $userinfo['score'] += $score;
 
-            // 修改用户积分
+            // 修改用户金币
             $this->_update_user_score($userinfo, $score);
 
             // 提交事务
@@ -54,10 +54,10 @@ class CodeGame extends Action {
     }
     
     /**
-     * 修改积分
+     * 修改金币
      */
     function _update_user_score($userinfo, $score) {
-        // 修改积分
+        // 修改金币
         $data = array(
             'score' => $userinfo['score'],
             'modify_time' => date('Y-m-d H:i:s'),
@@ -65,21 +65,21 @@ class CodeGame extends Action {
         $res = $this->db->where('user_id', $this->user_id)->update('user', $data);
         if ($res === false) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10020, 'error' => '获取积分失败！'));
+            die_json(array('error_code' => 10020, 'error' => '获取金币失败！'));
         }
 
         // 如果是余额支付 - 记录账户变动记录
         $data = array(
             'user_id' => $this->user_id,
             'action' => 'user.score.add',
-            'action_name' => '增加积分' . $score,
+            'action_name' => '增加金币' . $score,
             'amount' => $score,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->insert('user_account', $data);
         if ($res === false) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10021, 'error' => '游戏积分记录失败！'));
+            die_json(array('error_code' => 10021, 'error' => '游戏金币记录失败！'));
         }
 
         return true;

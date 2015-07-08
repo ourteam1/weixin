@@ -30,7 +30,7 @@ GoodsApp.total_cart_goods_price = function() {
 }
 
 /**
- * 定义购物车中的商品总积分
+ * 定义购物车中的商品总金币
  */
 GoodsApp.total_cart_goods_score = function() {
     var total_score = 0;
@@ -147,7 +147,7 @@ GoodsApp.GoodsDetail = (function() {
  * 定义购物车页面
  */
 GoodsApp.Cart = (function() {
-    // 初始化总数、总价格、总积分
+    // 初始化总数、总价格、总金币
     var init_total_num_price = function() {
         $('.app-content .total-num').text(GoodsApp.total_cart_goods_num());
         $('.app-content .total-price').text(GoodsApp.total_cart_goods_price());
@@ -212,7 +212,7 @@ GoodsApp.Cart = (function() {
             $('.btn-submit-cart').on('click', function() {
                 var btn = $(this);
                 if (user_data.score < GoodsApp.total_cart_goods_score()) {
-                    GoodsApp.Dialog.show('提示', "积分不足，无法兑换");
+                    GoodsApp.Dialog.show('提示', "金币不足，无法兑换");
                     return false;
                 }                
                 btn.button('loading');

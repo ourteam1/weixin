@@ -30,7 +30,7 @@ class FavorableAdd extends Action {
         // 记录优惠卷信息
         $resFavorable = $this->_add_favorable($activity);
 
-        // 扣减用户积分
+        // 扣减用户金币
         $resUser = $this->_minus_user_score($activity['activity_score']);
 
         // 扣减日志
@@ -49,14 +49,14 @@ class FavorableAdd extends Action {
         $data = array(
             'user_id' => $this->user_id,
             'action' => 'user.score.lose',
-            'action_name' => '减少积分' . $score,
+            'action_name' => '减少金币' . $score,
             'amount' => $score,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $resUserAccount = $this->db->insert('user_account', $data);
         if (FALSE === $resUserAccount) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10038, 'error' => '用户积分更新记录失败！'));
+            die_json(array('error_code' => 10038, 'error' => '用户金币更新记录失败！'));
         }
         
         return $resUserAccount;
