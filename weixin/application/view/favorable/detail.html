@@ -33,25 +33,3 @@
         </div>
     </div>
 </div>
-<script>
-    $(".getFavorable").click(function() {
-        var obj = $(this);
-        var url = obj.attr('url');
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: {},
-            success: function(res) {
-                if (res.error_code) {
-                    alert(res.error);
-                    return false;
-                }
-                obj.parent().html('<button class="btn btn-primary btn-block btn-sm" disabled>已兑换<span class="badge"></span></button>');
-                alert(res.message);
-            },
-            dataType: "json"
-        });
-
-        return false;
-    });
-</script>
