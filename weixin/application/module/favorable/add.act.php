@@ -18,32 +18,24 @@ class FavorableAdd extends Action {
             die_json(array('error_code' => 10031, 'error' => '活动编码错误'));
         }
 
-        $name = trim($_REQUEST['name']);
-        $start_time = !empty($_REQUEST['start_time']) ? $_REQUEST['start_time'] : "1977-01-01";
-        $end_time = !empty($_REQUEST['end_time']) ? $_REQUEST['end_time'] : "9999-12-31";
-        $score = isset($_REQUEST['score']) ? $_REQUEST['score'] : 0;
-
         // 启动事务
-        $this->db->trans_start();
-
+        $this->db->trans_start();                
+        
+        // 活动是否存在
+        $activity = $this->_check_activity($code);
+        
         // 验证是否已经领过优惠卷
-        $this->_check_favorable($code);
+        $favorable = $this->_check_favorable($code);
 
         // 记录优惠卷信息
-        $favorableData = array(
-            'activity_num' => $code,
-            'activity_name' => $name,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
-        );
-        $resFavorable = $this->_add_favorable($favorableData);
+        $resFavorable = $this->_add_favorable($activity);
 
         // 扣减用户积分
-        $resUser = $this->_minus_user_score($score);
+        $resUser = $this->_minus_user_score($activity['activity_score']);
 
         // 扣减日志
         if ($resUser) {
-            $this->_add_user_account();
+            $this->_add_user_account($activity['activity_score']);
         }
         
         // 提交事务
@@ -56,8 +48,8 @@ class FavorableAdd extends Action {
     private function _add_user_account($score) {
         $data = array(
             'user_id' => $this->user_id,
-            'action' => 'user.score.add',
-            'action_name' => '增加积分' . $score,
+            'action' => 'user.score.lose',
+            'action_name' => '减少积分' . $score,
             'amount' => $score,
             'create_time' => date('Y-m-d H:i:s'),
         );
@@ -94,36 +86,50 @@ class FavorableAdd extends Action {
         return $res;
     }
 
-    private function _add_favorable($favorableData) {
-        $url = "http://42.62.73.239:8080/CloudServer/wi.do?method=GetDiscountCode_DX&hdbh=" . $favorableData['activity_num'];
+    private function _add_favorable($activity) {
+        var_dump($activity);
+        $url = "http://42.62.73.239:8080/CloudServer/wi.do?method=GetDiscountCode_DX&hdbh=" . $activity['activity_code'];
         $favorableCode = @file_get_contents($url);
 
         if (empty($favorableCode)) {
             $this->db->trans_rollback(); // 回滚事务
             die_json(array('error_code' => 10033, 'error' => '领取优惠卷失败！'));
         }
-
-        $favorableData['user_id'] = $this->user_id;
-        $favorableData['favorable_code'] = $favorableCode;
-        $favorableData['create_time'] = date('Y-m-d H:i:s');
+        
+        $favorableData = array(
+            'user_id' => $this->user_id,
+            'activity_code' => $activity['activity_code'],
+            'favorable_code' => $favorableCode,
+            'create_time' => date('Y-m-d H:i:s'),
+        );
 
         $res = $this->db->insert('favorable', $favorableData);
         if ($res === false) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10034, 'error' => '领取优惠卷失败！'));
+            die_json(array('error_code' => 10034, 'error' => '领取优惠卷失败22！'));
         }
         $favorableData['favorable_id'] = $this->db->last_insert_id();
         return $favorableData;
     }
 
+    private function _check_activity($code) {
+        $activityInfo = $this->db->where('activity_code', $code)->row('activity');
+        if (empty($activityInfo)) {
+            $this->db->trans_rollback(); // 回滚事务
+            die_json(array('error_code' => 10032, 'error' => '优惠活动不存在！'));
+        }
+        
+        return $activityInfo;
+    }
+    
     private function _check_favorable($code) {
-        $favorableInfo = $this->db->where('user_id', $this->user_id)->where('activity_num', $code)->row('favorable');
+        $favorableInfo = $this->db->where('user_id', $this->user_id)->where('activity_code', $code)->row('activity');
         if ($favorableInfo) {
             $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10032, 'error' => '已经领取过优惠卷了！'));
+            die_json(array('error_code' => 10039, 'error' => '优惠卷已经领取过了！'));
         }
-
-        return true;
+        
+        return $favorableInfo;
     }
 
 }

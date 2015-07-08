@@ -8,50 +8,52 @@
         <div class="app-topbar">             
             <h4>优惠卷</h4>      
         </div>
-        <div class="app-content container-fluid" style="padding-top: 38px">
-            <table class="table cart-list text-center">
-                <tr>
-                    <th class="text-center" >优惠卷</th>
-                    <th class="text-center" width="20%">金币数</th>
-                    <th class="text-center" width="20%">兑换</th>
-                </tr>
-                <?php foreach($favorables as $data){ ?>
-                <tr>
-                    <td>
-                        <?=$data['name']?>
-                    </td>
-                    <td><?=$data['score']?></td>
-                    <td>
-                        <?php if(!in_array($data['code'], $activiyNums)){?>
-                        <a url="<?=site_url('favorable/add')?>/<?=$data['code']?>" activity_name="<?=$data['name']?>" start_time='<?=$data[start_time]?>' end_time="<?=$data['end_time']?>" score="<?=$data['score']?>"  class="btn btn-link getFavorable">兑换</a>
-                        <?php } else {?>
-                        已兑换
-                        <?php } ?>
-                    </td>
-                </tr>
-                <?php } ?>
-            </table>
+        <div class="app-content container-fluid" style='padding-top: 60px;'>
+            <div class="tab-pane active">
+                <div class="row">
+                    <?php foreach($favorables as $favorable){ ?>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
+                        <div class="thumbnail">             
+                            <a href="javascript:void(0)">
+                                <img src="<?=$favorable['activity_img']?>" class="lazy">
+                                <h4><?=$favorable[activity_name]?></h4>
+                                <p>兑换积分：<?=$favorable[activity_score]?></p>
+                                <p>有效期：<?=$favorable[end_time]?></p>
+                            </a> 
+                            <p>
+                                <?php if(empty($favorable['favorable_code'])){?>
+                                
+                                <button class="btn btn-primary btn-block btn-sm getFavorable" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>" >                    
+                                兑换<span class="badge"></span>
+                                </button>
+                                <?php } else { ?>
+                                <button class="btn btn-primary btn-block btn-sm" disabled>                    
+                                已兑换<span class="badge"></span>
+                                </button>
+                                <?php } ?>
+                            </p>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+            </div>            
         </div>
     </div>
 </div>
 <script>
     $(".getFavorable").click(function() {
-        var obj  = $(this);
-        var url  = obj.attr('url');
-        var name = obj.attr("activity_name");
-        var start_time = obj.attr('start_time') || "1977-01-01";
-        var end_time = obj.attr('end_time') || "9999-12-31";
-        var score = obj.attr('score') || 0;
+        var obj = $(this);
+        var url = obj.attr('url');
         $.ajax({
             type: 'POST',
             url: url,
-            data: {name:name,start_time:start_time,end_time:end_time, score:score},
+            data: {},
             success: function(res) {
                 if (res.error_code) {
                     alert(res.error);
                     return false;
                 }
-                obj.parent().html("已兑换");
+                obj.parent().html('<button class="btn btn-primary btn-block btn-sm" disabled>已兑换<span class="badge"></span></button>');
                 alert(res.message);
             },
             dataType: "json"
