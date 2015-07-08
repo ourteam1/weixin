@@ -1,101 +1,102 @@
 html,body,.body {width:100%; height:100%; position:relative;}
 .pre-loading {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 99;
-	background: #333 url(../image/loading.gif) no-repeat center center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    background: #333 url(../image/loading.gif) no-repeat center center;
 }
 .app-page {
-	width: 100%;
-	text-align: center;
-	position: relative;
+    width: 100%;
+    text-align: center;
+    position: relative;
 }
 .app-topbar {
-	width: 100%;
-	padding: 10px 20px;
-	line-height: 30px;
-	vertical-align: middle;
-	border-bottom: 1px solid #eee;
-	background: #f9f9f9;
-	position: fixed;
-	z-index: 99;
-	left: 0;
-	top: 0;
+    width: 100%;
+    padding: 10px 20px;
+    line-height: 30px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+    background: #f9f9f9;
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    top: 0;
 }
 .app-content {
-	width: 100%;
-	padding-top: 80px;
-	padding-bottom: 70px;
-	text-align: left;
-	background-color: #fff;
+    width: 100%;
+    padding-top: 80px;
+    padding-bottom: 70px;
+    text-align: left;
+    background-color: #fff;
 }
 .app-footbar {
-	width: 100%;
-	padding: 10px 0;
-	border-top: 1px solid #ddd;
-	background: #f9f9f9;
-	position: fixed;
-	z-index: 99;
-	left: 0;
-	bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    background: #f9f9f9;
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    bottom: 0;
 }
 
 .app-topbar .nav li {
-	line-height: 10px;
-	float: none;
-	display: inline-block;
+    line-height: 10px;
+    float: none;
+    display: inline-block;
 }
 .app-topbar > a {
-	margin: 0;
-	position: absolute;
-	left: 0;
-	top: 0;
-	height: 40px;
-	width: 60px;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 40px;
+    width: 60px;
 }
 .app-topbar > a > .glyphicon {
-	top: 6px;
+    top: 6px;
 }
 .app-topbar > h4 {
-	margin: 0;
+    margin: 0;
 }
 
 .btn:active, .btn.active {
-	-webkit-box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 .thumbnail {
 
 }
 .thumbnail > a {
-	display: block;
-	height: 100px;
-	text-decoration: none;
-	color: #333;
-	overflow: hidden;
+    display: block;
+    height: 100px;
+    text-decoration: none;
+    color: #333;
+    overflow: hidden;
 }
 .thumbnail img {
-	width: 100px;
-	height: 100px;
-	float: left;
-	padding-right: 10px;
+    width: 100px;
+    height: 100px;
+    float: left;
+    padding-right: 10px;
 }
 .thumbnail h4 {
-	margin: 0;
-	padding: 0;
-	line-height: 24px;
+    margin: 0;
+    padding: 0;
+    line-height: 24px;
 }
 .thumbnail p {
-	margin: 0;
-	padding: 0;
-	line-height: 22px;
+    margin: 0;
+    padding: 0;
+    line-height: 22px;
 }
 
 /*详情页*/
 .goods-detail img{width:100%;}
+
 /*免费得金币*/
 .body>.nav-flat>li+li{margin-left: 0px;}
 .nav-flat>li>a { border-radius: 0px;}

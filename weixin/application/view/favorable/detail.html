@@ -5,35 +5,29 @@
             <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
         </ul>-->
     <div class="app-page">
-        <div class="app-topbar">             
-            <h4>优惠卷</h4>      
+        
+        <div class="app-topbar">  
+             <a href="javascript:history.go(-1);" class="pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a>     
+            <h4><?=$favorable[activity_name]?></h4>      
         </div>
         <div class="app-content container-fluid" style='padding-top: 60px;'>
             <div class="tab-pane active">
                 <div class="row">
-                    <?php foreach($favorables as $favorable){ ?>
+                   
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
-                        <div class="thumbnail">             
-                            <a href="<?=site_url('favorable/detail')?>/<?=$favorable['activity_code']?>">
+                        <div class="thumbnail" style="border: 0px;">             
+                            <a href="javascript:void(0)">
                                 <img src="<?=$favorable['activity_img']?>" class="lazy">
                                 <h4 style="overflow: hidden;height: 24px;"><?=$favorable[activity_name]?></h4>
                                 <p>兑换积分：<?=$favorable[activity_score]?></p>
                                 <p>有效期：<?=$favorable[end_time]?></p>
                             </a> 
                             <p>
-                                <?php if(empty($favorable['favorable_code'])){?>                                
-                                <button class="btn btn-primary btn-block btn-sm getFavorable" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>" >                    
-                                兑换<span class="badge"></span>
-                                </button>
-                                <?php } else { ?>
-                                <button class="btn btn-primary btn-block btn-sm" disabled>                    
-                                已兑换<span class="badge"></span>
-                                </button>
-                                <?php } ?>
+                                使用方法：<br>
+                                <?=$favorable[detail]?>
                             </p>
                         </div>
                     </div>
-                    <?php } ?>
                 </div>
             </div>            
         </div>
