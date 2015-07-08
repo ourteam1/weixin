@@ -6,9 +6,9 @@ if (!defined('IN_MSAPP')) {
 
 /**
  * 设置
- * http://host/weixin/test.php/user/free_score_detail
+ * http://host/weixin/test.php/user/favorable_detail
  */
-class UserFree_score_detail extends Action
+class UserFavorable_detail extends Action
 {
 
     public function __construct()
@@ -17,7 +17,7 @@ class UserFree_score_detail extends Action
         $this->wxauth();
     }
 
-    public function on_free_score_detail()
+    public function on_favorable_detail()
     {
         $favorable_id = get_post('id');
         if (!$favorable_id) {
@@ -29,7 +29,7 @@ class UserFree_score_detail extends Action
         foreach ($favorable as $key => $value) {
             $this->view->assign($key, $value);
         }
-        $this->view->display('user/free_score_detail.html');
+        $this->view->display('user/favorable_detail.html');
     }
 
 }

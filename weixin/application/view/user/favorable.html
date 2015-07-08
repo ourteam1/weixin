@@ -40,7 +40,7 @@ body{
                 <h4>兑换码：<?=$favorable['favorable_code']?></h4>
                 <div>截止日期：<?=$favorable['end_time']?></div>
                 <div>如何使用：fafasd</div>
-                <a href="<?=site_url('user/free_score_detail')?>?id=<?=$favorable['favorable_id']?>" class="btn btn-default favorable-detail"><i class="glyphicon glyphicon-info-sign"></i> 详情</a>
+                <a href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" class="btn btn-default favorable-detail"><i class="glyphicon glyphicon-info-sign"></i> 详情</a>
             </li>
                 <?php endforeach ?>
         </ul>

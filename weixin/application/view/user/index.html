@@ -1,9 +1,4 @@
 <style>
-/*	.setting{
-	  position: absolute;
-	  right: 5px;
-	  top: 5px;
-	}*/
     .app-content{
         padding: 50px 10px;
     }
@@ -42,7 +37,7 @@
                     <a href="<?=site_url('user/bind_mobile')?>" class="user-right">
                     <h4 class="media-heading theme-color"><?=$nickname?></h4>
                         <?php if ($mobile): ?>
-                            <span class="label label-primary"><i class="glyphicon glyphicon-phone"></i>手机号：<?=$mobile?></span>
+                            <span class="label label-primary"><i class="glyphicon glyphicon-phone"></i><?=$mobile?></span>
                         <?php else: ?>
                             <span class="label label-danger">未注册</span>
                         <?php endif ?>          
@@ -78,7 +73,7 @@
         
         <div class="list-group">
           <a href="<?=site_url('user/order')?>" class="list-group-item">我的订单</a>
-          <a href="<?=site_url('user/free_score')?>" class="list-group-item">我的优惠券</a>
+          <a href="<?=site_url('user/favorable')?>" class="list-group-item">我的优惠券</a>
           <a href="#" class="list-group-item">待收货</a>
           <a href="#" class="list-group-item">待发货</a>
         </div>
