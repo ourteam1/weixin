@@ -98,5 +98,27 @@ html,body,.body {width:100%; height:100%; position:relative;background: #e7e8eb;
 .goods-detail img{width:100%;}
 
 /*免费得金币*/
+.body{
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #dadada;
+    padding: 5px 10px 0;
+}
+.table{
+    margin-bottom:0;
+}
 .body>.nav-flat>li+li{margin-left: 0px;}
 .nav-flat>li>a { border-radius: 0px;}
+
+/*会员中心*/
+.app-content{
+    padding: 50px 10px;
+    background: #e7e8eb;
+}
+.app-topbar{
+  background: #F6425E;
+  color:#fff;
+}
+i.glyphicon-chevron-left{
+    color:#fff;
+}

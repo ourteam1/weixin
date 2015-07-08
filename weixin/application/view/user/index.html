@@ -1,13 +1,6 @@
 <style>
-    .app-content{
-        padding: 50px 10px;
-    }
-    .app-topbar{
-      background: #F6425E;
-      color:#fff;
-    }
-    i.glyphicon-chevron-left{
-        color:#fff;
+    body,.app-content{
+        background: #fff;
     }
     .table{
         margin:10px 0;
@@ -54,21 +47,21 @@
         <table class="table table-bordered text-center">
             <tr>
                 <td width="50%">
-                <div class="theme-color"><i class="glyphicon glyphicon-gift"></i>优惠券</div>
+                <div class=""><i class="glyphicon glyphicon-gift"></i>优惠券</div>
                     <div class="red"><?=$favorable_count?></div>
                 </td>
                 <td>
-                <div class="theme-color"><i class="glyphicon glyphicon-usd"></i>金币</div>
+                <div class=""><i class="glyphicon glyphicon-usd"></i>金币</div>
                 <div class="red"><?=$amount?></div>
                 </td>
             </tr>
         </table>
         
         <div class="list-group">
-          <a href="<?=site_url('user/order')?>" class="list-group-item">我的订单</a>
-          <a href="<?=site_url('user/favorable')?>" class="list-group-item">我的优惠券</a>
-          <a href="<?=site_url('user/order')?>/4" class="list-group-item">待收货</a>
-          <a href="<?=site_url('user/order')?>/2" class="list-group-item">待发货</a>
+          <a href="<?=site_url('user/order')?>" class="list-group-item">我的订单<i class="theme-color pull-right glyphicon glyphicon-chevron-right"></i></a>
+          <a href="<?=site_url('user/favorable')?>" class="list-group-item">我的优惠券<i class="theme-color pull-right glyphicon glyphicon-chevron-right"></i></a>
+          <a href="<?=site_url('user/order')?>/4" class="list-group-item">待收货<i class="theme-color pull-right glyphicon glyphicon-chevron-right"></i></a>
+          <a href="<?=site_url('user/order')?>/2" class="list-group-item">待发货<i class="theme-color pull-right glyphicon glyphicon-chevron-right"></i></a>
         </div>
     </div>
 </div>
