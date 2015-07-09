@@ -13,10 +13,7 @@ class GoodsIndex extends Action {
         $this->wxauth();
     }
 
-    function on_index($category_id=0) {
-        if ($category_id) {
-            $this->view->assign('category_id', $category_id);
-        }
+    function on_index($category_id=1) {
         
         // 商品分类信息
         $category = $this->db->where('status', 1)->order_by('location', 'asc')->result('category');
@@ -57,7 +54,8 @@ class GoodsIndex extends Action {
             'sex' => isset($userinfo['sex']) ? $userinfo['sex'] : '',
         );
         $this->view->assign('user', json_encode($user));
-
+        $this->view->assign('category_id', $category_id);
+        
         $this->view->display('goods/goods_index.html');
     }
 

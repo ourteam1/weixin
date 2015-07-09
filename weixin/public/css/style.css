@@ -119,6 +119,9 @@ html,body,.body {width:100%; height:100%; position:relative;background: #e7e8eb;
   background: #F6425E;
   color:#fff;
 }
+.app-topbar a{  
+  color:#fff;
+}
 i.glyphicon-chevron-left{
     color:#fff;
 }

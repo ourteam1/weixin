@@ -77,7 +77,7 @@ class FavorableAdd extends Action {
             'score' => $userinfo['score'] - $score,
             'modify_time' => date('Y-m-d H:i:s'),
         );
-        $res = $this->db->where('user_id', $user['user_id'])->update('user', $data);
+        $res = $this->db->where('user_id', $this->user_id)->update('user', $data);
         if (FALSE === $res) {
             $this->db->trans_rollback(); // 回滚事务
             die_json(array('error_code' => 10037, 'error' => '用户扣除金币失败！'));
