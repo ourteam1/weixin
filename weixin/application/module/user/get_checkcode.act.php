@@ -24,7 +24,7 @@ class UserGet_checkcode extends Action
             die_json(array('error' => '手机号格式不正确'));
         }
 
-        session_start();
+        // session_start();
         if (isset($_SESSION['checkcode'])) {
             $got_checkcode               = $_SESSION['checkcode'];
             list($checkcode, $timestamp) = explode('_', $got_checkcode);
