@@ -10,23 +10,24 @@
         <h4>绑定手机</h4>
     </div>
     <div class="app-content container-fluid">
-        <form class="form-horizontal">
+        <form class="form-horizontal" method="post">
           <div class="form-group">
             <div class="col-xs-12">
-              <input type="text" class="form-control" id="card-number" name="card_number" placeholder="请输入手机号码" required data-required-msg="请填写该项">
+              <input type="text" class="form-control" id="card-number" name="mobile" placeholder="请输入手机号码" required data-required-msg="请填写手机号码">
             </div>
           </div>
           <div class="form-group">
             <div class="col-xs-7">
-              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="请输入验证码" required data-required-msg="请填写该项">
+              <input type="text" class="form-control" id="checkcode" name="checkcode" placeholder="请输入验证码" required data-required-msg="请填写验证码">
             </div>
             <div class="col-xs-4">
-              <button class="btn btn-primary">获取验证码</button>
+              <button class="btn btn-primary" id="get_checkcode">获取验证码</button>
+              <span class="d-remain-time"></span>
             </div>
           </div>   
           <div class="form-group">
             <div class="col-xs-12">
-              <button type="submit" class="btn btn-danger col-xs-12">绑定手机</button>
+              <button type="submit" name="submit" value="" class="btn btn-danger col-xs-12">绑定手机</button>
             </div>
           </div>
         </form>
@@ -34,6 +35,46 @@
 </div>
 <script src="/public/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
+var isgeted = false;
+var time = 60;
+var inter;
 	$(function(){
+    $("#get_checkcode").click(function(){
+      var mobile = $('[name="mobile"]').val();
+      pattern = /^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|18[0-9]{9}$/;
+      if(!mobile || !pattern.test(mobile)){
+        alert('手机号码格式不正确');
+        return false;
+      }
+      url = '<?=site_url("user/get_checkcode")?>/'+mobile;
+      $.get(url,function(result){
+        if(typeof result.error != 'undefined'){
+          isgeted = true;
+          alert(result.error);
+        }else{
+          alert(result.success);
+
+          inter = setTimeout(function(){
+            remainTime(time);
+          },1000);
+          
+        }
+      },'json');
+    });
+    
+    var remainTime = function(time){
+      $(".d-remain-time").html('('+time+')');
+      if(time > 0){
+        time--;
+      }else{
+        $(".d-remain-time").html('');
+        clearTimeout(inter);
+        return false;
+      }
+      
+      inter = setTimeout(function(){
+        remainTime(time);
+      },1000);
+    }
 	});
 </script>

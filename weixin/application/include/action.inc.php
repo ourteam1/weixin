@@ -138,15 +138,27 @@ class Action extends App
         return true;
     }
 
-    public function error_message($error_message)
+    public function error_message($error_message, $location = '')
     {
-        echo "<script>alert('$error_message');history.go(-1)</script>";
+        header('Content-type:text/html;chartset=utf-8');
+        if (!$location) {
+            $location = 'history.go(-1)';
+        } else {
+            $location = 'location.href="' . site_url($location) . '"';
+        }
+        echo "<script>alert('$error_message');$location</script>";
         die;
     }
 
-    public function success_message($success_message)
+    public function success_message($success_message, $location = '')
     {
-        echo "<script>alert('$success_message');history.go(-1)</script>";
+        header('Content-type:text/html;chartset=utf-8');
+        if (!$location) {
+            $location = 'history.go(-1)';
+        } else {
+            $location = 'location.href="' . site_url($location) . '"';
+        }
+        echo "<script>alert('$success_message');$location</script>";
         die;
     }
 }

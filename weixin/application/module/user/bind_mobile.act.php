@@ -19,7 +19,7 @@ class UserBind_mobile extends Action
 
     public function on_bind_mobile()
     {
-        if (isset($_POST['submit'])) {
+        if (isset($_REQUEST['submit'])) {
             $mobile    = get_post('mobile');
             $checkcode = get_post('checkcode');
 
@@ -28,28 +28,45 @@ class UserBind_mobile extends Action
                 $this->error_message('缺少参数!');
             }
 
-            if (!$this->check_checkcode($mobile, $checkcode)) {
-                $this->error_message('验证码不正确，请重试!');
+            $check_result = $this->check_checkcode($mobile, $checkcode);
+            if (isset($check_result['error'])) {
+                $this->error_message($check_result['error']);
             }
 
             //绑定手机号码
             $result = $this->db->where('user_id', $this->user_id)->update('user', array('mobile' => $mobile));
             if ($result === false) {
-                $this->error_message('绑定手机号码');
+                $this->error_message('绑定手机号码失败');
             }
 
-            $this->success_message('绑定成功');
+            $this->success_message('绑定成功', 'user/index');
             return true;
         }
         $this->view->display('user/bind_mobile.html');
     }
 
-    public function check_checkcode($mobile, $checkcode)
+    public function check_checkcode($mobile, $user_checkcode)
     {
-        if ($_SESSION['checkcode'] == $checkcode) {
+        $checkcode = $_SESSION['checkcode'];
+        if (empty($checkcode)) {
+            return array('error' => '请获取验证码');
+        }
+
+        list($checkcode, $timestamp) = explode('_', $checkcode);
+
+        //检查超时 5分钟
+        $now      = time();
+        $overtime = 5 * 60;
+        if ($now - $timestamp > $overtime) {
+            return array('error' => '验证码已超时，请重新获取');
+        }
+
+        if ($checkcode == $user_checkcode) {
+            unset($_SESSION['checkcode']);
             return true;
         } else {
-            return false;
+            return array('error' => '验证码不正确');
         }
+
     }
 }

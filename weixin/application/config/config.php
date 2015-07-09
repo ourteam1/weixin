@@ -1,5 +1,7 @@
 <?php
-if (!defined('IN_MSAPP')) exit('Access Deny!');
+if (!defined('IN_MSAPP')) {
+    exit('Access Deny!');
+}
 
 define('WX_TOKEN', 'wx_wanzhuanhua');
 define('WX_APPID', 'wx22790e761be32dcc');
@@ -16,3 +18,11 @@ define('MEMCACHE_PORT', '11211');
 
 // 图片显示地址
 define('IMAGED', 'http://115.28.80.161/wutong/wzh/upload/data/');
+
+//短信配置
+define('ACCOUNTSID', 'aaf98f89485af69701485badfd69002d');
+define('ACCOUNTTOKEN', '640b4cf833e44def91289a1e4591a637');
+define('APPID', 'aaf98f89485af69701485bae817f002f');
+define('SERVERIP', 'sandboxapp.cloopen.com');
+define('SERVERPORT', '8883');
+define('SOFTVERSION', '2013-12-26');
