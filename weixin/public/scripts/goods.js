@@ -89,6 +89,7 @@ GoodsApp.Goods = (function() {
             this.init();
 
             // 显示第一个分类
+            tabid =  !category_id_active ? "#tab1" : "#tab" + category_id_active;
             tabid = tabid || (window.location.hash != '' ? window.location.hash : '#tab1');
             $('.app-topbar .nav a[href="' + tabid + '"]').tab('show');
 

@@ -13,7 +13,11 @@ class GoodsIndex extends Action {
         $this->wxauth();
     }
 
-    function on_index() {
+    function on_index($category_id=0) {
+        if ($category_id) {
+            $this->view->assign('category_id', $category_id);
+        }
+        
         // 商品分类信息
         $category = $this->db->where('status', 1)->order_by('location', 'asc')->result('category');
         $this->view->assign('category', json_encode($category));
