@@ -16,12 +16,12 @@
                 <?php foreach($focusList as $focus){ ?>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
                     <div class="thumbnail" style="height: 100px;">             
-                        <a href="javascript:void(0)" class="col-xs-10 col-sm-10">
+                        <a href="javascript:void(0)" class="col-xs-9 col-sm-9">
                             <img src="<?=$focus['icon']?>" class="lazy">
                             <h4><?=$focus[name]?></h4>   
-                            <!--<p>金币：<?=$focus['score']?></p>-->
+                            <p>金币：<?=$focus['score'] || 10?></p>
                         </a> 
-                        <p class="col-xs-2 col-sm-2">
+                        <p class="col-xs-3 col-sm-3" style="padding-top: 25px;">
                             <?php if(!in_array($focus['code'], $freeCodes)){?>
                             <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-primary freeFocus">关注</a>
                             <?php } else {?>
