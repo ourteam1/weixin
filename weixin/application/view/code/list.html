@@ -1,54 +1,50 @@
 <!-- 主窗体内容 -->
-<div class="app-page">
-<div class="app-topbar">
-    <a href="/index.php"><i class="glyphicon glyphicon-chevron-left"></i></a>
-    <h4>赚金币吧</h4>
-</div>
-<div class="app-content container-fluid">
-    <div class="body">
+<div class="body">
+    <div class="app-page">
+        <div class="app-topbar">
+            <!--<a href="/index.php"><i class="glyphicon glyphicon-chevron-left"></i></a>-->
+            <h4>赚金币吧</h4>
+        </div>
+    </div>
+    <div class="app-content container-fluid">
         <ul class="nav nav-pills nav-justified nav-flat text-center">
             <li  class="active pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
             <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/gamelist')?>">游戏得金币</a></li>
         </ul>
-        <table class="table cart-list text-center">
-            <tr>
-                <th class="text-center">客户</th>
-                <th class="text-center">金币数</th>
-                <th class="text-center">是否关注</th>
-            </tr>
-            <?php foreach($focusList as $data){ ?>
-            <tr>
-                <td>
-                    <?php if(!empty($data['icon'])){?>
-                    <img src="<?=$data['icon']?>" class="preview-image" style="width: 20px; height: 20px; border:1px solid #eee;"/>
-                    <?php } else { ?>
-                    <?=$data['name']?>
-                    <?php } ?>
-                </td>
-                <td><?=$data['score']?></td>
-                <td>
-                    <?php if(!in_array($data['code'], $freeCodes)){?>
-                    <a url="<?=site_url('code/focus')?>/<?=$data['focus_id']?>" href="<?=$data['url']?>" class="btn btn-link freeFocus">关注</a>
-                    <?php } else {?>
-                    <a href="<?=$data['url']?>" class="btn btn-link freeFocus">已关注</a>
-                    <?php } ?>
-                </td>
-            </tr>
-            <?php } ?>
-        </table>
+        <div class="tab-pane active">
+            <div class="row">
+                <?php foreach($focusList as $focus){ ?>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
+                    <div class="thumbnail" style="height: 100px;">             
+                        <a href="javascript:void(0)" class="col-xs-10 col-sm-10">
+                            <img src="<?=$focus['icon']?>" class="lazy">
+                            <h4><?=$focus[name]?></h4>   
+                            <p>金币：<?=$focus['score']?></p>
+                        </a> 
+                        <p class="col-xs-2 col-sm-2">
+                            <?php if(!in_array($focus['code'], $freeCodes)){?>
+                            <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-primary freeFocus">关注</a>
+                            <?php } else {?>
+                            <a href="<?=$focus['url']?>" class="btn btn-primary freeFocus">已关注</a>
+                            <?php } ?>                            
+                        </p>
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+        </div>                 
     </div>
 </div>
-</div>
 <script>
-    $(".freeFocus").click(function(){
-        var obj  = $(this);
-        var url  = obj.attr('url');
+    $(".freeFocus").click(function () {
+        var obj = $(this);
+        var url = obj.attr('url');
         var href = obj.attr('href');
         $.ajax({
             type: 'POST',
-            url: url ,
-            data: "" ,
-            success: function(res){
+            url: url,
+            data: "",
+            success: function (res) {
                 if (res.error_code) {
                     alert(res.error);
                     return false;
@@ -58,12 +54,12 @@
                     obj.parent().html("已关注");
                 } else {
                     window.location.href = href;
-                }                
-                
-            } ,
+                }
+
+            },
             dataType: "json"
-       });
-       
-       return false;
+        });
+
+        return false;
     });
 </script>

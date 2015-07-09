@@ -100,9 +100,9 @@ html,body,.body {width:100%; height:100%; position:relative;background: #e7e8eb;
 /*免费得金币*/
 .body{
     /*background: #fff;*/
-    border-radius: 5px;
+/*    border-radius: 5px;
     box-shadow: 1px 1px 1px #dadada;
-    padding: 5px 10px 0;
+    padding: 5px 10px 0;*/
 }
 .table{
     margin-bottom:0;
