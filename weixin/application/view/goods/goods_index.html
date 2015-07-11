@@ -1,3 +1,41 @@
+<style>
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus
+, .nav-pills > li > a {
+    position: relative;
+  background-color: #F6425E;
+  font-size: 20px;
+}
+.nav-pills > li.active > a::after{
+  position: absolute;
+  content: '';
+  height: 3px;
+  width: 74%;
+  bottom: -15px;
+  left: 50%;
+  background: #FDDD32;
+  margin-left: -37%;
+}
+.thumbnail img {
+    padding: 8px;
+}
+
+.thumbnail h4 {
+    font-size: 16px;
+    color: #fff;
+    background: red;
+    margin-left: 8px;
+    margin-bottom: 4px;
+    padding: 0 2px;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+.thumbnail p {
+    margin-left: 108px;
+    font-size: 12px;
+    line-height: 1.421;
+}
+</style>
 <!-- 主窗体内容 -->
 <div class="body"></div>
 

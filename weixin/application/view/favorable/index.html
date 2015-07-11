@@ -1,3 +1,65 @@
+<style>
+.app-content{
+    padding:52px 20px;
+}
+.media {
+  background: #fff;
+  margin-bottom: 5px;
+  border-image:url('<?=__PUBLIC__?>image/favorable_top_bg2.png') 0 7 0 0 repeat repeat;
+  border-top: 0;
+  border-bottom: 0;  
+  border-left: 0;
+}
+.media::before {
+  content: "";
+  display: block;
+  width: 2px;
+  height:91px;
+  float:left;
+  border-image:url('<?=__PUBLIC__?>image/favorable_top_bg3.png') 0 0 0 7 repeat repeat;
+  border-top: 0;
+  border-bottom: 0;  
+  border-right: 0;
+}
+.media .pull-left {
+  margin-right: 20px;
+  border-right: 1px dashed #dadada;
+  text-align: center;
+}
+.media-heading {
+    font-weight: normal;
+    font-size: 15px;
+    color: #333;
+}
+.media-body {
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+}
+.favorable-score{
+  color: #F6425E;
+  font-size: 50px;
+  display: inline-block;
+  min-height: 80px;
+  line-height: 80px;
+  width: 95px;
+}
+.favorable-score .favorable-score-icon{
+  font-size: 20px;
+    font-style: normal;
+}
+button.btn.btn-warning.btn-sm {
+  position: absolute;
+  right: 28px;
+  bottom: 10px;
+}
+button.btn.btn-warning.btn-sm.can-click{
+  box-shadow: 1px 2px 1px #E19524;
+  background: #FDDD32;
+  border-color: #FDDD32;
+  color: #555;
+}
+</style>
 <!-- 主窗体内容 -->
 <div class="body">
     <!--    <ul class="nav nav-pills nav-justified nav-flat text-center">
@@ -8,12 +70,12 @@
         <div class="app-topbar">             
             <h4>优惠卷</h4>      
         </div>
-        <div class="app-content container-fluid" style='padding-top: 60px;'>
+        <div class="app-content container-fluid">
             <div class="tab-pane active">
                 <div class="row">
                     <?php foreach($favorables as $favorable){ ?>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
-                        <div class="thumbnail" style="height: 100px;">             
+                       <!--  <div class="thumbnail" style="height: 100px;">             
                             <a href="<?=site_url('favorable/detail')?>/<?=$favorable['activity_code']?>" class="col-xs-10 col-sm-10">
                                 <img src="<?=$favorable['activity_img']?>" class="lazy">
                                 <h4 style="overflow: hidden;height: 24px;"><?=$favorable[activity_name]?></h4>
@@ -31,6 +93,21 @@
                                 </button>
                                 <?php } ?>
                             </p>
+                        </div> -->
+                        <div class="media">
+                          <div class="pull-left">
+                            <span class="favorable-score"><?=$favorable['activity_score']?><i class="favorable-score-icon">¥</i></span>
+                          </div>
+                          <div class="media-body">
+                            <h4 class="media-heading"><?=$favorable['activity_name']?></h4>
+                            <?=date('Y-m-d', strtotime($favorable['end_time']))?>         
+
+                            <?php if (empty($favorable['favorable_code'])): ?>
+                            <button class="btn btn-warning btn-sm can-click" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>">兑换</button>
+                            <?php else: ?>
+                            <button class="btn btn-warning btn-sm active">已兑换</button>
+                            <?php endif ?>                         
+                            </div>
                         </div>
                     </div>
                     <?php } ?>

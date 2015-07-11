@@ -1,22 +1,32 @@
 <style>
+.app-content{
+  padding: 52px 20px;  
+}
+dl{
+  margin: 30px 15px 15px;
+  padding-bottom: 15px;  
+}
 dd{
     margin-bottom:10px;
 }
-.ul-favorable li,.box-favorable{
+img{
+  vertical-align: top;
+}
+.box-favorable{
     position: relative;
-    padding: 15px 10px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 1px 1px 1px #dadada;
+
 } 
-.ul-favorable .favorable-detail{
-    position: absolute;
-    right: 10px;
-    top: 13px;
-    border-radius: 18px;
-    padding: 5px 20px;
-    border-color: #428bca;
-    color: #428bca;
+.box-favorable .favorable-top-bg{
+  height:7px;
+  background:url('<?=__PUBLIC__?>image/favorable_top_bg.png') repeat-x;
+  background-size: 14px;
+}
+.box-favorable .favorable-name{
+  font-size:30px;
+  font-weight:bold;
 }
 </style>
 <div class="app-page">
@@ -27,8 +37,14 @@ dd{
     <div class="app-content container-fluid">
         <?php if (isset($favorable_code)): ?>
         <div class="box-favorable">
+            <div class="favorable-top-bg"></div>
             <dl class="dl-horizontal">
-              <dt>活动名称:</dt>
+              <dt>
+                <img src="<?=$activity_img?>" width="40" height="40">
+                <span class="favorable-name">
+                  好消息
+                </span>
+              </dt>
               <dd class="text-overflow"><?=$activity_name?></dd>
               <dt>活动图片:</dt>
               <dd class="text-overflow"><img src="<?=$activity_img?>" alt=""></dd>
