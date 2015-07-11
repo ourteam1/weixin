@@ -4,6 +4,8 @@
     position: relative;
   background-color: #F6425E;
   font-size: 20px;
+  font-weight: bold;
+}
 }
 .nav-pills > li.active > a::after{
   position: absolute;
@@ -15,25 +17,56 @@
   background: #FDDD32;
   margin-left: -37%;
 }
-.thumbnail img {
+.thumbnail > a{
+    height:auto;
+}
+.thumbnail a .img-wrap{
+
+}
+.thumbnail a img {
     padding: 8px;
+    width: 80px;
 }
 
 .thumbnail h4 {
     font-size: 16px;
     color: #fff;
-    background: red;
+    background: #F6425E;
     margin-left: 8px;
     margin-bottom: 4px;
     padding: 0 2px;
     margin-top: 8px;
     display: inline-block;
+    position: relative;
 }
-
+.thumbnail h4::after{
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: -7px;  
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-left: 7px solid #F6425E;
+  border-bottom: 12px solid transparent;   
+}
 .thumbnail p {
-    margin-left: 108px;
+    margin-left: 87px;
     font-size: 12px;
     line-height: 1.421;
+}
+.btn-add-shopping-cart {
+    position: absolute;
+    right: 35px;
+    bottom: 32px;
+    background: #FDDD32;
+    border-color: #FDDD32;
+    box-shadow: 1px 2px 1px #E19524;
+    color: #555;
+}
+span.glyphicon-shopping-cart{
+    color:#fff;
 }
 </style>
 <!-- 主窗体内容 -->
@@ -61,7 +94,7 @@
         <div class="thumbnail">
             <a href="javascript:void(0)">
                 <img data-original="${thumb}" class="lazy">
-                <h4 style="overflow:hidden;height:24px;">${goods_name}</h4>
+                <h4 style="height:24px;">${goods_name}</h4>
                 {{if price > 0}}
                 <p>市场价：￥${price}</p>
                 {{/if}}
@@ -70,11 +103,9 @@
                 {{/if}}
                 <p>已兑换 ${order_number} 份</p>
             </a>
-            <p>
-                <button class="btn btn-primary btn-block btn-sm btn-add-shopping-cart">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> 购买 <span class="badge">${cart_num>0?cart_num:""}</span>
-                </button>
-            </p>
+            <button class="btn btn-warning btn-add-shopping-cart">
+                <span class="glyphicon glyphicon-shopping-cart"></span> 购买 <span class="badge">${cart_num>0?cart_num:""}</span>
+            </button>
         </div>
     </div>
     {{/if}}
