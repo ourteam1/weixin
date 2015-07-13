@@ -68,7 +68,7 @@ html,body,.body {width:100%; height:100%; position:relative;background: #e7e8eb;
 }
 
 .thumbnail {
-
+    margin-bottom: 10px;
 }
 .thumbnail > a {
     display: block;
