@@ -28,46 +28,15 @@ img{
   font-size:30px;
   font-weight:bold;
 }
-
-.wrap {
-  background: #fff;
-}
-.row {
-  margin: 0 -5px;
-  padding: 15px 0;
-}
-.favorable-detail h4{
-  height: 30px;
-  background: #F6425E;
-  text-align: center;
-  line-height: 30px;
-  color: #fff;
-}
-.favorable-detail .left-box{
-  padding-right: 10px;
-}
-.favorable-detail .right-box{
-  border-left: 1px dashed #dadada; 
-}
-.favorable-detail-price{
-  color: #F6425E;
-  font-size: 40px;
-  text-align: center;
-  line-height: 35px;
-  height: 35px;
-}
-.favorable-detail-price-icon{
-  font-size: 18px;
-}
 </style>
 <div class="app-page">
     <div class="app-topbar">
         <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        <h4><?=$activity_name?></h4>
+        <h4>我的优惠卷</h4>
     </div>
-    <div class="favorable-detail app-content container-fluid">
+    <div class="app-content container-fluid">
         <?php if (isset($favorable_code)): ?>
-        <!-- <div class="box-favorable">
+        <div class="box-favorable">
             <div class="favorable-top-bg"></div>
             <dl class="dl-horizontal">
               <dt>
@@ -82,27 +51,16 @@ img{
               <dt>兑换码:</dt>
               <dd class="text-overflow"><?=$favorable_code?></dd>
               <dt>条形码:</dt>
-              <dd class="text-overflow"><?=$tiaoxingma?></dd>
+              <dd class="text-overflow">
+              <img src="<?=site_url('common/barcode')?>/<?=$favorable_code?>" alt="" style="max-width: 344px">
+              </dd>
               <dt>兑换金币:</dt>
               <dd class="text-overflow"><?=$activity_score?></dd>
               <dt>有效期:</dt>
-              <dd class="text-overflow"><?=$end_time?></dd>
+              <dd class="text-overflow"><?=$start_time?>～<?=$end_time?></dd>
               <dt>优惠券详情:</dt>
               <dd class=""><?=$detail?></dd>
             </dl>
-        </div> -->
-        <div class="wrap">
-          <h4><?=$activity_name?></h4>
-          <div class="row">
-            <div class="col-xs-6 left-box">
-              <div class="favorable-detail-price"><?=$activity_score?><span class="favorable-detail-price-icon">¥</span></div>
-              <div>有效期：<?=date('Y-m-d',strtotime($end_time))?></div>
-            </div>
-            <div class="col-xs-6 right-box">
-              使用方法
-              <p><?=$detail?></p>
-            </div>
-          </div>
         </div>
         <?php else: ?>
         <div class="alert alert-warning" role="alert">暂无您的优惠券信息</div>
