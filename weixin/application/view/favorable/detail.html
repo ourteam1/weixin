@@ -1,35 +1,59 @@
-<!-- 主窗体内容 -->
-<div class="body">
-    <!--    <ul class="nav nav-pills nav-justified nav-flat text-center">
-            <li  class="active pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
-            <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
-        </ul>-->
-    <div class="app-page">
-        
-        <div class="app-topbar">  
-             <a href="javascript:history.go(-1);" class="pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a>     
-            <h4><?=$favorable[activity_name]?></h4>      
+<style>
+.app-content{
+  padding: 52px 20px;  
+}
+dl{
+  margin: 30px 15px 15px;
+  padding-bottom: 15px;  
+}
+dd{
+    margin-bottom:10px;
+}
+img{
+  vertical-align: top;
+}
+.box-favorable{
+    position: relative;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #dadada;
+
+} 
+.box-favorable .favorable-top-bg{
+  height:7px;
+  background:url('<?=__PUBLIC__?>image/favorable_top_bg.png') repeat-x;
+  background-size: 14px;
+}
+.box-favorable .favorable-name{
+  font-size:30px;
+  font-weight:bold;
+}
+</style>
+<div class="app-page">
+    <div class="app-topbar">
+        <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        <h4><?=$favorable[activity_name]?></h4>
+    </div>
+    <div class="app-content container-fluid">
+        <?php if (!empty($favorable)): ?>
+        <div class="box-favorable">
+            <div class="favorable-top-bg"></div>
+            <dl class="dl-horizontal">
+              <dt>
+              </dt>
+              <dd class="text-overflow"><img src="<?=$favorable['activity_img']?>" alt=""></dd>
+              <dt>活动编号:</dt>
+              <dd class="text-overflow"><?=$favorable[activity_code]?></dd>
+              <dt>兑换金币:</dt>
+              <dd class="text-overflow"><?=$favorable[activity_score]?></dd>
+              <dt>有效期:</dt>
+              <dd class="text-overflow"><?=$favorable[start_time]?>～<?=$favorable[end_time]?></dd>
+              <dt>优惠券详情:</dt>
+              <dd class=""><?=$favorable[detail]?></dd>
+            </dl>
         </div>
-        <div class="app-content container-fluid" style='padding-top: 60px;'>
-            <div class="tab-pane active">
-                <div class="row">
-                   
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
-                        <div class="thumbnail" style="border: 0px;">             
-                            <a href="javascript:void(0)">
-                                <img src="<?=$favorable['activity_img']?>" class="lazy">
-                                <h4 style="overflow: hidden;height: 24px;"><?=$favorable[activity_name]?></h4>
-                                <p>兑换金币：<?=$favorable[activity_score]?></p>
-                                <p>有效期：<?=$favorable[end_time]?></p>
-                            </a> 
-                            <p>
-                                使用方法：<br>
-                                <?=$favorable[detail]?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>            
-        </div>
+        <?php else: ?>
+        <div class="alert alert-warning" role="alert">暂无您的优惠券信息</div>
+        <?php endif ?>
     </div>
 </div>

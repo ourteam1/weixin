@@ -80,9 +80,10 @@ button.btn.btn-warning.btn-sm.can-click{
                             <span class="favorable-score"><?=$favorable['activity_score']?><i class="favorable-score-icon">¥</i></span>
                           </div>
                           <div class="media-body">
+                              <a href="<?=site_url('favorable/detail')?>/<?=$favorable['activity_code']?>">
                             <h4 class="media-heading"><?=$favorable['activity_name']?></h4>
                             <?=date('Y-m-d', strtotime($favorable['end_time']))?>         
-
+                            </a>
                             <?php if (empty($favorable['favorable_code'])): ?>
                             <button class="btn btn-warning btn-sm can-click" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>">兑换</button>
                             <?php else: ?>
