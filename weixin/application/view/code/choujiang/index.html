@@ -1,18 +1,13 @@
 <!-- 主窗体内容 -->
 <div class="body" >
-<!--
-    <ul class="nav nav-pills nav-justified nav-flat text-center">
-        <li  class="pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
-        <li class="active pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
-    </ul>
--->
+
     <!-- 代码 开始 -->
     <img src="<?=__PUBLIC__?>image/1.png" id="shan-img" style="display:none;" />
     <img src="<?=__PUBLIC__?>image/2.png" id="sorry-img" style="display:none;" />
     <div class="banner">
-        <div class="turnplate" style="background-size:100% 100%;">
-            <canvas class="item" id="wheelcanvas" width="360px" height="360px"></canvas>
-			<img class="pointer" src="<?=__PUBLIC__?>image/turnplate-pointer.png" style="position:fixed;left:146px;top:99px"/>
+        <div class="turnplate"  style="background-size:100% 100%;">
+            <canvas class="item" id="wheelcanvas" width="422px" height="422px"></canvas>
+            <img class="pointer" src="<?=__PUBLIC__?>image/turnplate-pointer.png" style="position:relative;left:147px;top:-328px"/>
         </div>
     </div>
     <!-- 代码 结束 -->
@@ -23,8 +18,8 @@
     var turnplate = {
         restaraunts: [], //大转盘奖品名称
         colors: [], //大转盘奖品区块对应背景颜色
-        outsideRadius: 140, //大转盘外圆的半径
-        textRadius: 110, //大转盘奖品位置距离圆心的距离
+        outsideRadius: 192, //大转盘外圆的半径
+        textRadius: 155, //大转盘奖品位置距离圆心的距离
         insideRadius: 68, //大转盘内圆的半径
         startAngle: 0, //开始角度		
         bRotate: false			//false:停止;ture:旋转
