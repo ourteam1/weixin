@@ -34,15 +34,17 @@
 </style>
 <div class="app-page">
 <div class="app-topbar">
-    <a href="/index.php"><i class="glyphicon glyphicon-chevron-left"></i></a>
-    <h4>赚金币吧</h4>
+    <div class="row topbar-menu">
+        <div class="col-xs-6 text-right">
+            <a class="" href="<?=site_url('code/list')?>">关注得金币</a>
+        </div>
+        <div class="col-xs-6 text-left">
+            <a class="active" href="<?=site_url('code/gamelist')?>">游戏得金币</a>
+        </div>
+    </div>
 </div>
-<div class="app-content container-fluid">
+<div class="app-content container-fluid" style="padding-top: 62px;">
 <div class="body" >
-    <ul class="nav nav-pills nav-justified nav-flat text-center">
-        <li  class="pull-left"><a href="<?=site_url('code/list')?>" class="btn-nav btn btn-warning">关注得金币</a></li>
-        <li class="active pull-right" style="margin-left: 5px;"><a style="margin-left: 5px;" href="javascript:;" class="btn-nav btn btn-warning">游戏得金币</a></li>
-    </ul>
     <div class="row">
     <?php foreach($games as $game) {?>
         <div class="col-xs-4" style="padding:0">

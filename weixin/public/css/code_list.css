@@ -1,5 +1,5 @@
 .btn {
-  padding: 1px 18px;
+  /*padding: 1px 18px;*/
   box-shadow: 1px 2px 1px #E19524;
   background: #FDDD32;
   border-color: #FDDD32;
@@ -39,4 +39,22 @@
 }
 .nav>li>a:focus{
   background-color:#ec971f;  
+}
+.topbar-menu a{
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    text-decoration: none;
+}
+.topbar-menu a.active::after{
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    content: '';
+    height: 3px;
+    width: 100%;
+    bottom: -19px;
+    left: 50%;
+    background: #FDDD32;
+    margin-left: -50px;
 }

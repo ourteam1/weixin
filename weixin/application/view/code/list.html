@@ -4,72 +4,104 @@
 /*重置bs*/
 .thumbnail{
     overflow: hidden;
-    /*height:74px;*/
-    margin-bottom: 10px;
+    margin:0 10px 10px;
+}
+.thumbnail img{
+    width:100%;
+    height:auto;
+    float:none;
+    padding:0;
+}
+.thumbnail h4 {
+    font-size: 16px;
+    color: #fff;
+    background: #F6425E;
+    margin-bottom: 4px;
+    padding: 0 2px;
+    margin-top: 8px;
+    display: inline-block;
+    position: relative;
+}
+.thumbnail h4::after{
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: -7px;  
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-left: 7px solid #F6425E;
+  border-bottom: 12px solid transparent;   
+}
+
+.thumbnail p {
+    margin-left: 87px;
+    font-size: 12px;
+    line-height: 1.421;
+}
+.btn-add-shopping-cart {
+    position: absolute;
+    right: 35px;
+    bottom: 32px;
+    background: #FDDD32;
+    border-color: #FDDD32;
+    box-shadow: 1px 2px 1px #E19524;
+    color: #555;
+}
+.thumbnail{
+    position: relative;
 }
 .thumbnail > a{
     height:auto;
+    display:inline-block;
 }
-.thumbnail a img {
-    height: auto;
-    float: none;
-    padding: 0;
-    width: 80px;
-}    
-.thumbnail-left{
-    float: left;
+.freeFocus{
+    position: absolute;
+    right: 17px;
+    top: 40px;
 }
-.thumbnail .list-item-price{
-    font-size:40px;
+.thumbnail .code-score{
+    font-size: 20px;
     color:#F6425E;
-    line-height: 63px;
 }
-.thumbnail .list-item-price-icon{
-    font-size:16px;
-}
-.thumbnail .list-item-btn{
-    line-height: 63px;
-}
-.thumbnail .list-item-btn a{
-  background: #FDDD32;
-  border-color: #FDDD32;
-  color: #555;
-  border-radius: 5px;
-  box-shadow: 1px 2px 1px #E19524;
+.thumbnail .code-imgwrap{
+  float: left;
+  margin: 10px 15px 8px 8px;
+  min-width: 74px;
+  height: 70px;
 }
 </style>
 <div class="body">
     <div class="app-page">
         <div class="app-topbar">
             <!--<a href="/index.php"><i class="glyphicon glyphicon-chevron-left"></i></a>-->
-            <h4>赚金币吧</h4>
+            <div class="row topbar-menu">
+                <div class="col-xs-6 text-right">
+                    <a class="active" href="<?=site_url('code/list')?>">关注得金币</a>
+                </div>
+                <div class="col-xs-6 text-left">
+                    <a class="" href="<?=site_url('code/gamelist')?>">游戏得金币</a>
+                </div>
+            </div>           
         </div>
     </div>
-    <div class="app-content container-fluid" style="padding-top: 45px;">
-        <ul class="nav nav-pills nav-justified nav-flat text-center">
-            <li  class="active pull-left"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
-            <li class="pull-right" ><a style="margin-left: 5px;" href="<?=site_url('code/gamelist')?>">游戏得金币</a></li>
-        </ul>
+    <div class="app-content container-fluid" style="padding-top: 62px;">
+
         <div class="tab-pane active">
             <div class="row">
                 <?php foreach($focusList as $focus){ ?>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
-                    <div class="thumbnail">             
-                        <a href="javascript:void(0)" class="col-xs-9 col-sm-9">
-                            <div class="thumbnail-left text-center">
-                                <img src="<?=$focus['icon']?$focus['icon']:'#'?>" class="lazy">
-                                <h5 class="money-item-name"><?=$focus[name]?></h5>   
-                            </div>
-                            <p class="list-item-price text-center"><?=$focus['score'] || 10?><span class="list-item-price-icon">¥</span></p>
-                        </a> 
-                        <p class="col-xs-3 col-sm-3 list-item-btn">
-                            <?php if(!in_array($focus['code'], $freeCodes)){?>
-                            <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-warning freeFocus">关注</a>
-                            <?php } else {?>
-                            <a href="<?=$focus['url']?>" class="btn btn-warning freeFocus">已关注</a>
-                            <?php } ?>                            
-                        </p>
+                <div class="thumbnail">
+                    <div class="code-imgwrap">
+                    <img src="<?=$focus['icon']?$focus['icon']:'#'?>" class="lazy">
                     </div>
+                    <h4 style="height:24px;"><?=$focus[name]?></h4>
+                    <p class="code-score"><?=$focus['score'] || 10?><span class="list-item-price-icon">¥</span></p>
+                   <?php if(!in_array($focus['code'], $freeCodes)){?>
+                    <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-warning freeFocus"><i class="glyphicon glyphicon-star-empty"></i>关注</a>
+                    <?php } else {?>
+                    <a href="<?=$focus['url']?>" class="btn btn-warning freeFocus"><i class="glyphicon glyphicon glyphicon-star"></i>已关注</a>
+                    <?php } ?>  
                 </div>
                 <?php } ?>
             </div>
@@ -90,7 +122,7 @@
                     alert(res.error);
                     return false;
                 }
-//                alert(res.message);
+
                 if (!href) {
                     obj.parent().html("已关注");
                 } else {
