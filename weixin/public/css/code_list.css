@@ -1,0 +1,42 @@
+.btn {
+  padding: 1px 18px;
+  box-shadow: 1px 2px 1px #E19524;
+  background: #FDDD32;
+  border-color: #FDDD32;
+  color: #555;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus{
+  background: #E19524;
+}
+.app-content{
+  padding-top:45px;;
+}
+.nav-justified>li{
+    width:49%;
+}
+.nav-flat>li>a{
+    border-radius:5px;
+}
+.nav-pills>li>a{
+  box-shadow: 1px 2px 1px #E19524;
+  background: #FDDD32;
+  border-color: #FDDD32;
+  color: #555;
+  border-radius: 20px;
+  margin: 7px 20px 12px 46px;
+  width: 64%;
+  font-size: 12px;
+  padding: 0;
+  height: 24px;
+  line-height: 24px;
+}
+.nav-pills>li.active>a{
+  box-shadow: 1px 1px 6px -3px #000 inset;
+  background: #FDDD32;
+  border-color: #FDDD32;
+  color: #555;
+
+}
+.nav>li>a:focus{
+  background-color:#ec971f;  
+}

@@ -1,4 +1,42 @@
 <!-- 主窗体内容 -->
+<link rel="stylesheet" type="text/css" href="<?=__PUBLIC__?>css/code_list.css">
+<style>
+/*重置bs*/
+.thumbnail{
+    overflow: hidden;
+    height:74px;
+}
+.thumbnail > a{
+    height:auto;
+}
+.thumbnail a img {
+    height: auto;
+    float: none;
+    padding: 0;
+    width: 80px;
+}    
+.thumbnail-left{
+    float: left;
+}
+.thumbnail .list-item-price{
+    font-size:40px;
+    color:#F6425E;
+    line-height: 63px;
+}
+.thumbnail .list-item-price-icon{
+    font-size:16px;
+}
+.thumbnail .list-item-btn{
+    line-height: 63px;
+}
+.thumbnail .list-item-btn a{
+  background: #FDDD32;
+  border-color: #FDDD32;
+  color: #555;
+  border-radius: 5px;
+  box-shadow: 1px 2px 1px #E19524;
+}
+</style>
 <div class="body">
     <div class="app-page">
         <div class="app-topbar">
@@ -8,24 +46,26 @@
     </div>
     <div class="app-content container-fluid" style="padding-top: 45px;">
         <ul class="nav nav-pills nav-justified nav-flat text-center">
-            <li  class="active pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
-            <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/gamelist')?>">游戏得金币</a></li>
+            <li  class="active pull-left"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
+            <li class="pull-right" ><a style="margin-left: 5px;" href="<?=site_url('code/gamelist')?>">游戏得金币</a></li>
         </ul>
         <div class="tab-pane active">
             <div class="row">
                 <?php foreach($focusList as $focus){ ?>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
-                    <div class="thumbnail" style="height: 100px;">             
+                    <div class="thumbnail">             
                         <a href="javascript:void(0)" class="col-xs-9 col-sm-9">
-                            <img src="<?=$focus['icon']?>" class="lazy">
-                            <h4><?=$focus[name]?></h4>   
-                            <p>金币：<?=$focus['score'] || 10?></p>
+                            <div class="thumbnail-left">
+                                <img src="<?=$focus['icon']?$focus['icon']:'#'?>" class="lazy">
+                                <h5 class="money-item-name"><?=$focus[name]?></h5>   
+                            </div>
+                            <p class="list-item-price"><?=$focus['score'] || 10?><span class="list-item-price-icon">¥</span></p>
                         </a> 
-                        <p class="col-xs-3 col-sm-3" style="padding-top: 25px;">
+                        <p class="col-xs-3 col-sm-3 list-item-btn">
                             <?php if(!in_array($focus['code'], $freeCodes)){?>
-                            <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-primary freeFocus">关注</a>
+                            <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-warning freeFocus">关注</a>
                             <?php } else {?>
-                            <a href="<?=$focus['url']?>" class="btn btn-primary freeFocus">已关注</a>
+                            <a href="<?=$focus['url']?>" class="btn btn-warning freeFocus">已关注</a>
                             <?php } ?>                            
                         </p>
                     </div>

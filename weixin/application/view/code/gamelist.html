@@ -1,8 +1,36 @@
 <!-- 主窗体内容 -->
+<link rel="stylesheet" type="text/css" href="<?=__PUBLIC__?>css/code_list.css">
 <style>
+    .btn{
+        padding:1px 10px;
+    }
     th{
         width:70%;
     }
+.row{
+    margin:0 -4px;
+}
+.image-radius{
+    border-radius:100%;
+}
+.list-group{
+    padding:0;
+    text-align:center;
+    margin-bottom: 10px;
+}
+.list-group-item{
+  width: 90%;
+  margin: 0 auto;
+  padding: 10px 0;   
+}
+.list-item-imgwrap{
+    
+}
+.list-item-gamename{
+    height:30px;
+    overflow:hidden;
+    padding: 0 5px;
+}
 </style>
 <div class="app-page">
 <div class="app-topbar">
@@ -12,17 +40,24 @@
 <div class="app-content container-fluid">
 <div class="body" >
     <ul class="nav nav-pills nav-justified nav-flat text-center">
-        <li  class="pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
-        <li class="active pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
+        <li  class="pull-left"><a href="<?=site_url('code/list')?>" class="btn-nav btn btn-warning">关注得金币</a></li>
+        <li class="active pull-right" style="margin-left: 5px;"><a style="margin-left: 5px;" href="javascript:;" class="btn-nav btn btn-warning">游戏得金币</a></li>
     </ul>
-    <table class="table">
-        <?php foreach($games as $game) {?>
-        <tr>
-            <th><?=$game[name]?></th>
-            <th><a href="<?=site_url('code/game')?>/<?=$game[fold]?>" class="btn btn-primary">开始游戏</a></th>
-        </tr>
-        <?php } ?>
-    </table>
+    <div class="row">
+    <?php foreach($games as $game) {?>
+        <div class="col-xs-4" style="padding:0">
+            <ul class="list-group ">
+              <li class="list-group-item list-item-img">
+                <div class="list-item-imgwrap">
+                    <img class="image-radius" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="50" height="50">
+                    <h5 class="list-item-gamename"><?=$game[name]?></h5>
+                    <a href="<?=site_url('code/game')?>/<?=$game[fold]?>" class="btn btn-primary">开始游戏</a>
+                </div>
+               </li>
+            </ul>
+        </div>
+    <?php } ?>
+    </div>
 </div>
 </div>
 </div>
