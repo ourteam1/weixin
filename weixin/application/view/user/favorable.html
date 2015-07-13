@@ -1,12 +1,12 @@
 <style>
-.ul-favorable li{
+/*.ul-favorable li{
     position: relative;
     padding: 5px 10px 15px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 1px 1px 1px #dadada;
     margin-bottom:10px;
-} 
+} */
 .ul-favorable .favorable-detail{
     position: absolute;
     right: 10px;
@@ -17,6 +17,52 @@
     color: #428bca;
     font-size: 12px; 
 }
+.media {
+  background: #fff;
+  margin-bottom: 5px;
+  border-image:url('<?=__PUBLIC__?>image/favorable_top_bg2.png') 0 7 0 0 repeat repeat;
+  border-top: 0;
+  border-bottom: 0;  
+  border-left: 0;
+}
+.media::before {
+  content: "";
+  display: block;
+  width: 2px;
+  height:91px;
+  float:left;
+  border-image:url('<?=__PUBLIC__?>image/favorable_top_bg3.png') 0 0 0 7 repeat repeat;
+  border-top: 0;
+  border-bottom: 0;  
+  border-right: 0;
+}
+.media .pull-left {
+  margin-right: 20px;
+  border-right: 1px dashed #dadada;
+  text-align: center;
+}
+.media-heading {
+    font-weight: normal;
+    font-size: 15px;
+    color: #333;
+}
+.media-body {
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+}
+.favorable-score{
+  color: #F6425E;
+  font-size: 50px;
+  display: inline-block;
+  min-height: 80px;
+  line-height: 80px;
+  width: 95px;
+}
+.favorable-score .favorable-score-icon{
+  font-size: 20px;
+    font-style: normal;
+}
 </style>
 <div class="app-page">
     <div class="app-topbar">
@@ -26,16 +72,22 @@
     <div class="app-content container-fluid">
         <?php if ($favorables): ?>
 
-        <ul class="ul-favorable list-unstyled">
+        <div class="ul-favorable list-unstyled">
                 <?php foreach ($favorables as $favorable): ?>
-            <li>
-                <h4 class="text-overflow"><?=$favorable['activity_name']?></h4>
-                <div>兑换码：<?=$favorable['favorable_code']?></div>
-                <div>截止日期：<?=$favorable['end_time']?></div>
-                <a href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" class="btn btn-default favorable-detail"><i class="glyphicon glyphicon-info-sign"></i> 详情</a>
-            </li>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
+                        <div class="media">
+                          <div class="pull-left">
+                            <span class="favorable-score"><?=$favorable['activity_score']?><i class="favorable-score-icon">¥</i></span>
+                          </div>
+                          <div class="media-body">
+                            <h4 class="media-heading"><?=$favorable['activity_name']?></h4>
+                            <?=date('Y-m-d', strtotime($favorable['end_time']))?>                                 
+                            </div>
+                        </div>
+                    </div>
                 <?php endforeach ?>
-        </ul>
+        </div>
         <?php else: ?>
         <div class="alert alert-warning" role="alert">暂无您的优惠券信息</div>
         <?php endif ?>

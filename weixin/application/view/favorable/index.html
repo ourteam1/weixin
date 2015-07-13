@@ -75,25 +75,6 @@ button.btn.btn-warning.btn-sm.can-click{
                 <div class="row">
                     <?php foreach($favorables as $favorable){ ?>
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
-                       <!--  <div class="thumbnail" style="height: 100px;">             
-                            <a href="<?=site_url('favorable/detail')?>/<?=$favorable['activity_code']?>" class="col-xs-10 col-sm-10">
-                                <img src="<?=$favorable['activity_img']?>" class="lazy">
-                                <h4 style="overflow: hidden;height: 24px;"><?=$favorable[activity_name]?></h4>
-                                <p>金币：<?=$favorable[activity_score]?></p>
-                                <p><?=date('Y-m-d', strtotime($favorable[end_time]))?></p>
-                            </a> 
-                            <p class="col-xs-2 col-sm-2">
-                                <?php if(empty($favorable['favorable_code'])){?>                                
-                                <button class="btn btn-primary btn-block btn-sm getFavorable" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>" >                    
-                                    兑换<span class="badge"></span>
-                                </button>
-                                <?php } else { ?>
-                                <button class="btn btn-primary btn-block btn-sm" disabled>                    
-                                    已兑换<span class="badge"></span>
-                                </button>
-                                <?php } ?>
-                            </p>
-                        </div> -->
                         <div class="media">
                           <div class="pull-left">
                             <span class="favorable-score"><?=$favorable['activity_score']?><i class="favorable-score-icon">¥</i></span>
