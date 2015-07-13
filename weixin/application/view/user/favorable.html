@@ -74,14 +74,19 @@
 
         <div class="ul-favorable list-unstyled">
                 <?php foreach ($favorables as $favorable): ?>
-
+<!--             <li>
+                <h4 class="text-overflow"><?=$favorable['activity_name']?></h4>
+                <div>兑换码：<?=$favorable['favorable_code']?></div>
+                <div>截止日期：<?=$favorable['end_time']?></div>
+                <a href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" class="btn btn-default favorable-detail"><i class="glyphicon glyphicon-info-sign"></i> 详情</a>
+            </li> -->
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
                         <div class="media">
                           <div class="pull-left">
                             <span class="favorable-score"><?=$favorable['activity_score']?><i class="favorable-score-icon">¥</i></span>
                           </div>
                           <div class="media-body">
-                            <h4 class="media-heading"><?=$favorable['activity_name']?></h4>
+                          <h4 class="media-heading"><a style="color:#333" href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" class=""><?=$favorable['activity_name']?></a></h4>
                             <?=date('Y-m-d', strtotime($favorable['end_time']))?>                                 
                             </div>
                         </div>
