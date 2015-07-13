@@ -29,8 +29,11 @@ class GoodsIndex extends Action
         foreach ($goods as $k => $i) {
             $i['image'] = IMAGED . $i['image'];
             $i['thumb'] = IMAGED . $i['thumb'];
+            $i['goods_name'] = mb_substr($i['goods_name'], 0, 10, 'utf-8');
             $goods[$k]  = $i;
         }
+        // echo "<pre>";
+        // var_dump($goods);exit;
         $this->view->assign('goods', json_encode($goods));
 
         // 收货人信息

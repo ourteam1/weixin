@@ -14,9 +14,9 @@ class CodeGamelist extends Action {
 
     function on_gamelist() {
         $games = array(
-            array('name'=>'摇一摇得金币', 'fold'=>'yao'),
-            array('name'=>'快来一起捡钱玩', 'fold'=>'money'),
-            array('name'=>'抽奖赢金币', 'fold'=>'choujiang'),
+            array('name'=>'摇一摇得金币', 'fold'=>'yao', 'icon'=>'app/yao/icon.png'),
+            array('name'=>'快来一起捡钱玩', 'fold'=>'money', 'icon'=>'app/money/icon.png'),
+            array('name'=>'抽奖赢金币', 'fold'=>'choujiang', 'icon'=>'app/choujiang/icon.png'),
         );
         $this->view->assign('games', $games);
         $this->view->display('code/gamelist.html');

@@ -4,7 +4,8 @@
 /*重置bs*/
 .thumbnail{
     overflow: hidden;
-    height:74px;
+    /*height:74px;*/
+    margin-bottom: 10px;
 }
 .thumbnail > a{
     height:auto;
@@ -55,11 +56,11 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">         
                     <div class="thumbnail">             
                         <a href="javascript:void(0)" class="col-xs-9 col-sm-9">
-                            <div class="thumbnail-left">
+                            <div class="thumbnail-left text-center">
                                 <img src="<?=$focus['icon']?$focus['icon']:'#'?>" class="lazy">
                                 <h5 class="money-item-name"><?=$focus[name]?></h5>   
                             </div>
-                            <p class="list-item-price"><?=$focus['score'] || 10?><span class="list-item-price-icon">¥</span></p>
+                            <p class="list-item-price text-center"><?=$focus['score'] || 10?><span class="list-item-price-icon">¥</span></p>
                         </a> 
                         <p class="col-xs-3 col-sm-3 list-item-btn">
                             <?php if(!in_array($focus['code'], $freeCodes)){?>

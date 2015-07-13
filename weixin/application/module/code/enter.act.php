@@ -14,8 +14,8 @@ class CodeEnter extends Action {
     }
 
     function on_enter() {
-        $code = $_REQUEST['code'];
-        if ($code !== NULL) {            
+        $code = isset($_REQUEST['code']) ? trim($_REQUEST['code']) : '';
+        if (!empty($code)) {            
             $errmsg = $this->checkCode($code);
             if (empty($errmsg)) {
                 $userinfo = $this->db->where('user_id', $this->user_id)->row('user');
