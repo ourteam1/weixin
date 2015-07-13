@@ -28,7 +28,7 @@ class OrderIndex extends Action {
             $i['order_info'] = $this->db->where('order_id', $i['order_id'])->result('order_info');
             foreach ($i['order_info'] as $k2 => $j) {
                 $goods_info = $this->db->where('goods_id', $j['goods_id'])->row('goods');
-                $goods_info['thumb_url'] = IMAGED . $goods_info['thumb'];
+                $goods_info['thumb_url'] = IMAGED . $goods_info['thumb'];                
                 $i['order_info'][$k2] = array_merge($goods_info, $j);
             }
             $i['order_action'] = $this->db->where('order_id', $i['order_id'])->result('order_action');

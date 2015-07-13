@@ -84,7 +84,7 @@ class Action extends App
     {
         // 如果是调试模式，直接返回
         if (defined('MSDEBUG') && MSDEBUG) {
-            logger('DEBUG 模式！', __FILE__, __LINE__);
+            logger('DEBUG 模式！' . var_export(MSDEBUG, true), __FILE__, __LINE__);
             $this->user_id = '1';
             return true;
         }

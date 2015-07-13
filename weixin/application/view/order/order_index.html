@@ -1,3 +1,32 @@
+<style>
+dl{
+  margin: 30px 15px 15px;
+  padding-bottom: 15px;  
+}
+dd{
+    margin-bottom:10px;
+}
+img{
+  vertical-align: top;
+}
+.box-favorable{
+    position: relative;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #dadada;
+
+} 
+.box-favorable .favorable-top-bg{
+  height:7px;
+  background:url('<?=__PUBLIC__?>image/favorable_top_bg.png') repeat-x;
+  background-size: 14px;
+}
+.box-favorable .favorable-name{
+  font-size:30px;
+  font-weight:bold;
+}
+</style>
+    
 <!-- 主窗体内容 -->
 <div class="body"></div>
 
@@ -25,7 +54,7 @@
 </script>
 
 <!-- 订单详情模版 -->
-<script id="OrderInfoTemplate" type="text/template">
+<script id="OrderInfoTemplate" type="text/template">      
 	<div class="app-page">
 		<div class="app-topbar">
 			<a href="javascript:void(0);" class="pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a>
@@ -33,35 +62,50 @@
 		</div>
 		<div class="app-content container-fluid">
 			<div class="orderinfo-goods"></div>
-			<p>总金额：￥${amount}</p>
-			<p>收货人：${username}</p>
-			<p>联系方式：${mobile}</p>
-			<p>联系地址：${city} ${area} ${address}</p>
-			<p>配送时间：${delivery_times}</p>
-			<p>是否支付：<span class="label label-warning">${is_pay==0?'未支付':'已支付'}</span></p>
-			<p>订单状态：<span class="label label-info">${status_text}</span></p>
-			<p>备注：${remark}</p>
-			<p>下单时间：${create_time}</p>
-
-			<p><button class="btn btn-default btn-block btn-back"><span class="glyphicon glyphicon-circle-arrow-left"></span> 返回</button></p>
+                
+                        <div class="box-favorable">
+                            <div class="favorable-top-bg"></div>
+                            <dl class="dl-horizontal">
+                              <dt>总金额</dt>
+                              <dd class="text-overflow">￥${amount}</dd>
+                              <dt>收货人</dt>
+                              <dd class="text-overflow">${username}</dd>
+                              <dt>联系方式</dt>
+                              <dd class="text-overflow">${mobile}</dd>
+                              <dt>联系地址</dt>
+                              <dd class="text-overflow">${address}</dd>
+                      
+                              <dt>是否支付</dt>
+                              <dd class="text-overflow"><span class="label label-warning">${is_pay==0?'未支付':'已支付'}</span></dd>
+                              <dt>订单状态</dt>
+                              <dd class="text-overflow"><span class="label label-info">${status_text}</span></dd>
+                              <dt>备注</dt>
+                              <dd class="text-overflow">${remark}</dd>
+                              <dt>下单时间</dt>
+                              <dd class="text-overflow">${create_time}</dd>
+                            </dl>
+                        </div>
 		</div>
 	</div>
 </script>
 
 <!-- 订单详情商品模版 -->
 <script id="OrderInfoGoodsTemplate" type="text/template">
-	<div class="row">
-		<div class="col-xs-12 col-md-12">
-			<div class="thumbnail goods-detail">
-				<a href="javascript:void(0);" style="position:absolute;right:20px;top:38%;"><span class="glyphicon glyphicon-chevron-right"></span></a>
-				<img data-original="${thumb_url}" class="lazy"/>
-				<h4>${goods_name}</h4>
-				<p>价格：${goods_price}</p>
-				<p>数量：${cart_num}</p>
-				<div class="clearfix"></div>
-			</div>
-		</div>
-	</div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="thumbnail">
+            <a href="javascript:void(0)" class="goods-order-detail">
+                <img data-original="${thumb_url}" class="lazy">
+                <h4 style="height:24px;">${goods_name}</h4>
+                {{if price > 0}}
+                <p>{{if category_id==2}}兑换价：{{else}}市场价：{{/if}}￥${price}</p>
+                {{/if}}
+                {{if score > 0}}
+                <p>兑换金币：${score}</p>
+                {{/if}}
+                <p>数量：${cart_num}</p>
+            </a>
+        </div>
+    </div>
 </script>
 
 <!-- 商品详情模版 -->
@@ -82,4 +126,4 @@
 	var order_sn = "<?=$order_sn?>";
 	var order_data = <?=$order?>;
 </script>
-<script src="<?=__PUBLIC__?>scripts/order.min.js"></script>
+<script src="<?=__PUBLIC__?>scripts/order.js"></script>

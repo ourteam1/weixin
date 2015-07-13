@@ -54,7 +54,7 @@ OrderApp.OrderInfo = (function() {
 				var $el = $.tmpl($('#OrderInfoGoodsTemplate').html(), goods);
 				$el.appendTo('.orderinfo-goods');
 				// 查看商品详情
-				$('.goods-detail', $el).on('click', function() {
+				$('.goods-order-detail', $el).on('click', function() {
 					OrderApp.GoodsDetail.render(order, goods);
 				})
 			});

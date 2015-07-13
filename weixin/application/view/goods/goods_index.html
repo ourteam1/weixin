@@ -103,7 +103,7 @@ span.glyphicon-shopping-cart{
                 <img data-original="${thumb}" class="lazy">
                 <h4 style="height:24px;">${goods_name}</h4>
                 {{if price > 0}}
-                <p>市场价：￥${price}</p>
+                <p>{{if category_id==2}}兑换价：{{else}}市场价：{{/if}}￥${price}</p>
                 {{/if}}
                 {{if score > 0}}
                 <p>兑换金币：${score}</p>

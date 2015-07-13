@@ -343,7 +343,7 @@ class GoodsOrder extends Action {
             $articles[] = array(
                 "title" => $goods['goods_name'],
                 "description" => $goods['goods_name'],
-                "url" => site_url('order/index/' . $order['order_sn'] . '/' . $goods_id),
+                "url" => site_url('order/index/' . $order['order_sn'] . '/' . $goods['goods_id']),
                 "picurl" => IMAGED . $goods['thumb'],
             );
         }
