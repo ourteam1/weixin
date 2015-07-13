@@ -1,36 +1,21 @@
 <style>
-.app-content{
-  padding: 52px 20px;  
-}
-dl{
-  margin: 30px 15px 15px;
-  padding-bottom: 15px;  
-}
-dd{
-    margin-bottom:10px;
-}
-img{
-  vertical-align: top;
-}
-.box-favorable{
+.ul-favorable li{
     position: relative;
+    padding: 5px 10px 15px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 1px 1px 1px #dadada;
-
+    margin-bottom:10px;
 } 
-.box-favorable .favorable-top-bg{
-  height:7px;
-  background:url('<?=__PUBLIC__?>image/favorable_top_bg.png') repeat-x;
-  background-size: 14px;
-}
-.box-favorable .favorable-name{
-  font-size:30px;
-  font-weight:bold;
-}
-.item-detail{
-    overflow: hidden;
-
+.ul-favorable .favorable-detail{
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    border-radius: 18px;
+    padding: 5px 15px;
+    border-color: #428bca;
+    color: #428bca;
+    font-size: 12px; 
 }
 </style>
 <div class="app-page">
@@ -40,35 +25,17 @@ img{
     </div>
     <div class="app-content container-fluid">
         <?php if ($favorables): ?>
+
+        <ul class="ul-favorable list-unstyled">
                 <?php foreach ($favorables as $favorable): ?>
-                <a href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" style="color:#555">
-                    <div class="box-favorable">
-                        <div class="favorable-top-bg"></div>
-                        <dl class="dl-horizontal">
-                          <dt>
-                            <img src="<?=$favorable['activity_img']?>" width="40" height="40">
-                            <span class="favorable-name">
-                              好消息
-                            </span>
-                          </dt>
-                          <dd class="text-overflow"><?=$favorable['activity_name']?></dd>
-                          <dt>活动图片:</dt>
-                          <dd class="text-overflow"><img src="<?=$favorable['activity_img']?>" alt=""></dd>
-                          <dt>兑换码:</dt>
-                          <dd class="text-overflow"><?=$favorable['favorable_code']?></dd>
-                          <dt>条形码:</dt>
-                          <dd class="text-overflow"><?=$favorable['favorable_code']?></dd>
-                          <dt>兑换金币:</dt>
-                          <dd class="text-overflow"><?=$favorable['activity_score']?></dd>
-                          <dt>有效期:</dt>
-                          <dd class="text-overflow"><?=$favorable['start_time']?>～<?=$favorable['end_time']?></dd>
-                          <dt>优惠券详情:</dt>
-                          <dd class="item-detail"><?=$favorable['detail']?></dd>
-                        </dl>
-                    </div>
-                </a>
+            <li>
+                <h4 class="text-overflow"><?=$favorable['activity_name']?></h4>
+                <div>兑换码：<?=$favorable['favorable_code']?></div>
+                <div>截止日期：<?=$favorable['end_time']?></div>
+                <a href="<?=site_url('user/favorable_detail')?>?id=<?=$favorable['favorable_id']?>" class="btn btn-default favorable-detail"><i class="glyphicon glyphicon-info-sign"></i> 详情</a>
+            </li>
                 <?php endforeach ?>
-        
+        </ul>
         <?php else: ?>
         <div class="alert alert-warning" role="alert">暂无您的优惠券信息</div>
         <?php endif ?>
