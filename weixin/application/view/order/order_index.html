@@ -25,6 +25,21 @@ img{
   font-size:30px;
   font-weight:bold;
 }
+p {
+  margin: 0 0 5px;
+}
+.thumbnail {
+  padding:10px 10px 0;
+}
+.thumbnail h4{
+  max-height: 38px;
+  overflow: hidden;
+  line-height: 19px; 
+  margin:0 0 5px; 
+}
+.thumbnail p {
+  line-height: 18px;
+}
 </style>
     
 <!-- 主窗体内容 -->
@@ -98,7 +113,7 @@ img{
         <div class="thumbnail">
             <a href="javascript:void(0)" class="goods-order-detail">
                 <img data-original="${thumb_url}" class="lazy">
-                <h4 style="height:24px;">${goods_name}</h4>
+                <h4>${goods_name}</h4>
                 {{if price > 0}}
                 <p>{{if category_id==2}}兑换价：{{else}}市场价：{{/if}}￥${price}</p>
                 {{/if}}
