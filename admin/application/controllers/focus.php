@@ -12,7 +12,7 @@ class Focus extends MS_Controller {
 	 * 关注列表
 	 */
 	function index() {
-		$list_data = $this->load_model('focus_model')->get_category_list();
+		$list_data = $this->load_model('focus_model')->get_focus_list();
 		$this->view->assign($list_data);
 		$this->view->display('focus/index.html');
 	}
@@ -47,11 +47,11 @@ class Focus extends MS_Controller {
 	/**
 	 * 更新关注
 	 */
-	function update($focus_id = null) {
+	function update($focus_id = '') {
 		$focus = $this->input->post('Focus');
 
 		if ($focus) {
-			$res = $this->load_model('focus_model')->update_category($focus_id, $focus);
+			$res = $this->load_model('focus_model')->update_focus($focus_id, $focus);
 
 			if (isset($res['error'])) {
 				$this->session->set_flashdata('error_message', $res['error']);
@@ -78,7 +78,7 @@ class Focus extends MS_Controller {
 	/**
 	 * 删除关注
 	 */
-	public function delete($focus_id = null) {
+	public function delete($focus_id = '') {
 		$res = $this->load_model('focus_model')->delete_focus($focus_id);
 		if (isset($res['error'])) {
 			$this->session->set_flashdata('error_message', $res['error']);

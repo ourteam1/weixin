@@ -20,7 +20,13 @@
             <img src="<?=__PUBLIC__?>image/default.jpg" class="preview-image" style="width: 40px; height: 40px; border:1px solid #eee;"/>
             <?php endif; ?>            
         </div>
-    </div>    
+    </div>   
+    <div class="form-group">
+        <label class="col-md-2 control-label">关注金币</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control required number" name="Focus[score]" placeholder="请输入金币数" value="<?=set_val('score')?>">
+        </div>
+    </div> 
     <div class="form-group">
         <label class="col-md-2 control-label">排序</label>
         <div class="col-md-5">

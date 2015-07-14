@@ -11,7 +11,7 @@ class Focus_model extends MS_Model {
 	/**
 	 * 关注列表
 	 */
-	function get_category_list() {
+	function get_focus_list() {
 		$list_data = $this->db->where('status', 1)->order_by('sort', 'asc')->get('focus')->result();
 		return array('list_data' => $list_data);
 	}
@@ -38,6 +38,7 @@ class Focus_model extends MS_Model {
 	function add_focus($focus) {
 		$sort  	 = trim(element('sort', $focus));
 		$name    = trim(element('name', $focus));
+		$score   = trim(element('score', $focus));
         $icon    = trim(element('icon', $focus));
         $url     = trim(element('url', $focus));
 
@@ -57,6 +58,7 @@ class Focus_model extends MS_Model {
 			'status'        => 1,
 			'sort'          => intval($sort),
 			'name'          => $name,
+			'score'			=> $score,
             'icon'          => $icon,
             'url'           => $url,
             'create_time'   => date('Y-m-d H:i:s')
@@ -77,8 +79,11 @@ class Focus_model extends MS_Model {
 	 * 更新关注
 	 */
 	function update_focus($focus_id, $focus) {
-		$location	= trim(element('location', $focus));
-		$name       = trim(element('name', $focus));
+		$sort  	 = trim(element('sort', $focus));
+		$name    = trim(element('name', $focus));
+		$score   = trim(element('score', $focus));
+        $icon    = trim(element('icon', $focus));
+        $url     = trim(element('url', $focus));
 
 		// 判断
 		if (!$name) {
@@ -96,6 +101,7 @@ class Focus_model extends MS_Model {
 		$data = array(
 			'sort'	=> intval($sort),
 			'name'	=> $name,
+			'score' => $score,
             'icon'  => $icon,
             'url'   => $url,
 		);
