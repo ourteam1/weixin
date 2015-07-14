@@ -39,7 +39,7 @@ class CodeFocus extends Action {
         }
         
         $userinfo = $this->db->where('user_id', $this->user_id)->row('user');
-        $score = 10;        
+        $score = !empty($focusInfo['score']) ? $focusInfo['score'] : 0;        
         $data = array(
             'score' =>  $userinfo['score'] + $score,
             'modify_time' => date('Y-m-d H:i:s'),
