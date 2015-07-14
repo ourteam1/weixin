@@ -57,35 +57,38 @@ img{
 <script id="OrderInfoTemplate" type="text/template">      
 	<div class="app-page">
 		<div class="app-topbar">
-			<a href="javascript:void(0);" class="pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<!--<a href="javascript:void(0);" class="pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a>-->
 			<h4>订单 ${order_sn}</h4>
 		</div>
-		<div class="app-content container-fluid">
+		<div class="app-content container-fluid" style="padding-bottom:0px;">
 			<div class="orderinfo-goods"></div>
-                
-                        <div class="box-favorable">
-                            <div class="favorable-top-bg"></div>
-                            <dl class="dl-horizontal">
-                              <dt>总金额</dt>
-                              <dd class="text-overflow">￥${amount}</dd>
-                              <dt>收货人</dt>
-                              <dd class="text-overflow">${username}</dd>
-                              <dt>联系方式</dt>
-                              <dd class="text-overflow">${mobile}</dd>
-                              <dt>联系地址</dt>
-                              <dd class="text-overflow">${address}</dd>
-                      
-                              <dt>是否支付</dt>
-                              <dd class="text-overflow"><span class="label label-warning">${is_pay==0?'未支付':'已支付'}</span></dd>
-                              <dt>订单状态</dt>
-                              <dd class="text-overflow"><span class="label label-info">${status_text}</span></dd>
-                              <dt>备注</dt>
-                              <dd class="text-overflow">${remark}</dd>
-                              <dt>下单时间</dt>
-                              <dd class="text-overflow">${create_time}</dd>
-                            </dl>
-                        </div>
 		</div>
+    <div class="app-content container-fluid" style="padding-top:0px;">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="box-favorable">
+          <div class="favorable-top-bg"></div>
+          <dl class="dl-horizontal">
+            <dt>总金额</dt>
+            <dd class="text-overflow">￥${amount}</dd>
+            <dt>收货人</dt>
+            <dd class="text-overflow">${username}</dd>
+            <dt>联系方式</dt>
+            <dd class="text-overflow">${mobile}</dd>
+            <dt>联系地址</dt>
+            <dd class="text-overflow">${address}</dd>
+    
+            <dt>是否支付</dt>
+            <dd class="text-overflow"><span class="label label-warning">${is_pay==0?'未支付':'已支付'}</span></dd>
+            <dt>订单状态</dt>
+            <dd class="text-overflow"><span class="label label-info">${status_text}</span></dd>      
+            <dt>下单时间</dt>
+            <dd class="text-overflow">${create_time}</dd>
+            <dt>备注</dt>
+            <dd class="text-overflow">${remark}</dd>
+          </dl>
+      </div>
+      </div>
+    </div>
 	</div>
 </script>
 
