@@ -10,7 +10,7 @@ date_default_timezone_set('Asia/Hong_Kong');
 
 // 定义debug
 if (!defined('MSDEBUG')) {
-    define('MSDEBUG', false);
+    define('MSDEBUG', true);
 }
 
 // 定义显示错误信息
