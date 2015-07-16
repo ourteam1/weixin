@@ -48,9 +48,9 @@ $config['access_actions'] = array(
     'focus.add'            => array('label' => '添加关注', 'actions' => array('focus.index', 'focus.add')),
     'focus.update'         => array('label' => '修改关注', 'actions' => array('focus.index', 'focus.update')),
     'focus.delete'         => array('label' => '删除关注', 'actions' => array('focus.index', 'focus.delete')),
-    'game.index'           => array('label' => '游戏配置列表', 'actions' => array('game.index')),
-    'game.add'             => array('label' => '添加游戏配置', 'actions' => array('game.index', 'game.add')),
-    'game.delete'          => array('label' => '删除游戏配置', 'actions' => array('game.index', 'game.delete')),
+    'game.setting'         => array('label' => '游戏配置列表', 'actions' => array('game.setting')),
+    'game.add'             => array('label' => '添加游戏配置', 'actions' => array('game.setting', 'game.add')),
+    'game.delete'          => array('label' => '删除游戏配置', 'actions' => array('game.setting', 'game.delete')),
 );
 
 // 管理员权限分组
@@ -71,8 +71,8 @@ $config['set_active_nav'] = array(
         'active_actions' => array('site/index'),
     ),
     '商品管理' => array(
-        'uri'            => 'goods/add,goods/index,category/add,category/index,focus.add,focus.index',
-        'active_actions' => array('category/*', 'goods/*', 'focus/*'),
+        'uri'            => 'goods/add,goods/index,category/add,category/index,focus/add,focus/index,game/setting',
+        'active_actions' => array('category/*', 'goods/*', 'focus/*', 'game/*'),
         'active_menu'    => array(
             array(
                 'label'    => '分类',
