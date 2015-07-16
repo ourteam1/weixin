@@ -1,0 +1,160 @@
+<style>
+    .game-setting-item{
+        text-align: center;
+    }
+    .game-info,.game-configs{
+        margin-bottom: 10px;
+    }
+  
+</style>
+<div class="page-header">
+    <h4>游戏配置</h4>
+</div>
+<ul class="game-setting-items list-unstyled">
+    <li class="game-setting-item">
+        <ul class="game-info list-inline">
+            <li>
+                游戏名称：<input type="text" name="game_name">
+            </li>
+            <li>
+                游戏图标：
+                <input type="file" upload_url="<?=site_url('goodsImage/upload')?>" class="form-control" id="iptGoodsImage" name="goods_image" style="display: inline;width:auto"> <img src="<?=__PUBLIC__?>image/default.jpg" class="preview-image" style="width: 80px; height: 80px; border:1px solid #eee;"/>
+                <input type="hidden" class="form-control required" id="image" name="game_icon" value="">
+            </li>
+        </ul>
+        <ul class="game-configs list-unstyled">
+            <li class="config-item">
+                配置名：<input type="text" name="config[]" value="">
+                配置值：<input type="text" name="value[]" value="">
+            </li>
+        </ul>
+        <button type="button" class="btn btn-default" class="add-config" id="add-config">添加配置项</button>
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <button type="button" class="btn btn-success" id="add-game">确定添加</button>
+    </li>
+</ul>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th width='7%'>游戏ID</th>
+            <th width='20%'>游戏名称</th>
+            <th width='10%'>游戏图标</th>
+            <th>游戏配置</th>
+            <th width='20%'>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($list_data as $k=>$i):?>
+        <tr>
+            <td><?=$i->game_id?></td>
+            <td><?=$i->game_name?></td>
+            <td><?=$i->game_icon?></td>
+            <td>
+                <ul class="list-inline">
+                    <?php foreach (json_decode($i->game_config,true) as $key => $value): ?>
+                        <li><?=$key?>:<?=$value?></li>
+                    <?php endforeach ?>
+                </ul>
+            </td>
+            <td>
+                <?php if(chk_access('game/delete')):?>
+                <a href='javascript:void(0)' class="btn btn-default js-del-game-setting" data-gameid="<?=$i->game_id?>"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp;
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>
+<?=$pagination?>
+<script id="ConfigTemplate" type="text/template">
+    <li class="config-item">
+        配置名：<input type="text" name="config[]" value="">
+        配置值：<input type="text" name="value[]" value="">
+    </li>
+</script>
+<script>
+    $(function(){
+        var add_game_url = '<?=site_url('game/add')?>';
+        var del_game_url = '<?=site_url('game/delete')?>';
+        var Page = (function(){
+            var init=function(){
+                initEvents();
+            },
+            initEvents = function(){
+                //添加游戏
+                $("#add-game").click(function(){
+
+                    var gcs = {};
+                    var valid = true;
+                    $('.config-item').each(function(){
+                        var $this = $(this);
+                        var gc_name = $this.find('[name="config[]"]').val();
+                        var gc_val = $this.find('[name="value[]"]').val();
+                        if(!gc_name || !gc_val){
+                            valid = false;
+                        }
+                        gcs[gc_name] = gc_val;
+                    });
+
+                    if(!valid){
+                        alert('请输入配置项名称或者配置的值');
+                    }
+
+                    var data = {
+                        game_name:$('[name=game_name]').val(),
+                        game_icon:$('[name=game_icon]').val(),
+                        game_config:gcs
+                    }
+
+                    $.post(add_game_url, data, function(res){
+                        if(res.error){
+                            alert(res.error);
+                        }
+                        else{
+                            location.reload();
+                        }
+                    }, 'json');
+                    return false;
+                });   
+
+                //添加配置项
+                $('#add-config').click(function(){
+                    var configTpl = $('#ConfigTemplate').html();
+                    $(".game-configs").append(configTpl);
+                });
+
+                //更新游戏
+                
+                //删除游戏
+                $(".js-del-game-setting").click(function(){
+                    if(!confirm('确定执行吗？')){
+                        return false;
+                    }
+                    var $this = $(this);
+                    var gameId = $this.data('gameid');
+                    $.post(del_game_url, {game_id:gameId}, function(res){
+                        if(res.error){
+                            alert(res.error);
+                            return false;
+                        }
+
+                        $this.closest('tr').remove();
+                    });
+                    return false;
+                });
+            }
+            return {
+                init:init
+            }
+        })();
+
+        Page.init();
+    });
+</script>
