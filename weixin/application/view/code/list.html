@@ -21,6 +21,13 @@
     margin-top: 8px;
     display: inline-block;
     position: relative;
+    height:24px;
+    max-width: 66%;
+}
+.thumbnail h4>div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;   
 }
 .thumbnail h4::after{
   content: '';
@@ -98,7 +105,11 @@
                     <div class="code-imgwrap">
                     <img src="<?=$focus['icon']?$focus['icon']:'#'?>" class="lazy">
                     </div>
-                    <h4 style="height:24px;"><?=$focus[name]?></h4>
+                    <h4>
+                        <div>
+                            <?=$focus[name]?>
+                        </div>
+                    </h4>
                     <p class="code-score"><?=$focus['score']?><span class="list-item-price-icon">¥</span></p>
                    <?php if(!in_array($focus['code'], $freeCodes)){?>
                     <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-warning freeFocus"><i class="glyphicon glyphicon-star-empty"></i>关注</a>

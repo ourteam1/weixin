@@ -37,6 +37,8 @@
     margin-top: 8px;
     display: inline-block;
     position: relative;
+    height:24px;
+    max-width: 66%;
 }
 .thumbnail h4::after{
   content: '';
@@ -49,6 +51,11 @@
   border-top: 12px solid transparent;
   border-left: 7px solid #F6425E;
   border-bottom: 12px solid transparent;   
+}
+.thumbnail h4>div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;   
 }
 .thumbnail p {
     margin-left: 87px;
@@ -101,7 +108,11 @@ span.glyphicon-shopping-cart{
         <div class="thumbnail">
             <a href="javascript:void(0)">
                 <img data-original="${thumb}" class="lazy">
-                <h4 style="height:24px;">${goods_name}</h4>
+                <h4>
+                    <div>
+                        ${goods_name}
+                    </div>
+                </h4>
                 {{if price > 0}}
                 <p>{{if category_id==2}}兑换价：{{else}}市场价：{{/if}}￥${price}</p>
                 {{/if}}
