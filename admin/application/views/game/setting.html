@@ -55,7 +55,7 @@
         <tr>
             <td><?=$i->game_id?></td>
             <td><?=$i->game_name?></td>
-            <td><?=$i->game_icon?></td>
+            <td><img src="<?=IMAGED.$i->game_icon?>"></td>
             <td>
                 <ul class="list-inline">
                     <?php foreach (json_decode($i->game_config,true) as $key => $value): ?>
