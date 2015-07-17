@@ -33,35 +33,6 @@ li{
     </div>
     <div class="app-content container-fluid">
     	<?php if ($order_rows): ?>
-<!--     	<table class="table table-condensed">
-    		<thead>
-    			<tr>
-    				<th>订单编号</th>
-    				<th>订单金额</th>
-    				<th>是否支付</th>
-    				<th>订单状态</th>
-    				<th>下单时间</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<?php foreach ($order_rows as $row): ?>
-    			<tr>
-    				<td><?=$row['order_sn']?></td>
-    				<td><?=$row['amount']?></td>
-    				<td><?php echo $row['is_pay']?'已支付':'未支付'?></td>
-    				<?php switch($row['status']){
-    					case '1': $status = '确认订单';break;
-    					case '2': $status = '待发货';break;
-    					case '3': $status = '已收货';break;
-    					case '4': $status = '待收货';break;
-    					default: $status = '信息有误';
-    					} ?>
-    				<td><?=$status?></td>
-    				<td><?=$row['create_time']?></td>
-    			</tr>
-    			<?php endforeach ?>
-    		</tbody>
-		</table> -->
         <ul class="list-unstyled">
             <?php foreach ($order_rows as $row): ?>
             <li>

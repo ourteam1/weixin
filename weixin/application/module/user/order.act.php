@@ -18,7 +18,7 @@ class UserOrder extends Action
 
     public function on_order($status = '')
     {
-        $status_text = array('no', '待确认', '待发货', '已收货', '待收货');
+        $status_text = array('no', '待确认', '待发货', '待收货', '已收货');
 
         //订单
         if ($status) {
