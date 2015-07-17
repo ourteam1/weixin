@@ -51,7 +51,7 @@ img{
               <dt>兑换金币:</dt>
               <dd class="text-overflow"><?=$activity_score?></dd>
               <dt>有效期:</dt>
-              <dd class="text-overflow"><?=$start_time?>～<?=$end_time?></dd>
+              <dd class="text-overflow"><?=date('Y-m-d H:i',strtotime($start_time))?>～<?=date('Y-m-d H:i',strtotime($end_time))?></dd>
               <dt>优惠券详情:</dt>
               <dd class=""><?=$detail?></dd>
             </dl>

@@ -37,7 +37,6 @@ li{
             <?php foreach ($order_rows as $row): ?>
             <li>
                 <h4 class="order-number"><i class="glyphicon glyphicon-barcode"></i> 订单号：<?=$row['order_sn']?></h4>
-                <!-- <a href="<?=site_url('user/order_detail')?>/<?=$row['order_sn']?>"><h4 class="order-number"><i class="glyphicon glyphicon-barcode"></i> 订单号：<?=$row['order_sn']?></h4></a> -->
                 <div class="media">
                   <div class="pull-left">
                     <a href="#">
@@ -47,7 +46,7 @@ li{
                   <div class="media-body">
                     <h4 class="media-heading order-datetime">
                     <i class="glyphicon glyphicon-time"></i>
-                    <?=$row['create_time']?></h4>
+                    <?=date('Y-m-d H:i',strtotime($row['create_time']))?></h4>
                     <span class="">总价 ¥<?=$row['total_price']?></span>
                   </div>
                   <span class="order-status"><?=$row['status_text']?></span>
