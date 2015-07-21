@@ -1,23 +1,28 @@
 <?php
 
-if (!defined('IN_MSAPP')) exit('Access Deny!');
+if (!defined('IN_MSAPP')) {
+    exit('Access Deny!');
+}
 
 /**
  * 完善收货人信息，并提交订单
  * http://host/weixin/index.php/goods/order
  */
-class GoodsOrder extends Action {
+class GoodsOrder extends Action
+{
 
     // 定义是否支付
-    var $is_pay = 0;
+    public $is_pay = 0;
 
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->wxauth();
     }
 
-    function on_order() {
+    public function on_order()
+    {
         $order = isset($_REQUEST['Order']) ? $_REQUEST['Order'] : array();
 
         // 启动事务
@@ -31,18 +36,21 @@ class GoodsOrder extends Action {
 
         // 计算总金额
         $order['amount'] = $this->_get_total_price($cart);
-        
+
         // 计算总金币
         $order['score'] = $this->_get_total_score($cart);
+
+        // 生成唯一订单编号
+        $order['order_sn'] = date('YmdHis') . mt_rand(99, 999);
 
         // 检测支付方式
         if ($order['amount'] > 0) {
             $order['payment_model'] = $this->_chk_payment($userinfo, $order);
         }
-        
+
         // 金币兑换
         if ($order['score'] > 0 && !$order['amount']) {
-            $this->is_pay = 1;
+            $this->is_pay           = 1;
             $order['payment_model'] = "金币支付";
         }
         // 添加订单信息
@@ -61,7 +69,7 @@ class GoodsOrder extends Action {
         if ($order['payment_model'] == '余额支付') {
             $this->_balance_of_payments($userinfo, $order['amount']);
         }
-        
+
         // 金币支付
         if ($order['payment_model'] = "金币支付") {
             $this->_balance_of_score($userinfo, $order['score']);
@@ -80,7 +88,8 @@ class GoodsOrder extends Action {
     /**
      * 购物车信息
      */
-    function _get_cart_info() {
+    public function _get_cart_info()
+    {
         $this->db->where('user_id', $this->user_id)->where('session_id', session_id());
         $cart = $this->db->result('cart');
         if (!$cart) {
@@ -93,7 +102,8 @@ class GoodsOrder extends Action {
     /**
      * 用户信息
      */
-    function _get_user_info() {
+    public function _get_user_info()
+    {
         $userinfo = $this->db->where('user_id', $this->user_id)->row('user');
         if (!$userinfo) {
             $this->db->trans_rollback(); // 回滚事务
@@ -105,23 +115,25 @@ class GoodsOrder extends Action {
     /**
      * 获取总价格
      */
-    function _get_total_price($cart) {
+    public function _get_total_price($cart)
+    {
         $total_price = 0;
         foreach ($cart as $i) {
-            $cart_num = $i['cart_num'];
+            $cart_num    = $i['cart_num'];
             $goods_price = $i['goods_price'];
             $total_price += $goods_price * $cart_num;
         }
         return $total_price;
     }
-    
-     /**
+
+    /**
      * 获取总金币
      */
-    function _get_total_score($cart) {
+    public function _get_total_score($cart)
+    {
         $total_score = 0;
         foreach ($cart as $i) {
-            $cart_num = $i['cart_num'];
+            $cart_num    = $i['cart_num'];
             $goods_score = $i['goods_score'];
             $total_score += $goods_score * $cart_num;
         }
@@ -131,15 +143,44 @@ class GoodsOrder extends Action {
     /**
      * 检测支付方式
      */
-    function _chk_payment($userinfo, $order) {
+    public function _chk_payment($userinfo, $order)
+    {
         $payment_property = $this->db->where('name', 'like', 'payment.model.%')->where('value', $order['payment_model'])->row('property');
         if (!$payment_property) {
             $this->db->trans_rollback(); // 回滚事务
             die_json(array('error_code' => 10013, 'error' => '支付方式不正确！'));
         }
         if ($order['payment_model'] == '微信支付') {
-            $this->db->trans_rollback(); // 回滚事务
-            die_json(array('error_code' => 10014, 'error' => '微信支付尚未开通，敬请期待！'));
+
+            include_once LIBS_DIR . 'wxpay/lib/WxPay.Api.php';
+            include_once LIBS_DIR . 'wxpay/unit/WxPay.JsApiPay.php';
+
+            //统一订单的配置
+            $subject = $attach = $order['order_sn'];
+            $total_fee  = $order['amount'] * 100; //单位分
+            $notify_url = site_url('goods/wxpay_notify'); //回调地址
+            $date       = date("YmdHis");
+            //生成统一订单
+            $input = new WxPayUnifiedOrder();
+            $input->SetBody($subject);
+            $input->SetAttach($attach);
+            $input->SetOut_trade_no(WxPayConfig::MCHID . $date);
+            $input->SetTotal_fee($total_fee);
+            $input->SetTime_start($date);
+            $input->SetTime_expire(date("YmdHis", time() + 600)); //付款有效期10分钟
+            $input->SetGoods_tag("tag");
+            $input->SetNotify_url($notify_url);
+            $input->SetTrade_type("JSAPI");
+            $input->SetOpenid($this->get_openid());
+            //由配置生成统一的订单配置
+            $order ＝ WxPayApi::unifiedOrder($input); 
+            logger("统一的订单配置:order=" . json_encode($order));
+            //由订单配置生成js请求的参数
+            $tools           = new JsApiPay();
+            $jsApiParameters = $tools->GetJsApiParameters($order);
+
+            $this->view->assign('jsApiParameters', $jsApiParameters);
+            $this->view->display('goods/unified_order.html');
         }
         if ($order['payment_model'] == '余额支付') {
             if ($userinfo['amount'] < $amount) {
@@ -154,26 +195,26 @@ class GoodsOrder extends Action {
     /**
      * 添加订单信息
      */
-    function _add_order($order) {
-        $order_sn = date('YmdHis') . mt_rand(99, 999);
-        $data = array(
-            'user_id' => $this->user_id,
-            'order_sn' => $order_sn,
-            'amount' => $order['amount'], // 总金额
-            'score' => $order['score'], // 金币
-//			'invoice'		 => $order['invoice'], // 发票抬头
-            'remark' => $order['remark'], // 订单备注
-            'payment_model' => $order['payment_model'], // 支付方式
+    public function _add_order($order)
+    {
+        $data     = array(
+            'user_id'        => $this->user_id,
+            'order_sn'       => $order['order_sn'],
+            'amount'         => $order['amount'], // 总金额
+            'score'          => $order['score'], // 金币
+            //            'invoice'         => $order['invoice'], // 发票抬头
+            'remark'         => $order['remark'], // 订单备注
+            'payment_model'  => $order['payment_model'], // 支付方式
             'delivery_times' => $order['delivery_times'], // 订单配送时间
-            'username' => $order['consignee']['username'], // 收货人姓名
-            'mobile' => $order['consignee']['mobile'], // 收货人联系方式
-            'city' => $order['consignee']['city'], // 收货人所在城市
-            'area' => $order['consignee']['area'], // 收货人所在地区
-            'address' => $order['consignee']['address'], // 收货人详细地址
-            'is_pay' => $this->is_pay, // 未支付
-            'status' => 1, // 订单未确认
-            'create_time' => date('Y-m-d H:i:s'),
-            'modify_time' => date('Y-m-d H:i:s'),
+            'username'       => $order['consignee']['username'], // 收货人姓名
+            'mobile'         => $order['consignee']['mobile'], // 收货人联系方式
+            'city'           => $order['consignee']['city'], // 收货人所在城市
+            'area'           => $order['consignee']['area'], // 收货人所在地区
+            'address'        => $order['consignee']['address'], // 收货人详细地址
+            'is_pay'         => $this->is_pay, // 未支付
+            'status'         => 1, // 订单未确认
+            'create_time'    => date('Y-m-d H:i:s'),
+            'modify_time'    => date('Y-m-d H:i:s'),
         );
         $res = $this->db->insert('order', $data);
         if ($res === false) {
@@ -187,19 +228,20 @@ class GoodsOrder extends Action {
     /**
      * 添加订单详情信息
      */
-    function _add_order_detail($cart, $order_id) {
+    public function _add_order_detail($cart, $order_id)
+    {
         $flag = true;
         foreach ($cart as $i) {
-            $goods_id = $i['goods_id'];
-            $cart_num = $i['cart_num'];
+            $goods_id    = $i['goods_id'];
+            $cart_num    = $i['cart_num'];
             $goods_price = $i['goods_price'];
             $goods_score = $i['goods_score'];
-            $data = array(
-                'order_id' => $order_id,
-                'goods_id' => $goods_id,
+            $data        = array(
+                'order_id'    => $order_id,
+                'goods_id'    => $goods_id,
                 'goods_price' => $goods_price,
                 'goods_score' => $goods_score,
-                'cart_num' => $cart_num,
+                'cart_num'    => $cart_num,
             );
             $res = $this->db->insert('order_info', $data);
             if ($res === false) {
@@ -217,7 +259,8 @@ class GoodsOrder extends Action {
     /**
      * 清空购物车
      */
-    function _clear_cart() {
+    public function _clear_cart()
+    {
         $this->db->where('user_id', $this->user_id)->where('session_id', session_id());
         $res = $this->db->delete('cart');
         if ($res === false) {
@@ -230,18 +273,19 @@ class GoodsOrder extends Action {
     /**
      * 修改商品下单数
      */
-    function _update_order_number($cart) {
+    public function _update_order_number($cart)
+    {
         $flag = true;
         foreach ($cart as $i) {
-            $goods_id = $i['goods_id'];
+            $goods_id   = $i['goods_id'];
             $goods_info = $this->db->where('goods_id', $goods_id)->row('goods');
             if (!$goods_info) {
                 continue;
             }
             $cart_num = $i['cart_num'];
-            $data = array(
+            $data     = array(
                 'order_number' => $goods_info['order_number'] + $cart_num,
-                'modify_time' => date('Y-m-d H:i:s'),
+                'modify_time'  => date('Y-m-d H:i:s'),
             );
             $this->db->where('goods_id', $goods_id)->update('goods', $data);
         }
@@ -251,7 +295,8 @@ class GoodsOrder extends Action {
     /**
      * 余额支付
      */
-    function _balance_of_payments($userinfo, $amount) {
+    public function _balance_of_payments($userinfo, $amount)
+    {
         if ($userinfo['amount'] < $amount) {
             $this->db->trans_rollback(); // 回滚事务
             die_json(array('error_code' => 10019, 'error' => '余额不足！'));
@@ -259,7 +304,7 @@ class GoodsOrder extends Action {
 
         // 扣除余额
         $data = array(
-            'amount' => $userinfo['amount'] - $amount,
+            'amount'      => $userinfo['amount'] - $amount,
             'modify_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->where('user_id', $this->user_id)->update('user', $data);
@@ -270,10 +315,10 @@ class GoodsOrder extends Action {
 
         // 如果是余额支付 - 记录账户变动记录
         $data = array(
-            'user_id' => $this->user_id,
-            'action' => 'user.order_pay',
+            'user_id'     => $this->user_id,
+            'action'      => 'user.order_pay',
             'action_name' => '订单支付￥' . $amount . '元',
-            'amount' => $amount,
+            'amount'      => $amount,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->insert('user_account', $data);
@@ -284,11 +329,12 @@ class GoodsOrder extends Action {
 
         return true;
     }
-    
-     /**
+
+    /**
      * 金币支付
      */
-    function _balance_of_score($userinfo, $score) {
+    public function _balance_of_score($userinfo, $score)
+    {
         if ($userinfo['score'] < $score) {
             $this->db->trans_rollback(); // 回滚事务
             die_json(array('error_code' => 10022, 'error' => '金币不足！'));
@@ -296,7 +342,7 @@ class GoodsOrder extends Action {
 
         // 扣除余额
         $data = array(
-            'score' => $userinfo['score'] - $score,
+            'score'       => $userinfo['score'] - $score,
             'modify_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->where('user_id', $this->user_id)->update('user', $data);
@@ -307,10 +353,10 @@ class GoodsOrder extends Action {
 
         // 如果是余额支付 - 记录账户变动记录
         $data = array(
-            'user_id' => $this->user_id,
-            'action' => 'user.score.lose',
-            'action_name' => '订单支付金币' . $score ,
-            'amount' => $score,
+            'user_id'     => $this->user_id,
+            'action'      => 'user.score.lose',
+            'action_name' => '订单支付金币' . $score,
+            'amount'      => $score,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->insert('user_account', $data);
@@ -325,13 +371,14 @@ class GoodsOrder extends Action {
     /**
      * 发送微信消息
      */
-    function send_wx_news($cart, $order) {
+    public function send_wx_news($cart, $order)
+    {
         $articles = array(
             array(
-                "title" => "下单 " . $order['order_sn'] . " 成功",
+                "title"       => "下单 " . $order['order_sn'] . " 成功",
                 "description" => "恭喜发财，您的订单提交成功了，请点击查看您的订单详情！",
-                "url" => site_url('order/index/' . $order['order_sn']),
-                "picurl" => __PUBLIC__ . "image/order.jpg"
+                "url"         => site_url('order/index/' . $order['order_sn']),
+                "picurl"      => __PUBLIC__ . "image/order.jpg",
             ),
         );
         $goods_ids = array();
@@ -341,10 +388,10 @@ class GoodsOrder extends Action {
         $goods_arr = $this->db->where('goods_id', 'in', $goods_ids)->result('goods');
         foreach ($goods_arr as $goods) {
             $articles[] = array(
-                "title" => $goods['goods_name'],
+                "title"       => $goods['goods_name'],
                 "description" => $goods['goods_name'],
-                "url" => site_url('order/index/' . $order['order_sn'] . '/' . $goods['goods_id']),
-                "picurl" => IMAGED . $goods['thumb'],
+                "url"         => site_url('order/index/' . $order['order_sn'] . '/' . $goods['goods_id']),
+                "picurl"      => IMAGED . $goods['thumb'],
             );
         }
         $this->weixin->custom_news($this->wx_openid, $articles);
