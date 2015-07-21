@@ -26,7 +26,8 @@ class WechatSetMenu extends Action {
                 array('name' => '赚', "sub_button" => array(                        
                         array("type" => "scancode_waitmsg", "name" => "扫描码", "key" => "scancode"),
                         array("type" => "view", "name" => "输入码", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/enter"),
-                        array("type" => "view", "name" => "免费得金币", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/list"),
+						array("type" => "view", "name" => "关注得金币", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/list"),
+                        array("type" => "view", "name" => "游戏得金币", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/code/gamelist"),
                     )),
                 array('name' => '花', "sub_button" => array(
                         array("type" => "view", "name" => "优惠卷", "url" => "http://115.28.80.161/wutong/wzh/weixin/index.php/favorable/index"),
