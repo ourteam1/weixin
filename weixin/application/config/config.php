@@ -25,4 +25,5 @@ define('ACCOUNTTOKEN', '640b4cf833e44def91289a1e4591a637');
 define('APPID', 'aaf98f89485af69701485bae817f002f');
 define('SERVERIP', 'sandboxapp.cloopen.com');
 define('SERVERPORT', '8883');
+define('TEMPID', '1');
 define('SOFTVERSION', '2013-12-26');

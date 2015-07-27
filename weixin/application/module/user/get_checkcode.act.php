@@ -73,6 +73,9 @@ class UserGet_checkcode extends Action
         //REST版本号，在官网文档REST介绍中获得。
         $softVersion = SOFTVERSION;
 
+        //开发时注释
+        $tempId = TEMPID;
+
         // 初始化REST SDK
         $rest = new REST($serverIP, $serverPort, $softVersion);
         $rest->setAccount($accountSid, $accountToken);

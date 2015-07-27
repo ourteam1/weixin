@@ -140,24 +140,26 @@ class Action extends App
 
     public function error_message($error_message, $location = '')
     {
-        header('Content-type:text/html;chartset=utf-8');
+        // header('Content-type:text/html;chartset=utf-8');
         if (!$location) {
             $location = 'history.go(-1)';
         } else {
             $location = 'location.href="' . site_url($location) . '"';
         }
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo "<script>alert('$error_message');$location</script>";
         die;
     }
 
     public function success_message($success_message, $location = '')
     {
-        header('Content-type:text/html;chartset=utf-8');
+        // header('Content-type:text/html;chartset=utf-8');
         if (!$location) {
             $location = 'history.go(-1)';
         } else {
             $location = 'location.href="' . site_url($location) . '"';
         }
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo "<script>alert('$success_message');$location</script>";
         die;
     }
