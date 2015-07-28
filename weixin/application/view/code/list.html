@@ -111,10 +111,10 @@
                         </div>
                     </h4>
                     <p class="code-score"><?=$focus['score']?><span class="list-item-price-icon">¥</span></p>
-                   <?php if(!in_array($focus['code'], $freeCodes)){?>
+                   <?php if(!in_array($focus['focus_id'], $freeCodes)){?>
                     <a url="<?=site_url('code/focus')?>/<?=$focus['focus_id']?>" href="<?=$focus['url']?>" class="btn btn-warning freeFocus"><i class="glyphicon glyphicon-star-empty"></i>关注</a>
                     <?php } else {?>
-                    <a href="<?=$focus['url']?>" class="btn btn-warning freeFocus"><i class="glyphicon glyphicon glyphicon-star"></i>已关注</a>
+                    <a href="javascript:void(0);" class="btn btn-default freeFocus" disabled="disabled"><i class="glyphicon glyphicon glyphicon-star"></i>已关注</a>
                     <?php } ?>  
                 </div>
                 <?php } ?>
