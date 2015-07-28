@@ -49,8 +49,7 @@ GoodsApp.Goods = (function() {
         var total_num = GoodsApp.total_cart_goods_num();
         if (total_num > 0) {
             $('.btn-cart').html('<span class="glyphicon glyphicon-shopping-cart"></span> 我的购物车 <span class="badge">' + total_num + '</span>');
-        }
-        else {
+        } else {
             $('.btn-cart').html('<span class="glyphicon glyphicon-shopping-cart"></span> 我的购物车');
         }
     }
@@ -89,7 +88,7 @@ GoodsApp.Goods = (function() {
             this.init();
 
             // 显示第一个分类
-            tabid =  !category_id_active ? "#tab1" : "#tab" + category_id_active;
+            tabid = !category_id_active ? "#tab1" : "#tab" + category_id_active;
             tabid = tabid || (window.location.hash != '' ? window.location.hash : '#tab1');
             $('.app-topbar .nav a[href="' + tabid + '"]').tab('show');
 
@@ -215,7 +214,7 @@ GoodsApp.Cart = (function() {
                 if (user_data.score < GoodsApp.total_cart_goods_score()) {
                     GoodsApp.Dialog.show('提示', "金币不足，无法兑换");
                     return false;
-                }                
+                }
                 btn.button('loading');
                 var cart_data = [];
                 $.each(goods_data, function(i, goods) {
@@ -229,8 +228,11 @@ GoodsApp.Cart = (function() {
                         cart_num: goods.cart_num
                     });
                 });
-                $.post(site_url('goods/cart'), {cart: cart_data}, function(res) {
-                    btn.button('reset')
+                $.post(site_url('goods/cart'), {
+                    cart: cart_data
+                }, function(res) {
+                    btn.button('reset');
+
                     if (res.error) {
                         GoodsApp.Dialog.show('提示', res.error);
                         return false;
@@ -247,10 +249,55 @@ GoodsApp.Cart = (function() {
  * 定义收货人页面
  */
 GoodsApp.Consignee = (function() {
+    //调用微信JS api 支付
+    function jsApiCall(params) {
+        var jap = eval('(' + params + ')');
+        //alert(jap.nonceStr);
+        //alert(typeof jap);
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            params,
+            function(res) {
+                //TODO查询服务器获取真实支付结果，如果不成功呢
+                switch (res.err_msg) {
+                    case 'get_brand_wcpay_request:fail':
+                        alert('付款失败');
+
+                        break;
+                    case 'get_brand_wcpay_request:cancel':
+                        alert('付款取消');
+
+                        break;
+                    case 'get_brand_wcpay_request:ok':
+                        //如果支付成功
+                        //1.查询状态
+                        //2.跳转到订单成功页
+                        alert('付款成功');
+                        break;
+                }
+                return true;
+            }
+        );
+    }
+
+    //检测微信兼容
+    function callpay(params) {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', 'jsApiCall(params)', false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', 'jsApiCall(params)');
+                document.attachEvent('onWeixinJSBridgeReady', 'jsApiCall(params)');
+            }
+        } else {
+            jsApiCall(params);
+        }
+    }
+
     return {
         init: function() {
             consignee_data.amount = user_data.amount;
-            consignee_data.goods_price = GoodsApp.total_cart_goods_price();            
+            consignee_data.goods_price = GoodsApp.total_cart_goods_price();
             $el = $.tmpl($('#ConsigneeTemplate').html(), consignee_data);
             $('.body').html($el);
         },
@@ -302,13 +349,61 @@ GoodsApp.Consignee = (function() {
                 var data = $('.consignee-form').serialize();
                 $.post(site_url('goods/order'), data, function(res) {
                     self.button("reset");
+                    //order里面打开支付页面
+                    //alert(res.jsApiParameters);
+                    //alert(typeof res.jsApiParameters);
+                    /*if(res.jsApiParameters){
+                        callpay(res.jsApiParameters);
+                        return false;
+                    }*/
+
                     if (res.error) {
                         GoodsApp.Dialog.show('提示', res.error);
                         return false;
                     }
-                    GoodsApp.Order.render(res);
+
+                    //检查是否需要支付
+                    if (res.pay_fee) {
+                        GoodsApp.Pay.render(res);
+                    } else {
+                        GoodsApp.Order.render(res);
+                    }
+
                 }, 'json');
                 return false;
+            });
+        }
+    }
+})();
+
+/**
+ * 定义支付页面
+ */
+GoodsApp.Pay = (function() {
+    return {
+        init: function(order) {
+            var el = $('#PayTemplate').html();
+            $('.body').html($.tmpl(el, {
+                payFee: order.pay_fee || '-',
+                order_sn: order.order_sn || '-',
+            }));
+        },
+        render: function(order) {
+            this.init(order);
+
+            // 返回商品列表
+            $('.app-topbar a').on('click', function() {
+                window.location.reload();
+                return false;
+            });
+
+            //立即支付
+            $("#go-pay").click(function() {
+                var $this = $(this);
+                var order_sn = $this.data('ordersn');
+
+                //跳转到支付页
+                location.href = wxpay_order_url + '/' + order_sn;
             });
         }
     }
@@ -321,7 +416,9 @@ GoodsApp.Order = (function() {
     return {
         init: function(order) {
             var el = $('#OrderTemplate').html();
-            $('.body').html($.tmpl(el, {order_sn: order.order_sn || '-'}));
+            $('.body').html($.tmpl(el, {
+                order_sn: order.order_sn || '-'
+            }));
         },
         render: function(order) {
             this.init(order);

@@ -71,8 +71,15 @@ class GoodsOrder extends Action
         }
 
         // 金币支付
-        if ($order['payment_model'] = "金币支付") {
+        if ($order['payment_model'] == "金币支付") {
             $this->_balance_of_score($userinfo, $order['score']);
+        }
+
+        //微信支付
+        $pay_fee = 0;
+        logger('weixin' . var_export($order, true));
+        if ($order['payment_model'] == "微信支付") {
+            $pay_fee = $order['amount'];
         }
 
         // 提交事务
@@ -82,7 +89,7 @@ class GoodsOrder extends Action
         $this->send_wx_news($cart, $order);
 
         // 返回成功信息
-        die_json(array('message' => 'ok.', 'order_sn' => $order['order_sn']));
+        die_json(array('message' => 'ok.', 'order_sn' => $order['order_sn'], 'pay_fee' => $pay_fee));
     }
 
     /**
@@ -141,6 +148,14 @@ class GoodsOrder extends Action
     }
 
     /**
+     * 获取用户OPENDID
+     */
+    public function _get_openid()
+    {
+        return $this->db->where('user_id', $this->user_id)->column('user', 'wx_openid');
+    }
+
+    /**
      * 检测支付方式
      */
     public function _chk_payment($userinfo, $order)
@@ -152,35 +167,39 @@ class GoodsOrder extends Action
         }
         if ($order['payment_model'] == '微信支付') {
 
-            include_once LIBS_DIR . 'wxpay/lib/WxPay.Api.php';
-            include_once LIBS_DIR . 'wxpay/unit/WxPay.JsApiPay.php';
+/*            include_once LIBS_DIR . 'wxpay/lib/WxPay.Api.php';
+include_once LIBS_DIR . 'wxpay/unit/WxPay.JsApiPay.php';
 
-            //统一订单的配置
-            $subject = $attach = $order['order_sn'];
-            $total_fee  = $order['amount'] * 100; //单位分
-            $notify_url = site_url('goods/wxpay_notify'); //回调地址
-            $date       = date("YmdHis");
-            //生成统一订单
-            $input = new WxPayUnifiedOrder();
-            $input->SetBody($subject);
-            $input->SetAttach($attach);
-            $input->SetOut_trade_no(WxPayConfig::MCHID . $date);
-            $input->SetTotal_fee($total_fee);
-            $input->SetTime_start($date);
-            $input->SetTime_expire(date("YmdHis", time() + 600)); //付款有效期10分钟
-            $input->SetGoods_tag("tag");
-            $input->SetNotify_url($notify_url);
-            $input->SetTrade_type("JSAPI");
-            $input->SetOpenid($this->get_openid());
-            //由配置生成统一的订单配置
-            $order ＝ WxPayApi::unifiedOrder($input); 
-            logger("统一的订单配置:order=" . json_encode($order));
-            //由订单配置生成js请求的参数
-            $tools           = new JsApiPay();
-            $jsApiParameters = $tools->GetJsApiParameters($order);
+//统一订单的配置
+$subject = $attach = $order['order_sn'];
+//$total_fee  = $order['amount'] * 100; //单位分
+$total_fee = 1;
+$notify_url = site_url('goods/wxpay_notify'); //回调地址
+$date       = date("YmdHis");
+//生成统一订单
+$input = new WxPayUnifiedOrder();
+$input->SetBody($subject);
+$input->SetAttach($attach);
+$input->SetOut_trade_no(WxPayConfig::MCHID . $date);
+$input->SetTotal_fee($total_fee);
+$input->SetTime_start($date);
+$input->SetTime_expire(date("YmdHis", time() + 600)); //付款有效期10分钟
+$input->SetGoods_tag("tag");
+$input->SetNotify_url($notify_url);
+$input->SetTrade_type("JSAPI");
+$input->SetOpenid($this->_get_openid());
+//由配置生成统一的订单配置
+$order = WxPayApi::unifiedOrder($input);
+//logger("统一的订单配置:order=" . json_encode($order));
+//由订单配置生成js请求的参数
+$tools           = new JsApiPay();
+$jsApiParameters = $tools->GetJsApiParameters($order);
+logger("统一的订单配置:jsApiParameters=" . json_encode($jsApiParameters));
+$this->view->assign('jsApiParameters', $jsApiParameters);
+$this->view->display('goods/unified_order.html');
+$this->is_pay = 0; // 使用余额支付时，如果余额够用就，设置为已经支付*/
 
-            $this->view->assign('jsApiParameters', $jsApiParameters);
-            $this->view->display('goods/unified_order.html');
+            // return array('payment_model' => $order['payment_model']);
         }
         if ($order['payment_model'] == '余额支付') {
             if ($userinfo['amount'] < $amount) {
@@ -197,7 +216,7 @@ class GoodsOrder extends Action
      */
     public function _add_order($order)
     {
-        $data     = array(
+        $data = array(
             'user_id'        => $this->user_id,
             'order_sn'       => $order['order_sn'],
             'amount'         => $order['amount'], // 总金额

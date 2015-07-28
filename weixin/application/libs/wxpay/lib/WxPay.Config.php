@@ -17,7 +17,7 @@ class WxPayConfig
      * @var string
      */
     const APPID = 'wxf3be2f3884df89df';
-    const MCHID = '1240359002';
+    const MCHID = '1254519901';
 
     // $key = md5('2015年05月17日11时57分');
     const KEY = 'c6b4e6d4856f135d75c26212ef4baa4b';
@@ -30,8 +30,8 @@ class WxPayConfig
     //  * 证书路径,注意应该填写绝对路径（仅退款、撤销订单时需要）
     //  * @var path
     //  */
-    // const SSLCERT_PATH = './cert/apiclient_cert.pem';
-    // const SSLKEY_PATH  = './cert/apiclient_key.pem';
+    const SSLCERT_PATH = './cert/apiclient_cert.pem';
+    const SSLKEY_PATH  = './cert/apiclient_key.pem';
 
     //=======【curl代理设置】===================================
     /**

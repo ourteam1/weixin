@@ -1,11 +1,12 @@
 <?php
-require_once "lib/WxPay.Api.php";
+require_once LIBS_DIR . 'wxpay/lib/WxPay.Api.php';
 class JsApiPay {
 	public function GetOpenid() {
 		//通过code获得openid
 		if (!isset($_GET['code'])) {
 			//触发微信返回code码
-			$baseUrl = urlencode('http://' . 'space.weishao.com.cn' . rtrim($_SERVER['PHP_SELF'], '/') . '?' . $_SERVER['QUERY_STRING']);
+			$baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);
+			logger('bauser'.$baseUrl);
 			$url     = $this->__CreateOauthUrlForCode($baseUrl);
 			Header("Location: $url");
 			exit();

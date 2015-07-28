@@ -47,6 +47,10 @@ class PayNotifyCallBack extends WxPayNotify
             return false;
         }
 
+        if (empty($data['cash_fee']) || empty($data['attach'] || empty($data['result_code']))) {
+            logger("data不合法 缺少cash_fee, attach, result_code, data=" . json_encode($data));
+            return false;
+        }
         //检查交易状态
         if ($data['result_code'] != 'SUCCESS') {
             logger("交易状态为false" . $data['result_code']);
@@ -54,6 +58,7 @@ class PayNotifyCallBack extends WxPayNotify
         }
 
         $order_sn = $data['attach']; //订单编号
+        $fee      = $data['cash_fee'] / 100;
 
         //检查是否存在订单
         if (!$this->action->db->where('order_sn', $order_sn)->row('order')) {
@@ -61,12 +66,34 @@ class PayNotifyCallBack extends WxPayNotify
             return false;
         }
 
+        // 启动事务
+        $this->action->db->trans_start();
+
         //更新订单:is_pay
         $res = $this->action->db->where('order_sn', $order_sn)->update('order', array('is_pay' => 1));
         if ($res === false) {
             logger("更新订单失败：order_sn=" . $order_sn);
+            $this->action->db->trans_rollback(); // 回滚事务
             return false;
         }
+
+        //增加用户账户日志
+        $data = array(
+            'user_id'     => $this->action->user_id,
+            'action'      => 'user.money.pay',
+            'action_name' => '支付' . $fee . '元',
+            'amount'      => $fee,
+            'create_time' => date('Y-m-d H:i:s'),
+        );
+        $res = $this->action->db->insert('user_account', $data);
+        if (!$res) {
+            logger("添加用户支付日志失败");
+            $this->action->db->trans_rollback(); // 回滚事务
+            return false;
+        }
+
+        // 提交事务
+        $this->db->trans_commit();
 
         return true;
     }

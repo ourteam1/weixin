@@ -16,11 +16,11 @@
             </div>
           </div>
           <div class="form-group">
-            <div class="col-xs-7">
+            <div class="col-xs-6">
               <input type="text" class="form-control" id="checkcode" name="checkcode" placeholder="请输入验证码" required data-required-msg="请填写验证码">
             </div>
-            <div class="col-xs-4">
-              <button type="button" class="btn btn-primary" id="get_checkcode">获取验证码<span class="badge d-remain-time"></span></button>
+            <div class="col-xs-6">
+              <button type="button" class="btn btn-primary" id="get_checkcode">获取验证码</button>
             </div>
           </div>   
           <div class="form-group">
@@ -35,16 +35,19 @@
 var isgeted = false;
 var time = 60;
 var inter;
+var getcode_text;
+var $get_checkcode;
 	$(function(){
+	
     var remainTime = function(time){
       $(".d-remain-time").html(time);
       if(time > 0){
         time--;
       }else{
-        $(".d-remain-time").html('');
+        $get_checkcode.html(getcode_text);
         clearTimeout(inter);
-        $("#get_checkcode").removeAttr('disabled');
-        $("#get_checkcode").bind('click', get_checkcode);
+        $get_checkcode.removeAttr('disabled');
+        $get_checkcode.bind('click', get_checkcode);
         return false;
       }
       
@@ -67,9 +70,12 @@ var inter;
           alert(result.error);
         }else{
           alert(result.success);
-          $("#get_checkcode").attr('disabled','disabled');
-          $("#get_checkcode").unbind('click');
+		  $get_checkcode = $("#get_checkcode");
+          $get_checkcode.attr('disabled','disabled');
+          $get_checkcode.unbind('click');
           inter = setTimeout(function(){
+			getcode_text = $get_checkcode.html();
+			$get_checkcode.html('<span class="d-remain-time"></span>秒后重发验证码');
             remainTime(time);
           },1000);
         }
