@@ -17,7 +17,7 @@ class GoodsIndex extends Action
         $this->wxauth();
     }
 
-    public function on_index($category_id = 1)
+    public function on_index($category_id = 1, $goods_id = 0)
     {
 
         // 商品分类信息
@@ -25,13 +25,16 @@ class GoodsIndex extends Action
         $this->view->assign('category', json_encode($category));
 
         // 商品信息
-        $goods = $this->db->where('status', 1)->result('goods');
-        foreach ($goods as $k => $i) {
-            $i['image'] = IMAGED . $i['image'];
-            $i['thumb'] = IMAGED . $i['thumb'];
+        $goods_rows = $this->db->where('status', 1)->result('goods');
+        $goods      = array();
+        foreach ($goods_rows as $k => $i) {
+            $i['image']      = IMAGED . $i['image'];
+            $i['thumb']      = IMAGED . $i['thumb'];
             $i['goods_name'] = mb_substr($i['goods_name'], 0, 10, 'utf-8');
-            $goods[$k]  = $i;
+            //先删除再添加
+            $goods[$i['goods_id']] = $i;
         }
+        unset($goods_rows);
         // echo "<pre>";
         // var_dump($goods);exit;
         $this->view->assign('goods', json_encode($goods));
@@ -63,6 +66,7 @@ class GoodsIndex extends Action
         );
         $this->view->assign('user', json_encode($user));
         $this->view->assign('category_id', $category_id);
+        $this->view->assign('goods_id', $goods_id);
 
         $this->view->display('goods/goods_index.html');
     }

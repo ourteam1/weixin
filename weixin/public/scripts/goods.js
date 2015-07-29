@@ -3,7 +3,12 @@
  */
 var GoodsApp = $.extend({
     init: function() {
-        this.Goods.render();
+        //页面显示判断
+        if (goods_id) {
+            this.GoodsDetail.render(goods_data[goods_id]);
+        } else {
+            this.Goods.render();
+        }
     }
 }, App || {});
 
