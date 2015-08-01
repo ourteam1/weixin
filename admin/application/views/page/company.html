@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="<?=__PUBLIC__?>js/kindeditor//themes/default/default.css" />
+<script src="<?=__PUBLIC__?>js/kindeditor/kindeditor-min.js"></script>
+
+<div class="page-header"><h4>编辑公司信息介绍</h4></div>
+<form class="form-horizontal form-validate" action="<?=current_url()?>" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="col-md-2 control-label"><em>*</em> 介绍标题</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control required" name="Company[title]" placeholder="请输入标题" maxlength="32" value="<?=set_val('title')?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label"><em>*</em> 介绍图片</label>
+        <div class="col-md-5">
+            <input type="file" upload_url="<?=site_url('goodsImage/upload')?>" class="form-control" id="iptGoodsImage" name="goods_image" placeholder="请选中图片">
+            <input type="hidden" class="form-control" id="image" name="Company[image]" value="<?=set_val('image')?>">
+            <input type="hidden" class="form-control required" id="thumb" name="Company[thumb]" value="<?=set_val('thumb')?>">
+            <p class="help-block">支持jpg/png格式，最佳像素：300x300.</p>
+            <!-- 显示缩略图 -->
+            <?php if(isset($thumb) && trim($thumb)): ?>
+            <img src="<?=IMAGED . set_val('thumb')?>" class="preview-image" style="width: 80px; height: 80px; border:1px solid #eee;"/>
+            <?php else: ?>
+            <img src="<?=__PUBLIC__?>image/default.jpg" class="preview-image" style="width: 80px; height: 80px; border:1px solid #eee;"/>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">公司信息介绍</label>
+        <div class="col-md-8">
+            <textarea class="form-control editor" rows="16" name="Company[content]"><?=set_val('content')?></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-md-5">
+            <button type="submit" class="btn btn-success">保存</button>
+        </div>
+    </div>
+</form>

@@ -51,22 +51,25 @@ $config['access_actions'] = array(
     'game.setting'         => array('label' => '游戏配置列表', 'actions' => array('game.setting')),
     'game.add'             => array('label' => '添加游戏配置', 'actions' => array('game.setting', 'game.add')),
     'game.delete'          => array('label' => '删除游戏配置', 'actions' => array('game.setting', 'game.delete')),
+    'page.company'         => array('label' => '公司介绍', 'actions' => array('page.company')),
+    'page.company_update'  => array('label' => '公司介绍编辑', 'actions' => array('page.company', 'page.company_update')),
 );
 
 // 管理员权限分组
 $config['group_actions'] = array(
     '管理员管理' => array('admin.add', 'admin.index', 'admin.update', 'admin.delete', 'logs.index'),
-    '商品管理'    => array(
+    '商品管理'  => array(
         'category.add', 'category.index', 'category.update', 'category.delete',
         'goods.add', 'goods.index', 'goods.update', 'goods.delete', 'goods.grounding', 'goods.undercarriage', 'game.index', 'game.add', 'game.delete'),
-    '订单管理'    => array('order.index', 'order.confirm', 'order.shipment', 'order.receipt'),
-    '用户管理'    => array('user.index', 'user.view', 'user.recharge', 'user.account_details'),
+    '订单管理'  => array('order.index', 'order.confirm', 'order.shipment', 'order.receipt'),
+    '页面管理'  => array('page.company'),
+    '用户管理'  => array('user.index', 'user.view', 'user.recharge', 'user.account_details'),
 //    '微信消息'     => array('message.index', 'message.send'),
 );
 
 // 定义active nav menu
 $config['set_active_nav'] = array(
-    '首页'       => array(
+    '首页'   => array(
         'uri'            => 'site/index',
         'active_actions' => array('site/index'),
     ),
@@ -117,6 +120,19 @@ $config['set_active_nav'] = array(
                 'children' => array(
                     array('label' => '今日订单', 'url' => 'order/today', 'active_actions' => array('order/today', 'order/today_view')),
                     array('label' => '订单列表', 'url' => 'order/index', 'active_actions' => array('order/index', 'order/view')),
+                ),
+            ),
+        ),
+    ),
+    '页面管理' => array(
+        'uri'            => 'page/company',
+        'active_actions' => array('page/*'),
+        'active_menu'    => array(
+            array(
+                'label'    => '页面',
+                'class'    => 'glyphicon-th-large',
+                'children' => array(
+                    array('label' => '公司介绍', 'url' => 'page/company', 'active_actions' => array('page/company')),
                 ),
             ),
         ),

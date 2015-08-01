@@ -1,5 +1,6 @@
 <form class="form-inline pull-right" role="form" action="<?=current_url()?>" method="POST">
 	<div class="form-group">
+        商品类别：
 		<select name="Query[category_id]" class="form-control">
 			<option value="">全部</option>
 			<?php foreach($categorys as $i): ?>
@@ -8,12 +9,21 @@
 		</select>
 	</div>
 	<div class="form-group">
+        商品状态：
 		<select name="Query[status]" class="form-control">
 			<option value="">全部</option>
 			<option value="1" <?=isset($query['status']) && $query['status']=='1' ? 'selected' : ''?>>上架</option>
 			<option value="2" <?=isset($query['status']) && $query['status']=='2' ? 'selected' : ''?>>下架</option>
 		</select>
 	</div>
+    <div class="form-group">
+        属于推送商品：
+        <select name="Query[is_push]" class="form-control">
+            <option value="">全部</option>
+            <option value="1" <?=isset($query['is_push']) && $query['is_push']=='1' ? 'selected' : ''?>>属于</option>
+            <option value="2" <?=isset($query['is_push']) && $query['is_push']=='2' ? 'selected' : ''?>>不属于</option>
+        </select>
+    </div>
 	<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 查询</button>
 </form>
 
@@ -23,7 +33,7 @@
             <th width='100'>编号</th>
             <th>菜品</th>
             <th width='120'>状态</th>
-            <th width='260'>操作</th>
+            <th width='350'>操作</th>
         </tr>
     </thead>
     <tbody>
@@ -69,6 +79,14 @@
 					<?php if(chk_access('goods/delete')):?>
                     <a href='<?=site_url("goods/delete/$i->goods_id")?>' onclick="javascript:return confirm('确定执行吗？')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp;
 					<?php endif; ?>
+
+                    <?php if(chk_access('goods/push')):?>
+                        <?php if ($i->is_push == 2): ?>
+                           <a href='<?=site_url("goods/push/$i->goods_id")?>' onclick="javascript:return confirm('确定执行吗？')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-star"></span> 设置推送</a>&nbsp;
+                        <?php else: ?>
+                            <span class="label label-success">推送商品</span>
+                        <?php endif ?>
+                    <?php endif; ?>
                 </p>
             </td>
         </tr>
