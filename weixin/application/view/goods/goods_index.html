@@ -138,7 +138,11 @@ span.glyphicon-shopping-cart{
         </div>
         <div class="app-content container-fluid goods-detail">
             {{html desc}}
-            <p><button class="btn btn-default btn-block btn-back"><span class="glyphicon glyphicon-circle-arrow-left"></span> 返回</button></p>
+            {{if is_goods_detail}}
+            <p><button class="btn btn-warning btn-block btn-back"><span class="glyphicon glyphicon-star" id="focus_goods"></span> 关注</button></p>
+            {{else}}
+            <p><button class="btn btn-default btn-block btn-back"><span class="glyphicon glyphicon-circle-arrow-left" id="return_back"></span> 返回</button></p>
+            {{/if}}
         </div>
     </div>
 </script>

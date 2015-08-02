@@ -1,202 +1,120 @@
-<!-- 主窗体内容 -->
-<div class="body" >
+        <base href="<?=__PUBLIC__?>/game/choujiang/">
+        <link href="<?=__PUBLIC__?>/game/choujiang/activity-style2.css" rel="stylesheet" type="text/css">
 
-    <!-- 代码 开始 -->
-    <img src="<?=__PUBLIC__?>image/1.png" id="shan-img" style="display:none;" />
-    <img src="<?=__PUBLIC__?>image/2.png" id="sorry-img" style="display:none;" />
-    <div class="banner">
-        <div class="turnplate" id="wrap" style="position: absolute;left: 50%;
-  top: 50%;">
-            <canvas class="item" id="wheelcanvas"></canvas>
-            <div class="img-wrap" style="position:absolute;left:50%;top:50%;margin:-90px 0 0 -70px;">
-               <img class="pointer" src="<?=__PUBLIC__?>image/turnplate-pointer.png" style="position: relative;top: -11px;left: 10px;  width: 120px;"/> 
+        <div id="loader" style="text-align: center;height:30px;line-height: 30px;background: white;display: none;"><img src="load.gif" align="absmiddle"/> 请稍后，数据传输中 ...</div>
+        <div  class="main"  >
+            <div id="outercont">
+                <div id="outer-cont">
+                    <div id="outer"><img src="zp8-.png"></div>
+                </div>
+                <div id="inner-cont">
+                    <div id="inner"><img src="activity-lottery-2.png"></div>
+                </div>
+                <!-- <div class="boxcontent boxwhite">
+                    <div class="box">
+                        <div class="title-red">活动说明：</div>
+                        <div class="Detail">
+                            <p >本次活动仅限现场朋友参与！</p>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
-    </div>
-    <!-- 代码 结束 -->
-</div>
-<script src="<?=__PUBLIC__?>js/awardRotate.js"></script>
 
-<script type="text/javascript">
-var body_width = $('body').width(); 
-var turnplate = {
-    restaraunts: [], //大转盘奖品名称
-    colors: [], //大转盘奖品区块对应背景颜色
-    outsideRadius: 192*body_width/396, //大转盘外圆的半径
-    textRadius: 155*body_width/396, //大转盘奖品位置距离圆心的距离
-    insideRadius: 68*body_width/396, //大转盘内圆的半径
-    startAngle: 0, //开始角度       
-    bRotate: false          //false:停止;ture:旋转
-};
-//页面所有元素加载完毕后执行drawRouletteWheel()方法对转盘进行渲染
-window.onload = function() {
-    drawRouletteWheel(body_width);
-};
-
-function drawRouletteWheel(body_width) {
-    $("#wheelcanvas").attr('width',body_width+'px');
-    $("#wheelcanvas").attr('height',body_width+'px');
-    $("#wrap").css({width:body_width,height:body_width,marginLeft:-body_width/2,marginTop:-body_width/2});
-    // width:body_width,height:body_width});
-    var canvas = document.getElementById("wheelcanvas");
-    if (canvas.getContext) {
-        //根据奖品个数计算圆周角度
-        var arc = Math.PI / (turnplate.restaraunts.length / 2);
-        var ctx = canvas.getContext("2d");
-        //在给定矩形内清空一个矩形
-        ctx.clearRect(0, 0, body_width, body_width);
-        //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式  
-        ctx.strokeStyle = "#FFBE04";
-        //font 属性设置或返回画布上文本内容的当前字体属性
-        ctx.font = '16px Microsoft YaHei';
-        for (var i = 0; i < turnplate.restaraunts.length; i++) {
-            var angle = turnplate.startAngle + i * arc;
-            ctx.fillStyle = turnplate.colors[i];
-            ctx.beginPath();
-            //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）    
-            ctx.arc(body_width/2, body_width/2, turnplate.outsideRadius, angle, angle + arc, false);
-            ctx.arc(body_width/2, body_width/2, turnplate.insideRadius, angle + arc, angle, true);
-            ctx.stroke();
-            ctx.fill();
-            //锁画布(为了保存之前的画布状态)
-            ctx.save();
-            //----绘制奖品开始----
-            ctx.fillStyle = "#E5302F";
-            var text = turnplate.restaraunts[i];
-            var line_height = 17;
-            //translate方法重新映射画布上的 (0,0) 位置
-            ctx.translate(body_width/2 + Math.cos(angle + arc / 2) * turnplate.textRadius, body_width/2 + Math.sin(angle + arc / 2) * turnplate.textRadius);
-
-            //rotate方法旋转当前的绘图
-            ctx.rotate(angle + arc / 2 + Math.PI / 2);
-
-            /** 下面代码根据奖品类型、奖品名称长度渲染不同效果，如字体、颜色、图片效果。(具体根据实际情况改变) **/
-            // if (text.indexOf("M") > 0) {//流量包
-            //     var texts = text.split("M");
-            //     for (var j = 0; j < texts.length; j++) {
-            //         ctx.font = j == 0 ? 'bold 20px Microsoft YaHei' : '16px Microsoft YaHei';
-            //         if (j == 0) {
-            //             ctx.fillText(texts[j] + "M", -ctx.measureText(texts[j] + "M").width / 2, j * line_height);
-            //         } else {
-            //             ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
-            //         }
-            //     }
-            // } else if (text.indexOf("M") == -1 && text.length > 6) {//奖品名称长度超过一定范围 
-            //     text = text.substring(0, 6) + "||" + text.substring(6);
-            //     var texts = text.split("||");
-            //     for (var j = 0; j < texts.length; j++) {
-            //         ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
-            //     }
-            // } else {
-            //     //在画布上绘制填色的文本。文本的默认颜色是黑色
-            //     //measureText()方法返回包含一个对象，该对象包含以像素计的指定字体宽度
-            // }
-            ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-
-            //添加对应图标
-            if (text.indexOf("金币") > 0) {
-                var img = document.getElementById("shan-img");
-                img.onload = function() {
-                    ctx.drawImage(img, -15, 10);
-                };
-                ctx.drawImage(img, -15, 10);
-            } else if (text.indexOf("谢谢参与") >= 0) {
-                var img = document.getElementById("sorry-img");
-                img.onload = function() {
-                    ctx.drawImage(img, -15, 10);
-                };
-                ctx.drawImage(img, -15, 10);
-            }
-            //把当前画布返回（调整）到上一个save()状态之前 
-            ctx.restore();
-            //----绘制奖品结束----
-        }
-    }
-}
-
-    $(document).ready(function() {    
-
-        //动态添加大转盘的奖品与奖品区域背景颜色
-        turnplate.restaraunts = ["50金币", "10金币", "谢谢参与", "5金币", "10金币", "谢谢参与", "20金币 ", "30金币", "谢谢参与", "2金币"];
-
-        turnplate.colors = ["#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF"];
-
-        var rotateTimeOut = function() {
-            $('#wheelcanvas').rotate({
-                angle: 0,
-                animateTo: 2160,
-                duration: 8000,
-                callback: function() {
-                    alert('网络超时，请检查您的网络设置！');
-                }
-            });
-        };
-
-        //旋转转盘 item:奖品位置; txt：提示语;
-        var rotateFn = function(item, txt) {
-            var angles = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length * 2));
-            if (angles < 270) {
-                angles = 270 - angles;
-            } else {
-                angles = 360 - angles + 270;
-            }
-            $('#wheelcanvas').stopRotate();
-            $('#wheelcanvas').rotate({
-                angle: 0,
-                animateTo: angles + 1800,
-                duration: 8000,
-                callback: function() {
-                    var score = parseInt(txt);
-                    if (!score) {
-                        alert("谢谢参与，继续努力！");
-                        turnplate.bRotate = !turnplate.bRotate;
-                        return false;
-                    }                    
-                    $.ajax({ 
-                        type: 'POST', 
-                        url: site_url('code/game'),                        
-                        dataType: 'json', 
-                        data:{score:score},
-                        cache: false, 
-                        error: function(){ 
-                            alert('出错了！'); 
-                            return false; 
-                        }, 
-                        success:function(res){
-                            if (res.error) {
-                                alert(res.error);
-                                return false;
+        <script type="text/javascript">
+        var post_url = '<?=site_url("code/game")?>';
+        var rid = 1;
+        var game_id = <?=$game_id?>;
+            $(function() {
+                window.requestAnimFrame = (function() {
+                    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                            function(callback) {
+                                window.setTimeout(callback, 1000 / 60)
                             }
-                            alert(res.message);
-                           turnplate.bRotate = !turnplate.bRotate;
-                        } 
-                    });    
+                })();
+                var totalDeg = 360 * 3 + 0;
+                var steps = [];
+
+                var lostDeg = [120, 240, 360];
+                var prizeDeg = [40, 80, 160, 200, 280, 320];
+                var prize, sncode;
+                var count = 0;
+                var now = 0;
+                var a = 0.01;
+                var outter, inner, timer, running = false;
+                function countSteps() {
+                    var t = Math.sqrt(2 * totalDeg / a);
+                    var v = a * t;
+                    for (var i = 0; i < t; i++) {
+                        steps.push((2 * v * i - a * i * i) / 2)
+                    }
+                    steps.push(totalDeg)
                 }
+                function step(cb) {
+                    outter.style.webkitTransform = 'rotate(' + steps[now++] + 'deg)';
+                    outter.style.MozTransform = 'rotate(' + steps[now++] + 'deg)';
+                    if (now < steps.length) {
+                        running = true;
+                        requestAnimFrame(function(){step(cb)})
+                    } else {
+                        cb();
+                        running = false;
+                    }
+                }
+                function start(deg,cb) {
+                    deg = deg || lostDeg[parseInt(lostDeg.length * Math.random())];
+                    running = true;
+                    clearInterval(timer);
+                    totalDeg = 360 * 5 + deg;
+                    steps = [];
+                    now = 0;
+                    countSteps();
+
+                    requestAnimFrame(function(){step(cb)});
+                }
+                window.start = start;
+                outter = document.getElementById('outer');
+                inner = document.getElementById('inner');
+                i = 10;
+                $("#inner").click(function() {
+
+                    if (running)
+                        return;
+
+                    //检查今天能否再玩
+                    $.get('<?=site_url('code/check_can_play')?>',{game_id:game_id},function(res){
+                        if(!res.can_play){
+                            alert('今天不能再玩了,请明天继续!');
+                            return false;
+                        }
+
+                        //获取转盘结果
+                        $.post('<?=site_url('code/get_game_result')?>',{game_id:game_id},function(res){
+                            var rid = res.rid;
+
+                            //显示结果
+                            if (rid == 0){
+                                start(0,function(){
+                                    alert('很遗憾，请再接再厉');
+                                });
+                            }else{
+                                start(prizeDeg[rid-1],function(){
+                                    var prizeArr = {
+                                        1:2,
+                                        2:50,
+                                        3:30,
+                                        4:10,
+                                        5:5,
+                                        6:20,
+                                    };
+                                    //获取金币
+                                    $.post(post_url,{score:prizeArr[rid]},function(res){
+                                        alert(res.message);
+                                    },'json');                            
+                                });
+                            }
+                        },'json');
+                    },'json');
+                });
             });
-        };
-
-        function rnd(n, m) {
-            var random = Math.floor(Math.random() * (m - n + 1) + n);
-            return random;
-        }
-
-        $('.pointer').click(function() {
-            if (turnplate.bRotate)
-                return;
-            turnplate.bRotate = !turnplate.bRotate;
-            //获取随机数(奖品个数范围内)
-            var item = rnd(1, turnplate.restaraunts.length);
-            //奖品数量等于10,指针落在对应奖品区域的中心角度[252, 216, 180, 144, 108, 72, 36, 360, 324, 288]
-            rotateFn(item, turnplate.restaraunts[item - 1]);
-        });
-
-
-
-    });
-
-
-
-
-
-
-</script>
+        </script>

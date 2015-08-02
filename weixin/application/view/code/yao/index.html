@@ -92,215 +92,230 @@
   <audio src="<?=__PUBLIC__?>app/yao/shake.m4r"></audio>
   
   <script type="text/javascript" charset="utf-8">
-    var audio = document.querySelector('audio');
-    audio.src = '<?=__PUBLIC__?>app/yao/shake.m4r';
-    var mebtnopenurl = '';
+    var game_id = <?=$game_id?>;
 
-    function goHome() {
-      window.location = "";
-    }
-
-    function dp_submitScore(score)
-    {
-      dp_share();
-    }
-
-    function onShareComplete(res)
-    {
-      document.location.href = mebtnopenurl;
-    }
-
-    window.shareData = {
-      "imgUrl": "",
-      "timeLineLink": "",
-      "tTitle": "疯狂手臂，翻滚吧，是时候治一下肩周炎了！",
-      "tContent": "在10秒内疯狂的摇一摇，想赢？不容易。"
-    };
-
-
-    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady()
-    {
-      WeixinJSBridge.on('menu:share:appmessage', function(argv)
-      {
-        WeixinJSBridge.invoke('sendAppMessage',
-        {
-          "img_url": window.shareData.imgUrl,
-          "link": window.shareData.timeLineLink,
-          "desc": window.shareData.tContent,
-          "title": window.shareData.tTitle
-        }, onShareComplete);
-      });
-
-      WeixinJSBridge.on('menu:share:timeline', function(argv)
-      {
-        WeixinJSBridge.invoke('shareTimeline',
-        {
-          "img_url": window.shareData.imgUrl,
-          "img_width": "640",
-          "img_height": "640",
-          "link": window.shareData.timeLineLink,
-          "desc": window.shareData.tContent,
-          "title": window.shareData.tTitle
-        }, onShareComplete);
-      });
-    }, false);
-
-    document.addEventListener('touchmove', function(e)
-    {
-      e.preventDefault();
-    }, false);
-    if (window.DeviceMotionEvent)
-    {
-      window.addEventListener('devicemotion', deviceMotionHandler, false);
-    }
-    var SHAKE_THRESHOLD = 600;
-    var last_update = 0;
-    var x, y, z, last_x, last_y, last_z;
-    var ds = document.querySelector('#score');
-    var sec = document.querySelector('#sec');
-    var share = document.querySelector('.share');
-    var go = document.querySelector('.go');
-    var again = document.querySelector('.again');
-    var score = 0;
-    var begin = false;
-    var time = 1000;
-    var end = false;
-    ds.textContent = '开始';
-    share.style.display = 'none';
-
-    again.addEventListener('touchstart', function()
-    {
-      location.reload();
-      end = false;
-      time = 1000;
-      score = 0;
-      share.style.display = 'none';
-      ds.textContent = '开始';
-      sec.textContent = '10.00';
-      //run();
+    $(function(){
+      //检查今天能否再玩
+      $.get('<?=site_url('code/check_can_play')?>',{game_id:game_id},function(res){
+          if(!res.can_play){
+              alert('今天不能再玩了,请明天继续!');
+              return false;
+          }
+          startGame();
+      },'json');      
     });
+    function startGame(){
+      var audio = document.querySelector('audio');
+      audio.src = '<?=__PUBLIC__?>app/yao/shake.m4r';
+      var mebtnopenurl = '';
 
-    go.addEventListener('touchstart', function()
-    {
-	//modify_here
-        if (!score) {
-            alert("摇一摇,继续得金币！");
-            return false;
-        }
-        score = score -1;
-	$.ajax({ 
-	    type: 'POST', 
-            url: site_url('code/game'),                        
-            dataType: 'json', 
-            data:{score:score},
-            cache: false, 
-            error: function(){ 
-                alert('出错了！'); 
-                return false; 
-            }, 
-            success:function(res){
-                if (res.error) {
-                    alert(res.error);
-                    return false;
-                }
-                alert(res.message);
-            } 
+      function goHome() {
+        window.location = "";
+      }
+
+      function dp_submitScore(score)
+      {
+        dp_share();
+      }
+
+      function onShareComplete(res)
+      {
+        document.location.href = mebtnopenurl;
+      }
+
+      window.shareData = {
+        "imgUrl": "",
+        "timeLineLink": "",
+        "tTitle": "疯狂手臂，翻滚吧，是时候治一下肩周炎了！",
+        "tContent": "在10秒内疯狂的摇一摇，想赢？不容易。"
+      };
+
+
+      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady()
+      {
+        WeixinJSBridge.on('menu:share:appmessage', function(argv)
+        {
+          WeixinJSBridge.invoke('sendAppMessage',
+          {
+            "img_url": window.shareData.imgUrl,
+            "link": window.shareData.timeLineLink,
+            "desc": window.shareData.tContent,
+            "title": window.shareData.tTitle
+          }, onShareComplete);
         });
-			
-		//alert("finish!");
-		//site_url('code/game')
-      //var fx = document.querySelector('.fx');
-      //fx.style.display = 'block';
-      //dp_share();
-    });
 
-    function dp_share()
-    {
-      if (score > 0)
-      {
-        document.title = '10秒我能摇' + score + '下,你行你试试.'
-      }
-      else
-      {
-        document.title = '疯狂摇一摇，玩完之后我的胳膊已经不是我的了.';
-      }
-      window.shareData.tTitle = document.title;
-    }
-
-    function run()
-    {
-      if (begin || end) return;
-      audio.loop = true;
-      audio.play();
-      begin = true;
-      ds.textContent = 0;
-      var tid = setInterval(function()
-      {
-        time--;
-        document.body.style.backgroundColor = '#' + (time + 700).toString(
-          16);
-        if (time < 0)
+        WeixinJSBridge.on('menu:share:timeline', function(argv)
         {
-          audio.loop = false;
-          audio.pause();
-          document.body.style.backgroundColor = '#ccc';
-          clearInterval(tid);
-          begin = false;
-          end = true;
-          share.style.display = 'block';
+          WeixinJSBridge.invoke('shareTimeline',
+          {
+            "img_url": window.shareData.imgUrl,
+            "img_width": "640",
+            "img_height": "640",
+            "link": window.shareData.timeLineLink,
+            "desc": window.shareData.tContent,
+            "title": window.shareData.tTitle
+          }, onShareComplete);
+        });
+      }, false);
+
+      document.addEventListener('touchmove', function(e)
+      {
+        e.preventDefault();
+      }, false);
+      if (window.DeviceMotionEvent)
+      {
+        window.addEventListener('devicemotion', deviceMotionHandler, false);
+      }
+      var SHAKE_THRESHOLD = 600;
+      var last_update = 0;
+      var x, y, z, last_x, last_y, last_z;
+      var ds = document.querySelector('#score');
+      var sec = document.querySelector('#sec');
+      var share = document.querySelector('.share');
+      var go = document.querySelector('.go');
+      var again = document.querySelector('.again');
+      var score = 0;
+      var begin = false;
+      var time = 1000;
+      var end = false;
+      ds.textContent = '开始';
+      share.style.display = 'none';
+
+      again.addEventListener('touchstart', function()
+      {
+        location.reload();
+        end = false;
+        time = 1000;
+        score = 0;
+        share.style.display = 'none';
+        ds.textContent = '开始';
+        sec.textContent = '10.00';
+        //run();
+      });
+
+      go.addEventListener('touchstart', function()
+      {
+    //modify_here
+          if (!score) {
+              alert("摇一摇,继续得金币！");
+              return false;
+          }
+          score = score -1;
+    $.ajax({ 
+        type: 'POST', 
+              url: site_url('code/game'),                        
+              dataType: 'json', 
+              data:{score:score},
+              cache: false, 
+              error: function(){ 
+                  alert('出错了！'); 
+                  return false; 
+              }, 
+              success:function(res){
+                  if (res.error) {
+                      alert(res.error);
+                      return false;
+                  }
+                  alert(res.message);
+              } 
+          });
+        
+      //alert("finish!");
+      //site_url('code/game')
+        //var fx = document.querySelector('.fx');
+        //fx.style.display = 'block';
+        //dp_share();
+      });
+
+      function dp_share()
+      {
+        if (score > 0)
+        {
+          document.title = '10秒我能摇' + score + '下,你行你试试.'
+        }
+        else
+        {
+          document.title = '疯狂摇一摇，玩完之后我的胳膊已经不是我的了.';
+        }
+        window.shareData.tTitle = document.title;
+      }
+
+      function run()
+      {
+        if (begin || end) return;
+        audio.loop = true;
+        audio.play();
+        begin = true;
+        ds.textContent = 0;
+        var tid = setInterval(function()
+        {
+          time--;
+          document.body.style.backgroundColor = '#' + (time + 700).toString(
+            16);
+          if (time < 0)
+          {
+            audio.loop = false;
+            audio.pause();
+            document.body.style.backgroundColor = '#ccc';
+            clearInterval(tid);
+            begin = false;
+            end = true;
+            share.style.display = 'block';
+            return;
+          }
+          sec.textContent = (time / 100).toPrecision(time.toString().length);
+        }, 10);
+
+      }
+
+      ds.addEventListener('touchstart', function()
+      {
+        run();
+      });
+
+      function deviceMotionHandler(eventData)
+      {
+        if (!begin)
+        {
+          ds.style.webkitTransform = 'translate3d(0px,0px,0px)';
           return;
         }
-        sec.textContent = (time / 100).toPrecision(time.toString().length);
-      }, 10);
+        var acceleration = eventData.accelerationIncludingGravity;
+        var curTime = new Date().getTime();
+        var diffTime = curTime - last_update;
 
-    }
-
-    ds.addEventListener('touchstart', function()
-    {
-      run();
-    });
-
-    function deviceMotionHandler(eventData)
-    {
-      if (!begin)
-      {
-        ds.style.webkitTransform = 'translate3d(0px,0px,0px)';
-        return;
-      }
-      var acceleration = eventData.accelerationIncludingGravity;
-      var curTime = new Date().getTime();
-      var diffTime = curTime - last_update;
-
-      if (diffTime > 100)
-      {
-
-        last_update = curTime;
-
-        x = acceleration.x;
-        y = acceleration.y;
-        z = acceleration.z;
-
-        var xdiff = (x - last_x);
-        var ydiff = (y - last_y);
-        var zdiff = (z - last_z);
-
-        ds.style.webkitTransform = 'translate3d(' + xdiff + 'px,' + ydiff +
-          'px,' + zdiff + 'px)';
-
-        var value = x + y + z;
-        var lastvalue = last_x + last_y + last_z;
-        var speed = Math.abs(value - lastvalue) /
-          diffTime * 10000;
-
-        if (speed > SHAKE_THRESHOLD)
+        if (diffTime > 100)
         {
-          ds.textContent = score++;
+
+          last_update = curTime;
+
+          x = acceleration.x;
+          y = acceleration.y;
+          z = acceleration.z;
+
+          var xdiff = (x - last_x);
+          var ydiff = (y - last_y);
+          var zdiff = (z - last_z);
+
+          ds.style.webkitTransform = 'translate3d(' + xdiff + 'px,' + ydiff +
+            'px,' + zdiff + 'px)';
+
+          var value = x + y + z;
+          var lastvalue = last_x + last_y + last_z;
+          var speed = Math.abs(value - lastvalue) /
+            diffTime * 10000;
+
+          if (speed > SHAKE_THRESHOLD)
+          {
+            ds.textContent = score++;
+          }
+          last_x = x;
+          last_y = y;
+          last_z = z;
         }
-        last_x = x;
-        last_y = y;
-        last_z = z;
-      }
-    }
+      }      
+    }    
+
   </script>
 
 </body></html>

@@ -1,18 +1,25 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="format-detection" content="telephone=no">
-		<title>刮刮卡</title>
-		<link href="<?=__PUBLIC__?>/css/activity-style.css" rel="stylesheet" type="text/css">
-	</head>
-        
+<link href="<?=__PUBLIC__?>/css/activity-style.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript">
-                ggk_config = {"gailv":{"one":20,"two":20,"three":20},"score":{"one":100,"two":60, "three":20},number:{"one":10,"two":30,"three":60}};
-                
+
+        <?php 
+        //格式化数字
+        $gailv = $game_config['proba_arr'];
+        foreach($gailv as $k => $i){
+        	$gailv[$k] = intval($i);
+        }
+        $gailv = json_encode($gailv);
+        $score = $game_config['money_arr'];
+        foreach($score as $k => $i){
+        	$score[$k] = intval($i);
+        }
+        $score = json_encode($score);
+        $number = $game_config['number'];
+        foreach($number as $k => $i){
+        	$number[$k] = (int)$i;
+        }
+        $number = json_encode($number);
+         ?>
+        ggk_config = {"gailv":<?=$gailv?>,"score":<?=$score?>,'number':<?=$number?>};                 
 		function loading(canvas, options) {
 			this.canvas = canvas;
 			if (options) {
@@ -176,84 +183,100 @@
 			window.sncode = "null";
 			window.prize = "谢谢参与";
 			var score = 0
-
+        	var game_id = <?=$game_id?>;
 			var zjl = false;
 			var num = 0;
 			var goon = true;
 			$(function() {
-				$("#scratchpad").wScratchPad({
-					width: 150,
-					height: 40,
-					color: "#a9a9a7",
-					scratchMove: function() {
-						num++;
-						if (num == 2) {
-							//一等奖机率10% 二等奖20% 三等奖30% 幸运奖40%
-							var randNum = Math.round(Math.random()*99+1)
-                                                       // alert(randNum);
-							if(randNum>=1 && randNum<=ggk_config.gailv.one){
-								var award = "一等奖";
-								zjl = true;
-								score = ggk_config.score.one;
-								document.getElementById('sncode').innerHTML = ggk_config.score.one;
-								
-							}
-							if(randNum>=ggk_config.gailv.one+1 && randNum<=ggk_config.gailv.one+ggk_config.gailv.two){
-								var award = "二等奖";
-								zjl = true;
-								score = ggk_config.score.two;
-								scoretext = ggk_config.score.two;
-								document.getElementById('sncode').innerHTML = ggk_config.score.two;
-							}
-							if(randNum>=ggk_config.gailv.one+ggk_config.gailv.two+1 && randNum<=ggk_config.gailv.one+ggk_config.gailv.two+ggk_config.gailv.three){
-								var award = "三等奖";
-								zjl = true;
-								score = ggk_config.score.three;
-								scoretext = ggk_config.score.three;
-								document.getElementById('sncode').innerHTML = ggk_config.score.three;
-							}
-							if(randNum>=ggk_config.gailv.one+ggk_config.gailv.two+ggk_config.gailv.three+1 && randNum<=100){
-								var award = "谢谢参与";
-								score = 0;
-                                                                zjl = false;
-								scoretext = "0";
-								document.getElementById('sncode').innerHTML = "0";
-							}
-							if(score > 0){
-								$.ajax({ 
-									type: 'POST', 
-									url: site_url('code/game'),                        
-									dataType: 'json', 
-									data:{score:score},
-									cache: false, 
-									error: function(){ 
-										alert('出错了！'); 
-										return false; 
-									}, 
-									success:function(res){
-										if (res.error) {
-											alert(res.error);
-											return false;
-										}
-										alert(res.message);
-										score=0;
-									} 
-								});  
-							}							
-							document.getElementById('prize').innerHTML = award;
-							$("#theAward").html(award);
-						}
+				//检查今天能否再玩
+                $.get('<?=site_url('code/check_can_play')?>',{game_id:game_id},function(res){
+                    if(!res.can_play){
+                        alert('今天不能再玩了,请明天继续!');
+                        return false;
+                    }
+                    startGame();
+                },'json');
+                
+				function startGame(){
+					$("#scratchpad").wScratchPad({
+						width: 150,
+						height: 40,
+						color: "#a9a9a7",
+						scratchMove: function() {
+							// if(!has_checked_can_play || !can_play){
+							// 	return;
+							// }
 
-						if (zjl && num > 10 && goon) {
-						
-							//$("#zjl").fadeIn();
-							goon = false;
-							
-							$("#zjl").slideToggle(500);
-							//$("#outercont").slideUp(500)
+		                    	num++;
+								if (num == 2) {
+									//一等奖机率10% 二等奖20% 三等奖30% 幸运奖40%
+									var randNum = Math.round(Math.random()*99+1)
+		                                                       // alert(randNum);
+									if(randNum>=1 && randNum<=ggk_config.gailv.one){
+										var award = "一等奖";
+										zjl = true;
+										score = ggk_config.score.one;
+										document.getElementById('sncode').innerHTML = ggk_config.score.one;
+										
+									}
+									if(randNum>=ggk_config.gailv.one+1 && randNum<=ggk_config.gailv.one+ggk_config.gailv.two){
+										var award = "二等奖";
+										zjl = true;
+										score = ggk_config.score.two;
+										scoretext = ggk_config.score.two;
+										document.getElementById('sncode').innerHTML = ggk_config.score.two;
+									}
+									if(randNum>=ggk_config.gailv.one+ggk_config.gailv.two+1 && randNum<=ggk_config.gailv.one+ggk_config.gailv.two+ggk_config.gailv.three){
+										var award = "三等奖";
+										zjl = true;
+										score = ggk_config.score.three;
+										scoretext = ggk_config.score.three;
+										document.getElementById('sncode').innerHTML = ggk_config.score.three;
+									}
+									if(randNum>=ggk_config.gailv.one+ggk_config.gailv.two+ggk_config.gailv.three+1 && randNum<=100){
+										var award = "谢谢参与";
+										score = 0;
+		                                zjl = false;
+										scoretext = "0";
+										document.getElementById('sncode').innerHTML = "0";
+									}
+									if(score > 0){
+										$.ajax({ 
+											type: 'POST', 
+											url: site_url('code/game'),                        
+											dataType: 'json', 
+											data:{score:score},
+											cache: false, 
+											error: function(){ 
+												alert('出错了！'); 
+												return false; 
+											}, 
+											success:function(res){
+												if (res.error) {
+													alert(res.error);
+													return false;
+												}
+												alert(res.message);
+												score=0;
+											} 
+										});  
+									}							
+									document.getElementById('prize').innerHTML = award;
+									$("#theAward").html(award);
+								}
+
+								if (zjl && num > 10 && goon) {
+								
+									//$("#zjl").fadeIn();
+									goon = false;
+									
+									$("#zjl").slideToggle(500);
+									//$("#outercont").slideUp(500)
+								}
 						}
-					}
-				});
+					});
+				}
+				
 
 				//$("#prize").html("谢谢参与");
 				//loadingObj.hide();
@@ -306,7 +329,3 @@
 				"json")
 			});
 		</script>
-		
-	</body>
-
-</html>

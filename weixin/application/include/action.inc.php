@@ -138,6 +138,9 @@ class Action extends App
         return true;
     }
 
+    /**
+     * 错误提示
+     */
     public function error_message($error_message, $location = '')
     {
         // header('Content-type:text/html;chartset=utf-8');
@@ -151,6 +154,9 @@ class Action extends App
         die;
     }
 
+    /**
+     * 成功提示
+     */
     public function success_message($success_message, $location = '')
     {
         // header('Content-type:text/html;chartset=utf-8');
@@ -162,5 +168,13 @@ class Action extends App
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo "<script>alert('$success_message');$location</script>";
         die;
+    }
+
+    /**
+     * 获取文章
+     */
+    public function get_page($page_id)
+    {
+        return $this->db->where('page_id', $page_id)->row('pages');
     }
 }

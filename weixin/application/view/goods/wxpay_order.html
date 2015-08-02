@@ -1,0 +1,48 @@
+<script type="text/javascript">
+
+	//调用微信JS api 支付
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			<?php echo $jsApiParameters;?>,
+			function(res){
+				//TODO查询服务器获取真实支付结果，如果不成功呢
+				switch(res.err_msg){
+					case 'get_brand_wcpay_request:fail':
+					alert('付款失败');
+
+					break;
+					case 'get_brand_wcpay_request:cancel':
+					alert('付款取消');
+
+					break;
+					case 'get_brand_wcpay_request:ok':
+					//如果支付成功
+					//1.查询状态
+					//2.跳转到订单成功页
+					alert('付款成功');
+					break;
+				}
+				return true;
+			}
+		);
+	}
+
+	//检测微信兼容
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+	callpay();
+</script>
+

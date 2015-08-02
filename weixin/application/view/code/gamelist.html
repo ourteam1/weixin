@@ -51,9 +51,14 @@
             <ul class="list-group ">
               <li class="list-group-item list-item-img">
                 <div class="list-item-imgwrap">
-                    <img class="image-radius" src="<?=__PUBLIC__?><?=$game['icon']?>" alt="Generic placeholder image" width="50" height="50">
-                    <h5 class="list-item-gamename"><?=$game[name]?></h5>
-                    <a href="<?=site_url('code/game')?>/<?=$game[fold]?>" class="btn btn-primary">开始游戏</a>
+                    <img class="image-radius" src="<?=__PUBLIC__?><?=$game['game_icon']?>" alt="Generic placeholder image" width="50" height="50">
+                    <h5 class="list-item-gamename"><?=$game['game_name']?></h5>
+                    <?php if (in_array($week_today, $game['game_config']['week_play'])): ?>
+                        <a href="<?=site_url('code/game/'.$game['game_fold'].'/'.$game['game_id'])?>" class="btn btn-primary">开始游戏</a>   
+                    <?php else: ?>
+                        <a href="javascript:void(0)" class="btn btn-default" disable="disable" style="background: #dadada;border-color:#dadada;box-shadow: 1px 1px 1px #eee">开始游戏</a>                          
+                    <?php endif ?>
+                   
                 </div>
                </li>
             </ul>

@@ -1,19 +1,24 @@
 <?php
 
-if (!defined('IN_MSAPP')) exit('Access Deny!');
+if (!defined('IN_MSAPP')) {
+    exit('Access Deny!');
+}
 
 /**
- * 
+ *
  * http://host/weixin/test.php/code/game
  */
-class CodeGame extends Action {
+class CodeGame extends Action
+{
 
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->wxauth();
     }
 
-    function on_game($fold='') {
+    public function on_game($fold = '', $game_id = null)
+    {
         $score = $_REQUEST['score'];
         if (!empty($score)) {
             $score = intval($score);
@@ -34,17 +39,28 @@ class CodeGame extends Action {
 
             // 提交事务
             $this->db->trans_commit();
-            
+
             die_json(array('message' => '恭喜您，成功赢取 ' . $score . "金币"));
         }
 
+        if (!$fold || !$game_id) {
+            return false;
+        }
+
+        //游戏规则
+        $game_config = $this->db->where('game_id', $game_id)->column('games', 'game_config');
+        $game_config = json_decode($game_config, true);
+
+        $this->view->assign('game_config', $game_config);
+        $this->view->assign('game_id', $game_id);
         $this->view->display('code/' . $fold . '/index.html');
     }
 
     /**
      * 用户信息
      */
-    function _get_user_info() {
+    public function _get_user_info()
+    {
         $userinfo = $this->db->where('user_id', $this->user_id)->row('user');
         if (!$userinfo) {
             $this->db->trans_rollback(); // 回滚事务
@@ -52,14 +68,15 @@ class CodeGame extends Action {
         }
         return $userinfo;
     }
-    
+
     /**
      * 修改金币
      */
-    function _update_user_score($userinfo, $score) {
+    public function _update_user_score($userinfo, $score)
+    {
         // 修改金币
         $data = array(
-            'score' => $userinfo['score'],
+            'score'       => $userinfo['score'],
             'modify_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->where('user_id', $this->user_id)->update('user', $data);
@@ -70,10 +87,10 @@ class CodeGame extends Action {
 
         // 如果是余额支付 - 记录账户变动记录
         $data = array(
-            'user_id' => $this->user_id,
-            'action' => 'user.score.add',
+            'user_id'     => $this->user_id,
+            'action'      => 'user.score.add',
             'action_name' => '增加金币' . $score,
-            'amount' => $score,
+            'amount'      => $score,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $res = $this->db->insert('user_account', $data);

@@ -1,0 +1,50 @@
+<style>
+.app-content{
+  padding: 52px 20px;  
+}
+dl{
+  margin: 30px 15px 15px;
+  padding-bottom: 15px;  
+}
+dd{
+    margin-bottom:10px;
+}
+img{
+  vertical-align: top;
+}
+.box-favorable{
+    position: relative;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #dadada;
+
+} 
+.box-favorable .favorable-top-bg{
+  height:7px;
+  background:url('<?=__PUBLIC__?>image/favorable_top_bg.png') repeat-x;
+  background-size: 14px;
+}
+.box-favorable .favorable-name{
+  font-size:30px;
+  font-weight:bold;
+}
+</style>
+<div class="app-page">
+    <div class="app-topbar">
+        <h4><?=$page['title']?></h4>
+    </div>
+    <div class="app-content container-fluid">
+        <?php if (!empty($page)): ?>
+        <div class="box-favorable">
+            <!-- <div class="favorable-top-bg"></div> -->
+            <div class="row">
+              <div class="col-xs-12" style="padding: 10px 30px;">
+                <?=$page['content']?>
+              </div>
+            </div>
+        </div>
+        <?php else: ?>
+        <div class="alert alert-warning" role="alert">暂无信息</div>
+        <?php endif ?>
+    </div>
+</div>

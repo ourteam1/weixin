@@ -1,0 +1,135 @@
+<style>
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus
+,.nav-pills > li > a {
+    position: relative;
+  background-color: #F6425E;
+  font-size: 20px;
+  font-weight: bold;
+}
+.nav-pills>li.active>a::after{
+  position: absolute;
+  content: '';
+  height: 3px;
+  width: 74%;
+  bottom: -15px;
+  left: 50%;
+  background: #FDDD32;
+  margin-left: -37%;
+}
+.thumbnail > a{
+    height:auto;
+}
+.thumbnail a .img-wrap{
+
+}
+.thumbnail a img {
+    padding: 8px;
+    width: 80px;
+}
+
+.thumbnail h4 {
+    font-size: 16px;
+    color: #fff;
+    background: #F6425E;
+    margin-left: 8px;
+    margin-bottom: 4px;
+    padding: 0 2px;
+    margin-top: 8px;
+    display: inline-block;
+    position: relative;
+    height:24px;
+    max-width: 66%;
+}
+.thumbnail h4::after{
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: -7px;  
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-left: 7px solid #F6425E;
+  border-bottom: 12px solid transparent;   
+}
+.thumbnail h4>div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;   
+}
+.thumbnail p {
+    margin-left: 87px;
+    font-size: 12px;
+    line-height: 1.421;
+}
+.btn-add-shopping-cart {
+    position: absolute;
+    right: 29px;
+    bottom: 24px;
+    background: #FDDD32;
+    border-color: #FDDD32;
+    box-shadow: 1px 2px 1px #E19524;
+    color: #555;
+}
+span.glyphicon-shopping-cart{
+    color:#fff;
+}
+.app-footbar {
+  border-top: none;
+  background: #FDDD32;
+}
+.app-footbar a{
+    color:#555;
+    font-size:16px;
+}
+</style>
+<!-- 主窗体内容 -->
+<div class="body">
+    <div class="app-page">
+        <div class="app-topbar">
+            <h4><?=$goods['goods_name']?></h4>
+        </div>
+        <div class="app-content container-fluid goods-detail">
+            <?=$goods['desc']?>
+            <?php if (empty($goods_focus)): ?>
+              <p><button class="btn btn-warning btn-block btn-back" id="focus_goods" data-url="<?=site_url('goods/focus/'.$goods['goods_id'])?>" data-reg-url="<?=site_url('user/bind_mobile')?>"><span class="glyphicon glyphicon-star" ></span> 关注</button></p>              
+            <?php endif ?>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#focus_goods').click(function(){
+          var $this = $(this);
+          var url = $this.data('url');
+
+          //请求检查是否注册
+          $.post(url,function(focus_res){
+            if(focus_res.error){
+              alert(focus_res.error);
+              return false;
+            }
+
+            //没注册
+            if(!focus_res.reg_status){
+              //跳到手机注册页
+              alert('请先绑定手机号码，再关注我哟！');
+              var regUrl = $this.data('reg-url');
+              location.href=regUrl;
+              return false;
+            }
+
+            //注册，关注，关闭页面
+            alert('谢谢您的关注');
+
+            window.opener=null;
+            window.close();
+
+            location.reload();
+          },'json');
+
+          return false;
+        });
+    });
+</script>

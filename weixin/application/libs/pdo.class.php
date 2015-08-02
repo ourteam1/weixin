@@ -1,21 +1,23 @@
 <?php
 
-class DB_PDO {
+class DB_PDO
+{
 
-    var $dbh = null;
-    var $host = '';
-    var $user = '';
-    var $password = '';
-    var $table_prefix = '';
-    var $bind_param = array();
-    var $where_data = '';
-    var $select_fields = '';
-    var $group_by = '';
-    var $order_by = '';
-    var $limit = '';
-    var $options = array();
+    public $dbh           = null;
+    public $host          = '';
+    public $user          = '';
+    public $password      = '';
+    public $table_prefix  = '';
+    public $bind_param    = array();
+    public $where_data    = '';
+    public $select_fields = '';
+    public $group_by      = '';
+    public $order_by      = '';
+    public $limit         = '';
+    public $options       = array();
 
-    function __construct($host = '127.0.0.1', $user = 'root', $password = '') {
+    public function __construct($host = '127.0.0.1', $user = 'root', $password = '')
+    {
         $this->set_host($host);
         $this->set_user($user);
         $this->set_password($password);
@@ -24,7 +26,8 @@ class DB_PDO {
     /**
      * 设置host
      */
-    function set_host($host) {
+    public function set_host($host)
+    {
         $this->host = $host;
         return $this;
     }
@@ -32,7 +35,8 @@ class DB_PDO {
     /**
      * 设置user
      */
-    function set_user($user) {
+    public function set_user($user)
+    {
         $this->user = $user;
         return $this;
     }
@@ -40,7 +44,8 @@ class DB_PDO {
     /**
      * 设置password
      */
-    function set_password($password) {
+    public function set_password($password)
+    {
         $this->password = $password;
         return $this;
     }
@@ -48,7 +53,8 @@ class DB_PDO {
     /**
      * 设置table prefix
      */
-    function set_table_prefix($prefix) {
+    public function set_table_prefix($prefix)
+    {
         $this->table_prefix = $prefix;
         return $this;
     }
@@ -56,7 +62,8 @@ class DB_PDO {
     /**
      * 设置options
      */
-    function set_options($options) {
+    public function set_options($options)
+    {
         $this->options = $options;
         return $this;
     }
@@ -64,7 +71,8 @@ class DB_PDO {
     /**
      * 连接
      */
-    function connect() {
+    public function connect()
+    {
         $this->dbh = new PDO($this->host, $this->user, $this->password, $this->options);
         return $this;
     }
@@ -72,20 +80,22 @@ class DB_PDO {
     /**
      * 获取table全名
      */
-    function get_table($table) {
+    public function get_table($table)
+    {
         return '`' . $this->table_prefix . $table . '`';
     }
 
     /**
      * 重置初始化初级
      */
-    function reset_init() {
-        $this->bind_param = array();
-        $this->where_data = '';
+    public function reset_init()
+    {
+        $this->bind_param    = array();
+        $this->where_data    = '';
         $this->select_fields = '';
-        $this->group_by = '';
-        $this->order_by = '';
-        $this->limit = '';
+        $this->group_by      = '';
+        $this->order_by      = '';
+        $this->limit         = '';
         return $this;
     }
 
@@ -93,18 +103,28 @@ class DB_PDO {
      * 添加数据
      * $this->db->insert("test", array("name"=>"noname1"));
      */
-    function insert($table, $data) {
-        if (!$this->dbh) $this->connect();
-        if (!$data) return false;
+    public function insert($table, $data)
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
+        if (!$data) {
+            return false;
+        }
+
         $fields = $values = array();
         foreach ($data as $k => $v) {
-            $fields[] = "`$k`";
-            $values[] = ":data_$k";
+            $fields[]           = "`$k`";
+            $values[]           = ":data_$k";
             $this->bind_param[] = array('key' => ":data_$k", 'value' => $v);
         }
         $sql = "insert into " . $this->get_table($table) . "(" . implode(',', $fields) . ") values(" . implode(',', $values) . ")";
         $sth = $this->dbh->prepare($sql);
-        if (!$sth) return false;
+        if (!$sth) {
+            return false;
+        }
+
         foreach ($this->bind_param as $i) {
             $sth->bindValue($i['key'], $i['value']);
         }
@@ -117,18 +137,28 @@ class DB_PDO {
      * 修改数据
      * $this->db->update("test", array("name"=>"noname1"));
      */
-    function update($table, $data) {
-        if (!$this->dbh) $this->connect();
-        if (!$data) return false;
+    public function update($table, $data)
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
+        if (!$data) {
+            return false;
+        }
+
         $value = array();
         foreach ($data as $k => $v) {
-            $value[] = "`$k`=:data_$k";
+            $value[]            = "`$k`=:data_$k";
             $this->bind_param[] = array('key' => ":data_$k", 'value' => $v);
         }
         $where = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
-        $sql = "update " . $this->get_table($table) . ' set ' . implode(',', $value) . $where;
-        $sth = $this->dbh->prepare($sql);
-        if (!$sth) return false;
+        $sql   = "update " . $this->get_table($table) . ' set ' . implode(',', $value) . $where;
+        $sth   = $this->dbh->prepare($sql);
+        if (!$sth) {
+            return false;
+        }
+
         foreach ($this->bind_param as $i) {
             $sth->bindValue($i['key'], $i['value']);
         }
@@ -141,12 +171,19 @@ class DB_PDO {
      * 删除数据
      * $this->db->delete("test");
      */
-    function delete($table) {
-        if (!$this->dbh) $this->connect();
+    public function delete($table)
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
         $where = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
-        $sql = "delete from " . $this->get_table($table) . $where;
-        $sth = $this->dbh->prepare($sql);
-        if (!$sth) return false;
+        $sql   = "delete from " . $this->get_table($table) . $where;
+        $sth   = $this->dbh->prepare($sql);
+        if (!$sth) {
+            return false;
+        }
+
         foreach ($this->bind_param as $i) {
             $sth->bindValue($i['key'], $i['value']);
         }
@@ -159,10 +196,17 @@ class DB_PDO {
      * 执行查询
      * $this->query("select * from test");
      */
-    function query($sql) {
-        if (!$this->dbh) $this->connect();
+    public function query($sql)
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
         $sth = $this->dbh->prepare($sql);
-        if (!$sth) return false;
+        if (!$sth) {
+            return false;
+        }
+
         foreach ($this->bind_param as $i) {
             $sth->bindValue($i['key'], $i['value']);
         }
@@ -175,14 +219,18 @@ class DB_PDO {
      * 查询一行
      * $this->db->row("test");
      */
-    function row($table, $fetch_style = PDO::FETCH_ASSOC) {
-        $where = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
+    public function row($table, $fetch_style = PDO::FETCH_ASSOC)
+    {
+        $where         = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
         $select_fields = trim($this->select_fields) != '' ? $this->select_fields : '*';
-        $order_by = trim($this->order_by) != '' ? ' order by ' . $this->order_by : '';
-        $group_by = trim($this->group_by) != '' ? ' GROUP BY ' . $this->group_by : '';
-        $sql = "select " . $select_fields . " from " . $this->get_table($table) . $where . $group_by . $order_by;
-        $sth = $this->query($sql);
-        if ($sth === false) return false;
+        $order_by      = trim($this->order_by) != '' ? ' order by ' . $this->order_by : '';
+        $group_by      = trim($this->group_by) != '' ? ' GROUP BY ' . $this->group_by : '';
+        $sql           = "select " . $select_fields . " from " . $this->get_table($table) . $where . $group_by . $order_by;
+        $sth           = $this->query($sql);
+        if ($sth === false) {
+            return false;
+        }
+
         $result = $sth->fetch($fetch_style);
         return $result;
     }
@@ -191,14 +239,18 @@ class DB_PDO {
      * 查询一行
      * $this->db->column("test", "id");
      */
-    function column($table, $fields = "") {
+    public function column($table, $fields = "")
+    {
         $where = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
         $this->select_fields .= " $fields ";
         $order_by = trim($this->order_by) != '' ? ' order by ' . $this->order_by : '';
         $group_by = trim($this->group_by) != '' ? ' GROUP BY ' . $this->group_by : '';
-        $sql = "select " . $this->select_fields . " from " . $this->get_table($table) . $where . $group_by . $order_by;
-        $sth = $this->query($sql);
-        if ($sth === false) return false;
+        $sql      = "select " . $this->select_fields . " from " . $this->get_table($table) . $where . $group_by . $order_by;
+        $sth      = $this->query($sql);
+        if ($sth === false) {
+            return false;
+        }
+
         $result = $sth->fetchColumn();
         return $result;
     }
@@ -207,15 +259,19 @@ class DB_PDO {
      * 查询多行
      * $this->db->result("test");
      */
-    function result($table, $fetch_style = PDO::FETCH_ASSOC) {
-        $where = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
-        $limit = trim($this->limit) != '' ? ' LIMIT ' . $this->limit : '';
+    public function result($table, $fetch_style = PDO::FETCH_ASSOC)
+    {
+        $where         = trim($this->where_data) != '' ? ' where ' . $this->where_data : '';
+        $limit         = trim($this->limit) != '' ? ' LIMIT ' . $this->limit : '';
         $select_fields = trim($this->select_fields) != '' ? $this->select_fields : '*';
-        $order_by = trim($this->order_by) != '' ? ' order by ' . $this->order_by : '';
-        $group_by = trim($this->group_by) != '' ? ' GROUP BY ' . $this->group_by : '';
-        $sql = "select " . $select_fields . " from " . $this->get_table($table) . $where . $group_by . $order_by . $limit;
-        $sth = $this->query($sql);
-        if ($sth === false) return false;
+        $order_by      = trim($this->order_by) != '' ? ' order by ' . $this->order_by : '';
+        $group_by      = trim($this->group_by) != '' ? ' GROUP BY ' . $this->group_by : '';
+        $sql           = "select " . $select_fields . " from " . $this->get_table($table) . $where . $group_by . $order_by . $limit;
+        $sth           = $this->query($sql);
+        if ($sth === false) {
+            return false;
+        }
+
         $result = $sth->fetchAll($fetch_style);
         return $result;
     }
@@ -223,8 +279,12 @@ class DB_PDO {
     /**
      * 获取最后插入的ID
      */
-    function last_insert_id() {
-        if (!$this->dbh) $this->connect();
+    public function last_insert_id()
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
         return $this->dbh->lastInsertId();
     }
 
@@ -232,7 +292,8 @@ class DB_PDO {
      * 查询多行
      * $this->db->num_rows("test");
      */
-    function num_rows($table) {
+    public function num_rows($table)
+    {
         $result = $this->column($table, 'count(*)');
         return $result ? $result : 0;
     }
@@ -241,9 +302,10 @@ class DB_PDO {
      * 查询字段
      * $this->db->select("id, name");
      */
-    function select($field = '') {
+    public function select($field = '')
+    {
         $fields = array();
-        $arr = explode(',', $field);
+        $arr    = explode(',', $field);
         foreach ($arr as $i) {
             $i = trim($i);
             if (preg_match("/(.*)\sas\s(.*)/", $i, $m)) {
@@ -262,7 +324,8 @@ class DB_PDO {
      * 分组查询
      * $this->db->group_by("id");
      */
-    function group_by($field) {
+    public function group_by($field)
+    {
         $this->group_by .= " `" . trim($field) . "` ";
         return $this;
     }
@@ -271,7 +334,8 @@ class DB_PDO {
      * 排序查询
      * $this->db->order_by("id", "asc");
      */
-    function order_by($field, $order = "desc") {
+    public function order_by($field, $order = "desc")
+    {
         $this->order_by .= " `" . trim($field) . "` $order ";
         return $this;
     }
@@ -280,7 +344,8 @@ class DB_PDO {
      * 分页查询
      * $this->db->limit(0, 10);
      */
-    function limit($offset = 0, $limit = 10) {
+    public function limit($offset = 0, $limit = 10)
+    {
         $this->limit .= " $offset,$limit ";
         return $this;
     }
@@ -289,7 +354,8 @@ class DB_PDO {
      * 去重查询字段
      * $this->db->distinct("id");
      */
-    function distinct($field) {
+    public function distinct($field)
+    {
         $this->select_fields .= " distinct(`" . trim($field) . "`) ";
         return $this;
     }
@@ -300,22 +366,23 @@ class DB_PDO {
      * $this->db->where("name", "!=", "noname1");
      * $this->db->where("or", "name", "!=", "noname1");
      */
-    function where($and_or = 'and', $name = '', $condition = null, $value = null) {
+    public function where($and_or = 'and', $name = '', $condition = null, $value = null)
+    {
         if (trim($and_or) == '' && $name == '') {
             return false;
         }
 
         // 如果是：$this->db->where("name", "noname1");
         if ($condition === null) {
-            $value = $name;
-            $name = $and_or;
+            $value     = $name;
+            $name      = $and_or;
             $condition = '=';
-            $and_or = 'and';
+            $and_or    = 'and';
         } else if ($value === null) {
-            $value = $condition;
+            $value     = $condition;
             $condition = $name;
-            $name = $and_or;
-            $and_or = 'and';
+            $name      = $and_or;
+            $and_or    = 'and';
         }
 
         if (trim($this->where_data) != '') {
@@ -326,7 +393,7 @@ class DB_PDO {
         if (trim($condition) == 'in' || trim($condition) == 'not in') {
             $arr = array();
             foreach ($value as $k => $v) {
-                $arr[] = ":where_{$k}_{$name}";
+                $arr[]              = ":where_{$k}_{$name}";
                 $this->bind_param[] = array("key" => ":where_{$k}_{$name}", "value" => $v);
             }
             $this->where_data .= " (" . implode(',', $arr) . ") ";
@@ -342,8 +409,12 @@ class DB_PDO {
      * 启动事务
      * $this->db->trans_start();
      */
-    function trans_start() {
-        if (!$this->dbh) $this->connect();
+    public function trans_start()
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
         $this->dbh->beginTransaction();
         return $this;
     }
@@ -352,8 +423,12 @@ class DB_PDO {
      * 提交事务
      * $this->db->trans_commit();
      */
-    function trans_commit() {
-        if (!$this->dbh) $this->connect();
+    public function trans_commit()
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
         $this->dbh->commit();
         return $this;
     }
@@ -362,8 +437,12 @@ class DB_PDO {
      * 回滚事务
      * $this->db->trans_rollback();
      */
-    function trans_rollback() {
-        if (!$this->dbh) $this->connect();
+    public function trans_rollback()
+    {
+        if (!$this->dbh) {
+            $this->connect();
+        }
+
         $this->dbh->rollBack();
         return $this;
     }

@@ -118,7 +118,10 @@ class WechatIndex extends Action
         logger("关注者信息：", __FILE__, __LINE__);
         logger(var_export($userinfo, true), __FILE__, __LINE__);
 
-        $user = $this->db->where('wx_openid', $userinfo['openid'])->row('user');
+        $user = $this->db->where('wx_openid', $userinfo['openid'])->where('or', 'nickname', '=', $userinfo['nickname'])->row('user');
+
+        logger(var_export($user, true), __FILE__, __LINE__);
+
         if (!$user) {
             $data = array(
                 'wx_openid'   => $userinfo['openid'],
@@ -134,19 +137,29 @@ class WechatIndex extends Action
             $this->db->insert('user', $data);
         }
 
-        //获取最新几条商品并且推送
-        $goods_rows = $this->db->limit(0, 5)->where('status', 1)->order_by('create_time', 'desc')->result('goods');
-
         $news_data = array();
+
+        //公司介绍
+        $page_data    = $this->get_page(1);
+        $company_page = array(
+            'title'       => mb_substr($page_data['title'], 0, 15, 'utf-8'),
+            'description' => '',
+            'picurl'      => IMAGED . $page_data['image'],
+            'url'         => site_url('page/detail/' . $page_data['page_id']),
+        );
+        $news_data[] = $company_page;
+
+        //推送商品
+        $goods_rows = $this->db->limit(0, 5)->where('status', 1)->where('is_push', 1)->order_by('modify_time', 'desc')->result('goods');
         foreach ($goods_rows as $key => $goods) {
             $news_data[] = array(
                 'title'       => mb_substr($goods['goods_name'], 0, 15, 'utf-8'),
                 'description' => '',
                 'picurl'      => IMAGED . $goods['thumb'],
-                'url'         => site_url('goods/index/' . $goods['category_id'] . '/' . $goods['goods_id']),
+                'url'         => site_url('goods/detail/' . $goods['goods_id']),
             );
         }
+
         $this->weixin->reply_news($news_data);
     }
-
 }
