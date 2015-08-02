@@ -9,7 +9,10 @@
 		<title>刮刮卡</title>
 		<link href="<?=__PUBLIC__?>/css/activity-style.css" rel="stylesheet" type="text/css">
 	</head>
+        
 	<script type="text/javascript">
+                ggk_config = {"gailv":{"one":5,"two":10,"three":20},"score":{"one":100,"two":60, "three":20},number:{"one":10,"two":30,"three":60}};
+                
 		function loading(canvas, options) {
 			this.canvas = canvas;
 			if (options) {
@@ -68,7 +71,7 @@
 				var ctx = canvas.getContext('2d');
 				if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
 			}
-		};
+		};                                                
 	</script>
 	</head>
 	<body data-role="page" class="activity-scratch-card-winning">
@@ -130,14 +133,15 @@
 							</span>
 						</div>
 						<div class="Detail">
+
 							<p>
-								一等奖： 100金币，奖品数量：10
+                                                            一等奖： <span id="onescore"></span>金币，奖品数量：<span id="onenumber"></span>
 							</p>
 							<p>
-								二等奖： 60金币 ，奖品数量：30
+								二等奖： <span id="twoscore"></span>金币，奖品数量：<span id="twonumber"></span>
 							</p>
 							<p>
-								三等奖： 20 金币，奖品数量：60
+								三等奖： <span id="threescore"></span>金币，奖品数量：<span id="threenumber"></span>
 							</p>
 						</div>
 					</div>
@@ -163,6 +167,12 @@
 		</div>
 		<script src="<?=__PUBLIC__?>/scripts/alert.js" type="text/javascript"></script>
 		<script type="text/javascript">
+                    document.getElementById('onescore').innerHTML = ggk_config.score.one;
+                    document.getElementById('twoscore').innerHTML = ggk_config.score.two;
+                    document.getElementById('threescore').innerHTML = ggk_config.score.three;
+                    document.getElementById('onenumber').innerHTML = ggk_config.number.one;
+                    document.getElementById('twonumber').innerHTML = ggk_config.number.two;
+                    document.getElementById('threenumber').innerHTML = ggk_config.number.three;
 			window.sncode = "null";
 			window.prize = "谢谢参与";
 			var score = 0
@@ -180,30 +190,31 @@
 						if (num == 2) {
 							//一等奖机率10% 二等奖20% 三等奖30% 幸运奖40%
 							var randNum = Math.round(Math.random()*99+1)
-							if(randNum>=1 && randNum<=10){
+							if(randNum>=1 && randNum<=ggk_config.gailv.one){
 								var award = "一等奖";
 								zjl = true;
-								score = 100;
-								document.getElementById('sncode').innerHTML = "100";
+								score = ggk_config.score.one;
+								document.getElementById('sncode').innerHTML = ggk_config.score.one;
 								
 							}
-							if(randNum>=11 && randNum<=30){
+							if(randNum>=ggk_config.gailv.one+1 && randNum<=ggk_config.gailv.two){
 								var award = "二等奖";
 								zjl = true;
-								score = 60;
-								scoretext = "60";
-								document.getElementById('sncode').innerHTML = "60";
+								score = ggk_config.score.two;
+								scoretext = ggk_config.score.two;
+								document.getElementById('sncode').innerHTML = ggk_config.score.two;
 							}
-							if(randNum>=31 && randNum<=60){
+							if(randNum>=ggk_config.gailv.two+1 && randNum<=ggk_config.gailv.three){
 								var award = "三等奖";
 								zjl = true;
-								score = 20;
-								scoretext = "20";
-								document.getElementById('sncode').innerHTML = "20";
+								score = ggk_config.score.three;
+								scoretext = ggk_config.score.three;
+								document.getElementById('sncode').innerHTML = ggk_config.score.three;
 							}
-							if(randNum>=61 && randNum<=100){
+							if(randNum>=ggk_config.gailv.three+1 && randNum<=100){
 								var award = "谢谢参与";
 								score = 0;
+                                                                zjl = false;
 								scoretext = "0";
 								document.getElementById('sncode').innerHTML = "0";
 							}
