@@ -15,6 +15,42 @@ class Game_model extends MS_Model
         parent::__construct();
     }
 
+    public function update_game($game_id, $update)
+    {
+        if ($game_id == 1) {
+            $tmp = 0;
+            foreach ($update['proba_arr'] as $value) {
+                $tmp += $value;
+            }
+
+            //不中奖的概率
+            $update['proba_arr'][7] = 1000 - $tmp;
+
+            // $config = array(
+            //     'proba_arr'  => $update['proba_arr'],
+            //     'play_times' => $update['play_times'],
+            //     'week_play'  => $update['week_play'],
+            //     'money_arr'  => $update['money_arr'],
+            // );
+        }
+
+        $data = array(
+            'game_config' => json_encode($update),
+            'modify_time' => date("Y-m-d H:i:s"),
+        );
+        return $this->db->where('game_id', $game_id)->update('games', $data);
+    }
+
+    /**
+     * 分页列表
+     */
+    public function get_game_by_game_id($game_id)
+    {
+        $game   = $this->db->get_where('games', array('game_id' => $game_id))->row();
+        $config = json_decode($game->game_config, true);
+        return compact('game', 'config');
+    }
+
     /**
      * 分页列表
      */

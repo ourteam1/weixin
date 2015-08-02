@@ -8,9 +8,9 @@
   
 </style>
 <div class="page-header">
-    <h4>游戏配置</h4>
+    <h4>游戏列表</h4>
 </div>
-<ul class="game-setting-items list-unstyled">
+<!-- <ul class="game-setting-items list-unstyled">
     <li class="game-setting-item">
         <ul class="game-info list-inline">
             <li>
@@ -23,10 +23,6 @@
             </li>
         </ul>
         <ul class="game-configs list-unstyled">
-            <li class="config-item">
-                配置名：<input type="text" name="config[]" value="">
-                配置值：<input type="text" name="value[]" value="">
-            </li>
         </ul>
         <button type="button" class="btn btn-default" class="add-config" id="add-config">添加配置项</button>
         &nbsp;
@@ -39,14 +35,14 @@
         &nbsp;
         <button type="button" class="btn btn-success" id="add-game">确定添加</button>
     </li>
-</ul>
+</ul> -->
 <table class="table table-hover">
     <thead>
         <tr>
             <th width='7%'>游戏ID</th>
             <th width='20%'>游戏名称</th>
-            <th width='10%'>游戏图标</th>
-            <th>游戏配置</th>
+            <th width='20%'>最近修改时间</th>
+            <!-- <th width='10%'>游戏图标</th> -->
             <th width='20%'>操作</th>
         </tr>
     </thead>
@@ -55,17 +51,14 @@
         <tr>
             <td><?=$i->game_id?></td>
             <td><?=$i->game_name?></td>
-            <td><img src="<?=IMAGED.$i->game_icon?>"></td>
+            <td><?=$i->modify_time?></td>
+            <!--<td><img src="<?=IMAGED.$i->game_icon?>"></td> -->
             <td>
-                <ul class="list-inline">
-                    <?php foreach (json_decode($i->game_config,true) as $key => $value): ?>
-                        <li><?=$key?>:<?=$value?></li>
-                    <?php endforeach ?>
-                </ul>
-            </td>
-            <td>
+                <?php if(chk_access('game/update')):?>
+                    <a href='<?=site_url('game/update/'.$i->game_id)?>' class="btn btn-default" data-gameid="<?=$i->game_id?>"><span class="glyphicon glyphicon-pencil"></span> 修改游戏配置</a>&nbsp;
+                <?php endif; ?>
                 <?php if(chk_access('game/delete')):?>
-                <a href='javascript:void(0)' class="btn btn-default js-del-game-setting" data-gameid="<?=$i->game_id?>"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp;
+<!--                 <a href='javascript:void(0)' class="btn btn-default js-del-game-setting" data-gameid="<?=$i->game_id?>"><span class="glyphicon glyphicon-remove"></span> 删除</a>&nbsp; -->
                 <?php endif; ?>
             </td>
         </tr>
@@ -75,8 +68,9 @@
 <?=$pagination?>
 <script id="ConfigTemplate" type="text/template">
     <li class="config-item">
-        配置名：<input type="text" name="config[]" value="">
-        配置值：<input type="text" name="value[]" value="">
+        配置标签：<input type="text" name="label" value="">
+        配置名：<input type="text" name="name" value="">
+        配置值：<input type="text" name="value" value="">
     </li>
 </script>
 <script>
@@ -85,22 +79,32 @@
         var del_game_url = '<?=site_url('game/delete')?>';
         var Page = (function(){
             var init=function(){
+                var configTpl = $('#ConfigTemplate').html();
+                $(".game-configs").append(configTpl);
+
                 initEvents();
             },
             initEvents = function(){
                 //添加游戏
                 $("#add-game").click(function(){
 
-                    var gcs = {};
-                    var valid = true;
+                    var gcs = [],item;
+
+                    var valid = true;//检查是否有空元素
                     $('.config-item').each(function(){
                         var $this = $(this);
-                        var gc_name = $this.find('[name="config[]"]').val();
-                        var gc_val = $this.find('[name="value[]"]').val();
-                        if(!gc_name || !gc_val){
+                        var gc_label = $this.find('[name="label"]').val();
+                        var gc_name = $this.find('[name="name"]').val();
+                        var gc_value = $this.find('[name="value"]').val();
+                        if(!gc_label || !gc_value || !gc_name){
                             valid = false;
+                            return;
                         }
-                        gcs[gc_name] = gc_val;
+                        item = {};
+                        item['label'] = gc_label;
+                        item['name'] = gc_name;
+                        item['value'] = gc_value;
+                        gcs.push(item);
                     });
 
                     if(!valid){

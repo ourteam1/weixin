@@ -1,0 +1,59 @@
+<style>
+  
+</style>
+<div class="page-header">
+    <h4>摇一摇游戏配置</h4>
+</div>
+<div class="row">
+    <div class="col-lg-5 col-lg-offset-1">
+        <form class="form-horizontal" method="post" style="margin: 10px;">
+          <div class="form-group">
+            <?php 
+              $config['week_play'] = empty($config['week_play'])?array():$config['week_play'];
+             ?>
+            <label for="exampleInputPassword1">每天可以玩次数</label>
+            <input type="number" min="1" class="form-control" name="update[play_times]" value="<?=empty($config['play_times'])?1:$config['play_times']?>">
+          </div>
+          <div class="form-group">
+            <label>周几可以玩</label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="1"
+              <?php if (in_array('1',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周一
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="2"
+              <?php if (in_array('2',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周二
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="3"
+              <?php if (in_array('3',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周三
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="4" <?php echo in_array('4',$config['week_play'])?'checked="checked"':'';?>> 周四
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="5"<?php if (in_array('5',$config['week_play'])): ?>checked="checked"<?php endif ?>> 周五
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="6"<?php if (in_array('6',$config['week_play'])): ?>checked="checked"<?php endif ?>> 周六
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="7"
+              <?php if (in_array('7',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周日
+            </label>
+          </div>
+          <button type="submit" class="btn btn-default">更新配置</button>
+          <a href="<?=site_url('game/setting')?>"><button type="button" class="btn btn-default">返回</button></a>
+        </form>        
+    </div>
+</div>
+<script>
+</script>

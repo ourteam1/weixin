@@ -44,27 +44,27 @@ var FileUpload = (function() {
 			alert(data.error);
 			return false;
 		}
-    
+
 		$('.preview-image').attr('src', data.image_url);
 		$inp_image.val(data.image);
 		$inp_thumb.val(data.thumb);
 
 		// 执行裁剪
-//		scrop();
-//		$('.btn-crop').on('click', function() {
-//			var self = $(this);
-//			var crop_offset = $('#crop_offset').val();
-//			$.post($(this).attr('href'), {image: data.image, crop_offset: crop_offset}, function(res) {
-//				if (res.error) {
-//					alert(res.message);
-//					return false;
-//				}
-//				$('#image').val(res.image);
-//				$('#thumb').val(res.thumb);
-//				alert('图片裁剪完成！');
-//			}, 'json');
-//			return false;
-//		})
+		//		scrop();
+		//		$('.btn-crop').on('click', function() {
+		//			var self = $(this);
+		//			var crop_offset = $('#crop_offset').val();
+		//			$.post($(this).attr('href'), {image: data.image, crop_offset: crop_offset}, function(res) {
+		//				if (res.error) {
+		//					alert(res.message);
+		//					return false;
+		//				}
+		//				$('#image').val(res.image);
+		//				$('#thumb').val(res.thumb);
+		//				alert('图片裁剪完成！');
+		//			}, 'json');
+		//			return false;
+		//		})
 	}
 
 	return {
@@ -87,7 +87,7 @@ var FileUpload = (function() {
 })();
 
 $(function() {
-	$('body').on('click', '.checkbox-inline', function(event) {
+	$('table').on('click', '.checkbox-inline', function(event) {
 		var self = $(this);
 		var checkbox = self.find('input:checkbox')[0];
 		$(checkbox).click();
@@ -113,8 +113,8 @@ $(function() {
 		}
 		return false;
 	});
-        
-        $('body').on('change', '#iptFocusImage', function() {
+
+	$('body').on('change', '#iptFocusImage', function() {
 		var self = $(this);
 		if (self.val() != '') {
 			FileUpload.init({

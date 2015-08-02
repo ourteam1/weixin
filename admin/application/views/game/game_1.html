@@ -1,0 +1,100 @@
+<style>
+  
+</style>
+<div class="page-header">
+    <h4>大转盘游戏配置</h4>
+</div>
+<div class="row">
+    <div class="col-lg-5 col-lg-offset-1">
+        <form class="form-horizontal" method="post" style="margin: 10px;">
+        <form class="form-horizontal" method="post" >
+          <div class="form-group">
+            <label for="exampleInputPassword1">金币／概率（千分号）</label>
+            <div class="input-group">
+                <span class="input-group-addon">2金币</span>
+                <input type="number" min="0" max="1000" class="form-control" name="update[proba_arr][1]" value="<?=empty($config['proba_arr'][1])?0:$config['proba_arr'][1]?>" aria-describedby="basic-addon1">
+                <span class="input-group-addon">‰</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">5金币</span>
+                <input type="number" min="0" max="1000" class="form-control" name="update[proba_arr][5]" value="<?=empty($config['proba_arr'][5])?0:$config['proba_arr'][5]?>" aria-describedby="basic-addon1">
+                <span class="input-group-addon">‰</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">10金币</span>
+                <input type="number" min="0" max="1000" class="form-control" name="update[proba_arr][4]" value="<?=empty($config['proba_arr'][4])?0:$config['proba_arr'][4]?>" aria-describedby="basic-addon1">
+                <span class="input-group-addon">‰</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">20金币</span>
+                <input type="number" min="0" max="1000" class="form-control" name="update[proba_arr][6]" value="<?=empty($config['proba_arr'][6])?0:$config['proba_arr'][6]?>" aria-describedby="basic-addon1">
+                <span class="input-group-addon">‰</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">30金币</span>
+                <input type="number" min="0" max="1000" class="form-control" name="update[proba_arr][3]" value="<?=empty($config['proba_arr'][3])?0:$config['proba_arr'][3]?>" aria-describedby="basic-addon1">
+                <span class="input-group-addon">‰</span>
+            </div>
+          </div>
+         <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">50金币</span>
+                <input type="number" min="0" max="1000" class="form-control" name="update[proba_arr][2]" value="<?=empty($config['proba_arr'][2])?0:$config['proba_arr'][2]?>" aria-describedby="basic-addon1">
+                <span class="input-group-addon">‰</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">每天可以玩次数</label>
+            <input type="number" min="1" class="form-control" name="update[play_times]" value="<?=empty($config['play_times'])?1:$config['play_times']?>">
+          </div>
+          <div class="form-group">
+            <label>周几可以玩</label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="1"
+              <?php if (in_array('1',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周一
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="2"
+              <?php if (in_array('2',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周二
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="3"
+              <?php if (in_array('3',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周三
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="4" <?php echo in_array('4',$config['week_play'])?'checked="checked"':'';?>> 周四
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="5"<?php if (in_array('5',$config['week_play'])): ?>checked="checked"<?php endif ?>> 周五
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="6"<?php if (in_array('6',$config['week_play'])): ?>checked="checked"<?php endif ?>> 周六
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="update[week_play][]" value="7"
+              <?php if (in_array('7',$config['week_play'])): ?>
+                checked="checked"
+              <?php endif ?>> 周日
+            </label>
+          </div>
+          <button type="submit" class="btn btn-default">更新配置</button>
+          <a href="<?=site_url('game/setting')?>"><button type="button" class="btn btn-default">返回</button></a>
+        </form>        
+    </div>
+</div>
+<script>
+</script>

@@ -30,7 +30,7 @@ class Goods_model extends MS_Model
 
         //只推送5张
         $max_push_number = 5;
-        $push_goods      = $this->db->where('status !=', 0)->where('is_push', 1)->order_by('modify_time desc')->get('goods')->result_array();
+        $push_goods      = $this->db->where('status !=', 0)->where('is_push', 1)->order_by('modify_time asc')->get('goods')->result_array();
         if (isset($push_goods[$max_push_number - 1])) {
             $over_push_goods = array_slice($push_goods, $max_push_number);
             $opg_goods_ids   = array();

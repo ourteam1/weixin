@@ -13,6 +13,25 @@ class Game extends MS_Controller
     }
 
     /**
+     * 修改游戏配置
+     */
+    public function update($game_id)
+    {
+        $update = $this->input->post('update');
+        // var_dump($update);die;
+        if ($update) {
+            $res = $this->load_model('game_model')->update_game($game_id, $update);
+            $this->session->set_flashdata('success_message', '更新成功');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $game = $this->load_model('game_model')->get_game_by_game_id($game_id);
+        $this->view->assign($game);
+
+        $this->view->display('game/game_' . $game_id . '.html');
+    }
+
+    /**
      * 游戏配置列表
      */
     public function setting()
