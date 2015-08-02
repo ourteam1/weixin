@@ -11,7 +11,7 @@
 	</head>
         
 	<script type="text/javascript">
-                ggk_config = {"gailv":{"one":5,"two":10,"three":20},"score":{"one":100,"two":60, "three":20},number:{"one":10,"two":30,"three":60}};
+                ggk_config = {"gailv":{"one":90,"two":5,"three":5},"score":{"one":100,"two":60, "three":20},number:{"one":10,"two":30,"three":60}};
                 
 		function loading(canvas, options) {
 			this.canvas = canvas;
@@ -190,6 +190,7 @@
 						if (num == 2) {
 							//一等奖机率10% 二等奖20% 三等奖30% 幸运奖40%
 							var randNum = Math.round(Math.random()*99+1)
+                                                        alert(randNum);
 							if(randNum>=1 && randNum<=ggk_config.gailv.one){
 								var award = "一等奖";
 								zjl = true;
@@ -204,14 +205,14 @@
 								scoretext = ggk_config.score.two;
 								document.getElementById('sncode').innerHTML = ggk_config.score.two;
 							}
-							if(randNum>=ggk_config.gailv.two+1 && randNum<=ggk_config.gailv.three){
+							if(randNum>=ggk_config.gailv.one+ggk_config.gailv.two+1 && randNum<=ggk_config.gailv.three){
 								var award = "三等奖";
 								zjl = true;
 								score = ggk_config.score.three;
 								scoretext = ggk_config.score.three;
 								document.getElementById('sncode').innerHTML = ggk_config.score.three;
 							}
-							if(randNum>=ggk_config.gailv.three+1 && randNum<=100){
+							if(randNum>=randNum>=ggk_config.gailv.one+ggk_config.gailv.two+ggk_config.gailv.three+1 && randNum<=100){
 								var award = "谢谢参与";
 								score = 0;
                                                                 zjl = false;
