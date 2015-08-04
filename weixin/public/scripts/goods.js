@@ -123,6 +123,12 @@ GoodsApp.Goods = (function() {
 GoodsApp.GoodsDetail = (function() {
     return {
         init: function(goods) {
+
+            goods.is_goods_detail = false;
+            if (goods_id) {
+                goods.is_goods_detail = true;
+            }
+
             var el = $.tmpl($('#GoodsDetailTemplate').html(), goods);
             $('img', $(el)).each(function() {
                 $(this).attr('data-original', $(this).attr('src')).addClass('lazy').removeAttr('src');
@@ -140,8 +146,15 @@ GoodsApp.GoodsDetail = (function() {
             GoodsApp.ImageLazy.init();
 
             // 返回商品列表
-            $('.btn-back,.app-topbar a').on('click', function() {
+            $('#return_back').on('click', function() {
                 GoodsApp.Goods.render(tabid);
+                return false;
+            });
+
+            //关注
+            $('#focus_goods').on('click', function() {
+                //检查是否注册
+                //检查是否关注
                 return false;
             });
         }

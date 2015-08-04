@@ -50,7 +50,7 @@ class CodeEnter extends Action
 
         //检查验证码
         $check_url                  = 'http://42.62.73.239:8080/CloudServer/wi.do?method=GetCodeState_WX&code=' . $code;
-        $check_result               = file_get_contents($check_scancode_url);
+        $check_result               = file_get_contents($check_url);
         list($check_status, $score) = explode(',', $check_result);
         if ($check_status == '1') {
             return '金币券已被使用了';

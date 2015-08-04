@@ -21,14 +21,20 @@ class FavorableIndex extends Action
     {
         $activityUrl    = "http://42.62.73.239:8080/CloudServer/wi.do?method=GetDiscount_WX";
         $activityXmlObj = file_get_contents($activityUrl);
-        //logger('activityXmlObj'.$activityXmlObj);
+        // logger('activityXmlObj'.$activityXmlObj);
         $activityXmlObj = iconv('gbk', 'utf-8', $activityXmlObj);
         $res            = @simplexml_load_string($activityXmlObj, null, LIBXML_NOCDATA);
         $activityArr    = json_decode(json_encode($res), true);
 
+        logger('activityArr' . var_export($activityArr, true));
+
         $arr           = array();
         $activityCodes = array();
-        foreach ($activityArr['discount'] as $activity) {
+        $discount      = $activityArr['discount'];
+        if (isset($discount['hdbh'])) {
+            $discount = array($discount);
+        }
+        foreach ($discount as $activity) {
             $activityCodes[]        = $activity['hdbh'];
             $arr[$activity['hdbh']] = array(
                 'activity_code'  => $activity['hdbh'],

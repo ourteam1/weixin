@@ -8,14 +8,14 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
 margin: 0 auto;
 width:320px;
 }
-.activity-lottery-winning{ background: url(../images/activity/activity-lottery-bg2.jpg) #2a8a00;overflow-x: hidden;}
-.activity-lottery-end{ background: url(../images/activity/activity-lottery-bg2.jpg) #2a8a00;overflow-x: hidden;}
+.activity-lottery-winning{ background: url(../image/activity-lottery-bg2.jpg) #2a8a00;overflow-x: hidden;}
+.activity-lottery-end{ background: url(../image/activity-lottery-bg2.jpg) #2a8a00;overflow-x: hidden;}
 .activity-coupon-winning{ background-color:#8d0001;overflow-x: hidden;}
 .activity-coupon-end{ background-color:#8d0001;overflow-x: hidden;}
-.activity-scratch-card-winning{background: url(../images/activity/activity-scratch-card-bg.jpg) #944f20;overflow-x: hidden;}
-.activity-scratch-card-end{background: url(../images/activity/activity-scratch-card-bg.jpg) #944f20;overflow-x: hidden;}
+.activity-scratch-card-winning{background: url(../image/activity-scratch-card-bg.jpg) #944f20;overflow-x: hidden;}
+.activity-scratch-card-end{background: url(../image/activity-scratch-card-bg.jpg) #944f20;overflow-x: hidden;}
 .activity-lottery-winning .main{
-	background: url(../images/activity/activity-lottery-bg.png) no-repeat top center;
+	background: url(../image/activity-lottery-bg.png) no-repeat top center;
 	background-size: 320px auto;
 }
 
@@ -118,7 +118,7 @@ width:320px;
 }
 .box .title-red {
 	padding: 0 5px 0px 10px;
-	background:url(../images/activity/title-bg-red.png) no-repeat 0 0;
+	background:url(../image/title-bg-red.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
@@ -128,7 +128,7 @@ width:320px;
 }
 .box .title-orange {
 	padding: 0 5px 0px 10px;
-	background:url(../images/activity/title-bg-orange.png) no-repeat 0 0;
+	background:url(../image/title-bg-orange.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
@@ -138,7 +138,7 @@ width:320px;
 }
 .box .title-green {
 	padding: 0 5px 0px 10px;
-	background:url(../images/activity/title-bg-green.png) no-repeat 0 0;
+	background:url(../image/title-bg-green.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
@@ -148,7 +148,7 @@ width:320px;
 }
 .box .title-brown {
 	padding: 0 5px 0px 10px;
-	background:url(../images/activity/title-bg-brown.png) no-repeat 0 0;
+	background:url(../image/title-bg-brown.png) no-repeat 0 0;
 	border-radius: 3px 3px 3px 0;
 	color:#ffffff;
 	height:22px;
