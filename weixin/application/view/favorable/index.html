@@ -63,8 +63,8 @@ button.btn.btn-warning.btn-sm.can-click{
 <!-- 主窗体内容 -->
 <div class="body">
     <!--    <ul class="nav nav-pills nav-justified nav-flat text-center">
-            <li  class="active pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得金币</a></li>
-            <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得金币</a></li>
+            <li  class="active pull-left" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/list')?>">关注得元宝</a></li>
+            <li class="pull-right" style="width: 49%;border-radius: 0px;"><a href="<?=site_url('code/game')?>">游戏得元宝</a></li>
         </ul>-->
     <div class="app-page">
         <div class="app-topbar">             
@@ -85,7 +85,7 @@ button.btn.btn-warning.btn-sm.can-click{
                             <?=date('Y-m-d', strtotime($favorable['end_time']))?>         
                             </a>
                             <?php if (empty($favorable['favorable_code'])): ?>
-                            <button class="btn btn-warning btn-sm can-click" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>">兑换</button>
+                            <button class="btn btn-warning btn-sm can-click getFavorable" url="<?=site_url('favorable/add')?>/<?=$favorable['activity_code']?>">兑换</button>
                             <?php else: ?>
                             <button class="btn btn-warning btn-sm active">已兑换</button>
                             <?php endif ?>                         
